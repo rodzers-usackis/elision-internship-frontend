@@ -1,0 +1,29 @@
+.navbarItem {
+    color: #74717a;
+}
+
+.navbarItem:hover {
+    color: black;
+    font-weight: 300;
+}
+
+.signUpButton {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    transition-duration: 0.6s;
+}
+
+.signUpButton:hover {
+    background-color: white;
+    color: black;
+}
+
+.signUpButtonText  {
+    font-weight: bold;
+}
+
+.navbarItemButton:hover {
+    background-color: white;
+}
