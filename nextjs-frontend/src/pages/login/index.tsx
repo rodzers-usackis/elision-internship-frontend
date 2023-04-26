@@ -13,7 +13,7 @@ export default function Login() {
             justifyContent="center"
             className={styles.loginWrapper}
         >
-            <Card sx={{width: 500, maxHeight: 600}}>
+            <Card sx={{width: 500, maxHeight: 600, paddingX: '1%'}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'column'}}>
                     <Grid item className={styles.cardLogo} paddingY={2}
                           sx={{
@@ -43,7 +43,7 @@ export default function Login() {
                         >
                             <Button className={styles.googleLoginButton} size={'large'} fullWidth={true}>
                                 <Image
-                                    src="/Google__G__Logo.svg"
+                                    src="/google_g_logo.svg"
                                     alt="Google Logo"
                                     width={24}
                                     height={24}
