@@ -1,7 +1,8 @@
-import {Grid, TextField} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
 import * as React from "react";
 import FormContext from "<components>/context/register/RegistrationFormContext";
 import {useContext} from "react";
+import Link from "next/link";
 
 export default function UserCredentialForm() {
     // States from RegistrationFormContextProvider
@@ -71,6 +72,19 @@ export default function UserCredentialForm() {
                             onChange={(e) => setPassword(e.target.value)}
                             fullWidth={true}
                         />
+                    </Grid>
+
+                    <Grid item paddingTop={2}>
+                        <FormGroup>
+                            <FormControlLabel control={<Checkbox />} label={
+                                <Typography variant="body2">
+                                    I accept the{' '}
+                                    <Link href="#" style={{ color: 'blue' }}>
+                                        terms and conditions
+                                    </Link>
+                                </Typography>
+                            }/>
+                        </FormGroup>
                     </Grid>
                 </Grid>
             </Grid>

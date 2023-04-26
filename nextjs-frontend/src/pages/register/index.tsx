@@ -74,7 +74,7 @@ export default function Register() {
 
                         {getStepContent(currentStep)}
 
-                        <Grid item className={styles.cardContent} paddingY={3}>
+                        <Grid item className={styles.cardContent} paddingTop={2} paddingBottom={3}>
                             {currentStep === 3 ? (
                                 <Button className={styles.cardButton} onClick={handleNext} size={'large'} fullWidth={true}>
                                     Create Account
