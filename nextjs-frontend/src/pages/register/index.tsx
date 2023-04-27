@@ -65,16 +65,16 @@ export default function Register() {
         registerUser(user).then((response) => {
             console.log(response);
 
-            if (response.status === (200 || 201 || 202)) {
+            if (response.status === (201)) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful',
-                    text: 'You have successfully registered.',
+                    text: 'Your account has been registered successfully.',
                     confirmButtonText: 'OK',
                 }).then(() => {
-                    router.push('/');
+                    router.push('/login');
                 });
-            } else {
+            } else if (response.status === (409)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Registration Failed',
@@ -95,7 +95,7 @@ export default function Register() {
         >
             <Card sx={{width: 600, maxHeight: 600}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'column'}} paddingX={4}>
-                    <Grid item className={styles.breadCrumb} paddingTop={3} paddingBottom={1}
+                    <Grid item paddingTop={3} paddingBottom={1}
                           sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5}}
                     >
                         <KeyboardArrowLeftIcon onClick={handleBack} sx={{
@@ -109,7 +109,7 @@ export default function Register() {
                         </Typography>
                     </Grid>
 
-                    <Grid item className={styles.cardTitle} paddingBottom={2}>
+                    <Grid item>
                         <Typography variant='h5' component='div'>
                             {steps[currentStep - 1]}
                         </Typography>
@@ -117,7 +117,7 @@ export default function Register() {
 
                     {getStepContent(currentStep)}
 
-                    <Grid item className={styles.cardContent} paddingTop={2} paddingBottom={3}>
+                    <Grid item paddingTop={2} paddingBottom={3}>
                         {currentStep === 3 ? (
                             <Button className={styles.cardButton} onClick={handleSubmit} size={'large'}
                                     fullWidth={true}>
