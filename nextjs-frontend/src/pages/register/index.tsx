@@ -65,21 +65,31 @@ export default function Register() {
         registerUser(user).then((response) => {
             console.log(response);
 
-            if (response.status === (201)) {
+            if (response.status === (200 || 201)) { // TODO: Think about whether covering 202 and 204 is necessary
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful',
-                    text: 'Your account has been registered successfully.',
+                    text: 'Your account has been registered successfully',
                     confirmButtonText: 'OK',
                 }).then(() => {
                     router.push('/login');
                 });
+
             } else if (response.status === (409)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Registration Failed',
                     text: response.message,
                     confirmButtonText: 'OK',
+                });
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    confirmButtonText: 'Return to home page',
+                    footer: '<a href="#">Contact customer support?</a>'
                 });
             }
         })
@@ -92,6 +102,7 @@ export default function Register() {
             alignItems="center"
             justifyContent="center"
             className={styles.registerWrapper}
+            paddingX={2}
         >
             <Card sx={{width: 600, maxHeight: 600}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'column'}} paddingX={4}>

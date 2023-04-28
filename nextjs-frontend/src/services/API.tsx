@@ -18,12 +18,12 @@ export async function registerUser(user: User): Promise<ApiResponse> {
 
         return {
             status: response.status,
-            message: response.statusText
+            message: response.data
         }
     } catch (error: any) {
         return {
             status: error.response.status,
-            message: error.response.statusText
+            message: error.response.data
         }
     }
 }

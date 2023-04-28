@@ -20,8 +20,8 @@ export default function CompanyAddressForm() {
     return (
         <>
             <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '16px'}}>
-                    <Grid item xs={8} sm={9} sx={{paddingRight: '10px'}}>
+                <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Grid item xs={12} sm={9} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-address-street-input"
@@ -35,7 +35,7 @@ export default function CompanyAddressForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={4} sm={3} sx={{paddingLeft: '10px'}}>
+                    <Grid item xs={12} sm={3} className={styles.rightInputField}>
                         <TextField
                             required
                             id="filled-address-number-input"
