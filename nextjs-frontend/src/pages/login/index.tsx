@@ -3,7 +3,7 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
-import {useContext, useEffect, useRef} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import LoginContext from "../../context/login/AuthenticationContext";
 import {useRouter} from "next/router";
 import AuthenticationRequest from "../../types/AuthenticationRequest";
@@ -13,12 +13,14 @@ export default function Login() {
     const {isAuthenticated, login} = useContext(LoginContext);
     const {push: goTo} = useRouter();
     const emailInputRef = useRef();
+    const [emailState, setEmailState] = useState("");
+    const [passwordState, setPasswordState] = useState("");
     const passwordInputRef = useRef();
     //submit form on enter
     useEffect(() => {
         function sendOnEnter(e) {
             if (e.key === 'Enter') {
-                handleLogin();
+                handleLogin(null);
             }
         }
 
@@ -29,17 +31,19 @@ export default function Login() {
         }
     })
 
-    //Is this necessary here? Or should it be specified in _middleware.ts?
     if (isAuthenticated()) {
         goTo('/');
     }
 
 
-    function handleLogin() {
+    function handleLogin(e: any) {
+        if (!!e)
+            e.preventDefault();
+        console.log('prevented default')
         login({
-            email: emailInputRef.current.value,
-            password: passwordInputRef.current.value
-        } as AuthenticationRequest,
+                email: emailState,
+            password: passwordState
+            } as AuthenticationRequest,
             onLoggingInSuccess,
             onLoggingInError);
     }
@@ -120,6 +124,9 @@ export default function Login() {
                                 placeholder="example@domain.com"
                                 fullWidth={true}
                                 ref={emailInputRef}
+                                onChange={(e)=>{
+                                    setEmailState(e.target.value);
+                                }}
                             />
                         </Grid>
 
@@ -133,6 +140,9 @@ export default function Login() {
                                 placeholder="Must have at least 8 characters"
                                 fullWidth={true}
                                 ref={passwordInputRef}
+                                onChange={(e)=>{
+                                    setPasswordState(e.target.value);
+                                }}
                             />
                         </Grid>
 

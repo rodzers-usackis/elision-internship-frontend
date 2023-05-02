@@ -1,6 +1,6 @@
 const API_ROUTES = {
-    LOGIN : '/api/auth/login',
-    REGISTER : '/api/auth/register',
+    LOGIN : 'http://localhost:8081/api/auth/login',
+    REGISTER : 'http://localhost:8081/api/auth/register',
 };
 
 export default API_ROUTES;
