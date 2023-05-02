@@ -38,14 +38,13 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     function login(credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) {
-        console.log(credentials)
+
         return mutateLoggingInAsync(credentials).then((response: AuthenticationResponse) => {
             setAccessToken(response.accessToken)
             // setLoggedInUser(response.user)
             onSuccess()
             return response;
         }).catch((error) => {
-            console.log(error)
             onError()
         })
     }

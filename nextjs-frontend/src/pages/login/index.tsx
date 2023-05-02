@@ -39,7 +39,7 @@ export default function Login() {
     function handleLogin(e: any) {
         if (!!e)
             e.preventDefault();
-        console.log('prevented default')
+
         login({
                 email: emailState,
             password: passwordState
