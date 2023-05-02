@@ -61,7 +61,7 @@ export default function MobileNavbar({showMobile = false}: Props) {
             <Grid container paddingX={2}>
                 {NavbarItems.map((page) => (
                     <Grid item width={'100%'}>
-                        <Link href={page.href} key={page.title}>
+                        <Link href={page.href} key={`mobile_${page.title}`}>
                             <Button disableRipple className={styles.navbarItemButton}>
                                 <Typography className={styles.navbarItem} sx={{fontSize: '20px', color: 'black'}}>
                                     {page.title}
@@ -73,7 +73,7 @@ export default function MobileNavbar({showMobile = false}: Props) {
                 ))}
 
                 <Grid item width={'100%'}>
-                    <Link href={'/login'} key={'login'}>
+                    <Link href={'/login'} key={'mobile_login_button'}>
                         <Button disableRipple className={styles.navbarItemButton} onClick={closeDrawer} sx={{paddingLeft: '0px'}}>
                             <Person fontSize={'large'} sx={{color: 'black'}}/>
                             <Typography className={styles.navbarItem}
@@ -86,7 +86,7 @@ export default function MobileNavbar({showMobile = false}: Props) {
                 </Grid>
 
                 <Grid item width={'100%'} paddingTop={3}>
-                    <Link href={'/register'} key={'register'}>
+                    <Link href={'/register'} key={'mobile_register_button'}>
                         <Button disableRipple className={styles.signUpButton} fullWidth={true} onClick={closeDrawer}>
                             <Typography className={styles.signUpButtonText}>
                                 Get free trial
