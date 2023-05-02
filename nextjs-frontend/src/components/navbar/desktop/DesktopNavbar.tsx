@@ -11,7 +11,7 @@ import {NavbarItems} from '../NavbarItems'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import styles from '../../../styles/TopNavbar.module.css'
+import styles from '../../../styles/DesktopNavbar.module.css'
 
 export default function DesktopNavbar() {
 
@@ -20,8 +20,8 @@ export default function DesktopNavbar() {
             <AppBar className={'appbar-paper'}
                     sx={{position: 'sticky', top: 0, left: 0, right: 0, backgroundColor: '#fff'}} elevation={0}>
                 <Toolbar>
-                    <Grid container justifyContent='space-between' alignItems={'center'}>
-                        <Grid item className={'logo-item'} alignContent={'center'} lg={2}>
+                    <Grid container justifyContent='space-between' alignItems={'center'} paddingX={2}>
+                        <Grid item className={'logo-item'} alignContent={'center'} md={3}>
                             <Link href='/'>
                                 <Image
                                     src="/price_spy_logo.svg"
@@ -34,7 +34,7 @@ export default function DesktopNavbar() {
                         </Grid>
 
                         <Grid item xl={4} md={5} sm={6}>
-                            <Box sx={{flexGrow: 1, display: 'flex', justifyContent: 'space-between'}}>
+                            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                                 {NavbarItems.map((page) => (
                                     <Link href={page.href} key={page.title}>
                                         <Button disableRipple className={styles.navbarItemButton}>
@@ -47,7 +47,7 @@ export default function DesktopNavbar() {
                             </Box>
                         </Grid>
 
-                        <Grid item lg={2}>
+                        <Grid item md={3}>
                             <Box sx={{display: 'flex', gap: 2, justifyContent: 'end'}}>
                                 <Link href={'/register'}>
                                     <Button disableRipple className={styles.signUpButton}>

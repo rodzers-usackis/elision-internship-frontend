@@ -12,6 +12,7 @@ export default function Login() {
             alignItems="center"
             justifyContent="center"
             className={styles.loginWrapper}
+            paddingX={2}
         >
             <Card sx={{width: 500, maxHeight: 600, paddingX: '1%'}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'column'}}>
@@ -108,14 +109,21 @@ export default function Login() {
                                 Sign in
                             </Button>
                         </Grid>
-                    </Grid>
 
-                    <Grid item className={styles.cardAdditionalActions} paddingY={3}
-                        sx={{display: 'flex', justifyContent: 'center'}}
-                    >
-                        <Typography>
-                            Don't have an account yet? <Link href={'/register'} style={{color: '#007bff'}}>Register now</Link>
-                        </Typography>
+                        <Grid container className={styles.cardAdditionalActions} paddingY={3}
+                              sx={{display: 'flex', justifyContent: 'center'}}
+                        >
+                            <Grid item>
+                                <Typography>
+                                    Don't have an account yet?
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography>
+                                    <Link href={'/register'} style={{color: '#007bff'}}>&nbsp;Register now</Link>
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Card>
