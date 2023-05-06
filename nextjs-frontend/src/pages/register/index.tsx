@@ -36,7 +36,7 @@ export default function Register() {
     const {firstName} = useContext(FormContext);
     const {lastName} = useContext(FormContext);
     const {emailAddress} = useContext(FormContext);
-    const {password} = useContext(FormContext)
+    const {password} = useContext(FormContext);
 
     // Tracking state of errors
     const {errors, setErrors} = useContext(FormContext);

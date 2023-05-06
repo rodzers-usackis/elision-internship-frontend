@@ -11,7 +11,7 @@ import {NavbarItems} from '../NavbarItems'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import styles from '../../../styles/DesktopNavbar.module.css'
+import styles from '../../../styles/DashboardDrawer.module.css'
 
 export default function DesktopNavbar() {
 
