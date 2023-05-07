@@ -15,6 +15,7 @@ import Link from 'next/link'
 
 
 export default function DashboardDrawer() {
+    const drawerWidth = '328px'
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const buttonProps = (value: number) => ({
@@ -24,81 +25,76 @@ export default function DashboardDrawer() {
 
 
     return (
-        <Drawer variant={'permanent'} anchor={'left'}>
-            <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'} paddingX={2}
-                  sx={{
-                      height: '100%',
-                  }}>
-                <Grid container display={'flex'} flexDirection={'column'}>
-                    <Grid item display={'flex'} justifyContent={'center'} paddingY={1}>
-                        <Toolbar>
-                            <Image
-                                src="/price_spy_logo.svg"
-                                alt="Price Spy Logo"
-                                width={180}
-                                height={80}
-                                priority
-                            />
-                        </Toolbar>
+        <>
+            <Drawer variant={'permanent'} anchor={'left'} sx={{
+                width: drawerWidth,
+            }}>
+                <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'}
+                      paddingX={2} sx={{height: '100%'}}>
+                    <Grid item container display={'flex'} flexDirection={'column'} flex={1}>
+                        <Grid item display={'flex'} justifyContent={'center'} paddingY={1}>
+                            <Toolbar>
+                                <Image src="/price_spy_logo.svg" alt="Price Spy Logo" width={180} height={80}
+                                       priority/>
+                            </Toolbar>
+                        </Grid>
+                        <Divider/>
+                        <Grid item paddingTop={1}>
+                            <List>
+                                {DashboardDrawerItems.map((item) => (
+                                    <ListItem key={item.value}>
+                                        <Link href={item.href}>
+                                            <ListItemButton {...buttonProps(item.value)}>
+                                                <ListItemIcon>
+                                                    {item.icon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={item.title}/>
+                                            </ListItemButton>
+                                        </Link>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Grid>
                     </Grid>
-                    <Divider/>
-                    <Grid item paddingTop={1}>
-                        <List>
-                            {DashboardDrawerItems.map((item) => (
-                                <ListItem key={item.value}>
-                                    <Link href={item.href}>
-                                        <ListItemButton {...buttonProps(item.value)}>
-                                            <ListItemIcon>
-                                                {item.icon}
-                                            </ListItemIcon>
-                                            <ListItemText primary={item.title}/>
-                                        </ListItemButton>
-                                    </Link>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Grid>
-                </Grid>
 
-                <Grid item>
-                    <Divider/>
-                    <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
-                          flexDirection={'row'} paddingY={2}>
-                        <Grid item>
-                            <PhoneIcon sx={{
-                                fontSize: '32px'
-                            }}/>
+                    <Grid item>
+                        <Divider/>
+                        <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
+                              flexDirection={'row'} paddingY={2}>
+                            <Grid item>
+                                <PhoneIcon sx={{fontSize: '32px'}}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography fontWeight={'bold'}>
+                                    Need help? Chat with us
+                                </Typography>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <Typography fontWeight={'bold'}>
-                                Need help? Chat with us
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Divider/>
-                    <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
-                          flexDirection={'row'} paddingY={2}>
-                        <Grid item>
-                            <Button>
-                                <AccountCircleIcon sx={{fontSize: '48px'}}/>
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Typography>
-                                Customer
-                            </Typography>
-                            <Typography fontWeight={'bold'}>
-                                customer@elision.eu
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Button>
-                                <LogoutIcon sx={{fontSize: '30px'}}/>
-                            </Button>
+                        <Divider/>
+                        <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
+                              flexDirection={'row'} paddingY={2}>
+                            <Grid item>
+                                <Button>
+                                    <AccountCircleIcon sx={{fontSize: '48px'}}/>
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Typography>
+                                    Customer
+                                </Typography>
+                                <Typography fontWeight={'bold'}>
+                                    customer@elision.eu
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button>
+                                    <LogoutIcon sx={{fontSize: '30px'}}/>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Drawer>
+            </Drawer>
+        </>
     )
 }

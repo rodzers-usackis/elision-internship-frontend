@@ -1,0 +1,39 @@
+.dashboardMainContentWrapper {
+    flex: 1;
+    padding: 1.5rem 0 1.5rem 0;
+}
+
+.actionButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboardTitle {
+    font-size: 2rem;
+}
+
+.dashboardSubtitle {
+    font-size: 1rem;
+    padding-bottom: 1rem;
+}
+
+.actionShelf {
+    padding: 0 0 1rem 0;
+}
+
+.tableHeader {
+    padding: 0.5rem 0 0.5rem 0;
+}
+
+.tableHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tableContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
