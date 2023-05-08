@@ -4,6 +4,8 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import Navbar from "<components>/components/navbar/Navbar";
 import {useRouter} from "next/router";
 import React from "react";
+import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
+
 
 export default function App({Component, pageProps}: AppProps) {
     const router = useRouter();
@@ -18,12 +20,15 @@ export default function App({Component, pageProps}: AppProps) {
     });
 
     const isLayoutNeeded = (router.pathname.startsWith(`/dashboard`));
+    const isLoginOrRegister = (router.pathname.startsWith(`/login`) || router.pathname.startsWith(`/register`));
 
     return (
         <>
             <ThemeProvider theme={theme}>
-                {isLayoutNeeded ? <React.Fragment/> : <Navbar/>}
-                <Component {...pageProps} />
+                <RegistrationFormContextProvider>
+                    {isLayoutNeeded ? <React.Fragment/> : <Navbar/>}
+                    {isLoginOrRegister ? <><RegistrationFormContextProvider><Component {...pageProps} /></RegistrationFormContextProvider></> : <Component {...pageProps} />}
+                </RegistrationFormContextProvider>
             </ThemeProvider>
         </>
     );

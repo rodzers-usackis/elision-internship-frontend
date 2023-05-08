@@ -10,7 +10,6 @@ import {useRouter} from 'next/router'
 import {registerUser} from '<components>/services/API';
 import {useContext} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
-import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -34,10 +33,10 @@ export default function Register() {
     const [currentStep, setCurrentStep] = React.useState(1);
 
     // States from RegistrationFormContextProvider
-    const {firstName} = useContext(FormContext);
-    const {lastName} = useContext(FormContext);
-    const {emailAddress} = useContext(FormContext);
-    const {password} = useContext(FormContext);
+    const {firstName, setFirstName} = useContext(FormContext);
+    const {lastName, setLastName} = useContext(FormContext);
+    const {emailAddress, setEmailAddress} = useContext(FormContext);
+    const {password, setPassword} = useContext(FormContext);
 
     // Tracking state of errors
     const {errors, setErrors} = useContext(FormContext);
@@ -96,6 +95,9 @@ export default function Register() {
         // Check if all fields are valid
         const errors = validateFields();
 
+        // Display error messages for invalid fields
+        setErrors(errors)
+
         if (Object.keys(errors).length === 0) {
             // Submit the form if all fields are valid
             registerUser(user).then((response) => {
@@ -112,6 +114,7 @@ export default function Register() {
                         }).then(() => {
                             router.push('/login');
                         });
+                        resetForm();
                         break;
                     case 409:
                         Swal.fire({
@@ -132,10 +135,14 @@ export default function Register() {
                         break;
                 }
             })
-        } else {
-            // Display error messages for invalid fields
-            setErrors(errors)
         }
+    }
+
+    const resetForm = () => {
+        setFirstName('');
+        setLastName('');
+        setEmailAddress('');
+        setPassword('');
     }
 
     const handleNext = () => {
@@ -155,7 +162,6 @@ export default function Register() {
     }
 
     return (
-        <RegistrationFormContextProvider>
             <Box
                 display='flex'
                 alignItems='center'
@@ -203,6 +209,5 @@ export default function Register() {
                     </Grid>
                 </Card>
             </Box>
-        </RegistrationFormContextProvider>
     );
 }
