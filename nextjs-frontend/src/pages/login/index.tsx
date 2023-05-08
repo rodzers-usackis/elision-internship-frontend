@@ -3,8 +3,29 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
+import {useState} from "react";
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({ email: "", password: "" });
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+        return emailRegex.test(email);
+    };
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        const isValidEmail = validateEmail(email);
+
+        if (!isValidEmail) {
+            setErrors({ ...errors, email: "Please enter a valid email address" });
+        } else {
+            setErrors({ ...errors, email: "" })
+            // submit form
+        }
+    };
 
     return (
         <Box
@@ -65,6 +86,10 @@ export default function Login() {
                                 variant="filled"
                                 placeholder="example@domain.com"
                                 fullWidth={true}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                error={!!errors.email}
+                                helperText={errors.email}
                             />
                         </Grid>
 
@@ -77,6 +102,10 @@ export default function Login() {
                                 variant="filled"
                                 placeholder="Must have at least 8 characters"
                                 fullWidth={true}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                error={!!errors.password}
+                                helperText={errors.password}
                             />
                         </Grid>
 
@@ -87,7 +116,7 @@ export default function Login() {
                                 sx={{display: 'flex', alignItems: 'center'}}
                             >
                                 <FormGroup>
-                                    <FormControlLabel control={<Checkbox />} label="Remember me" />
+                                    <FormControlLabel control={<Checkbox />} label="Remember me"/>
                                 </FormGroup>
                             </Grid>
 
@@ -105,7 +134,7 @@ export default function Login() {
                         <Grid item
                             sx={{display: 'flex', alignItems: 'center', width: '100%'}}
                         >
-                            <Button className={styles.signInButton} fullWidth={true}>
+                            <Button className={styles.signInButton} fullWidth={true} onClick={handleSubmit}>
                                 Sign in
                             </Button>
                         </Grid>

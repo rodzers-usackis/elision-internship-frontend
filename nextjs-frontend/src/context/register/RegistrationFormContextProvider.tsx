@@ -25,11 +25,14 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [emailAddress, setEmailAddress] = useState('')
     const [password, setPassword] = useState('')
 
+    // Errors
+    const [errors, setErrors] = useState({ firstName: '', lastName: '', emailAddress: '', password: ''})
+
     return (
         <FormContext.Provider value={{companyName, setCompanyName, companyWebsite, setCompanyWebsite, productType, setProductType,
                                         streetAddress, setStreetAddress, streetNumber, setStreetNumber, city, setCity, state, setState,
                                             zipCode, setZipCode, country, setCountry, firstName, setFirstName, lastName, setLastName, emailAddress, setEmailAddress,
-                                                password, setPassword}}>
+                                                password, setPassword, errors, setErrors}}>
             {children}
         </FormContext.Provider>
     )
