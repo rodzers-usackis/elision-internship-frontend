@@ -1,4 +1,4 @@
-export const TopNavbarItems = [
+export const NavbarItems = [
     {
         title: 'Services',
         href: '/services',

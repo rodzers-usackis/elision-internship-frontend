@@ -1,5 +1,8 @@
 import styles from "<components>/styles/Register.module.css";
-import {FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {
+    Grid,
+    TextField,
+} from "@mui/material";
 import * as React from "react";
 import FormContext from "<components>/context/register/RegistrationFormContext";
 import {useContext} from "react";
@@ -14,12 +17,11 @@ export default function CompanyAddressForm() {
     const {zipCode, setZipCode} = useContext(FormContext);
     const {country, setCountry} = useContext(FormContext);
 
-
     return (
         <>
-            <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}} gap={2}>
+            <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Grid item xs={7} sm={9} paddingRight={2}>
+                    <Grid item xs={12} sm={9} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-address-street-input"
@@ -33,7 +35,7 @@ export default function CompanyAddressForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={5} sm={3}>
+                    <Grid item xs={12} sm={3} className={styles.rightInputField}>
                         <TextField
                             required
                             id="filled-address-number-input"
@@ -49,7 +51,7 @@ export default function CompanyAddressForm() {
                 </Grid>
 
                 <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Grid item xs={12} sm={6} paddingRight={1}>
+                    <Grid item xs={12} sm={6} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-address-city-input"
@@ -63,7 +65,7 @@ export default function CompanyAddressForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={6} paddingLeft={1}>
+                    <Grid item xs={12} sm={6} className={styles.rightInputField}>
                         <TextField
                             id="filled-state-province-region-input"
                             label="State/Province/Region"
@@ -78,7 +80,7 @@ export default function CompanyAddressForm() {
                 </Grid>
 
                 <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Grid item xs={12} sm={6} paddingRight={1}>
+                    <Grid item xs={12} sm={6} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-address-city-input"
@@ -92,7 +94,7 @@ export default function CompanyAddressForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={6} paddingLeft={1}>
+                    <Grid item xs={12} sm={6} className={styles.rightInputField}>
                         <TextField
                             required
                             id="filled-country-input"

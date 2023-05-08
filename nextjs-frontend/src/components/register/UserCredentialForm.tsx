@@ -1,8 +1,16 @@
-import {Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
+import {
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    TextField,
+    Typography,
+} from "@mui/material";
 import * as React from "react";
 import FormContext from "<components>/context/register/RegistrationFormContext";
 import {useContext} from "react";
 import Link from "next/link";
+import styles from "<components>/styles/Register.module.css";
 
 export default function UserCredentialForm() {
     // States from RegistrationFormContextProvider
@@ -11,12 +19,11 @@ export default function UserCredentialForm() {
     const {emailAddress, setEmailAddress} = useContext(FormContext);
     const {password, setPassword} = useContext(FormContext);
 
-
     return (
         <>
-            <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}} gap={2}>
+            <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Grid item xs={12} sm={6} paddingRight={1}>
+                    <Grid item xs={12} sm={6} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-first-name-input"
@@ -30,7 +37,7 @@ export default function UserCredentialForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={6} paddingLeft={1}>
+                    <Grid item xs={12} sm={6} className={styles.rightInputField}>
                         <TextField
                             required
                             id="filled-last-name-input"
@@ -46,7 +53,7 @@ export default function UserCredentialForm() {
                 </Grid>
 
                 <Grid container sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Grid item xs={12} sm={6} paddingRight={1}>
+                    <Grid item xs={12} sm={6} className={styles.leftInputField}>
                         <TextField
                             required
                             id="filled-email-input"
@@ -60,7 +67,7 @@ export default function UserCredentialForm() {
                         />
                     </Grid>
 
-                    <Grid item xs={12} sm={6} paddingLeft={1}>
+                    <Grid item xs={12} sm={6} className={styles.rightInputField}>
                         <TextField
                             required
                             id="filled-password-input"

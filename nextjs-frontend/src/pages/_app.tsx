@@ -1,7 +1,8 @@
 import '<components>/styles/globals.css'
 import type {AppProps} from 'next/app'
-import TopNavbar from "<components>/components/navbar/desktop/TopNavbar";
 import {createTheme, ThemeProvider} from "@mui/material";
+import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
+import Navbar from "<components>/components/navbar/Navbar";
 
 export default function App({Component, pageProps}: AppProps) {
 
@@ -18,8 +19,10 @@ export default function App({Component, pageProps}: AppProps) {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <TopNavbar/>
-                <Component {...pageProps} />
+                <RegistrationFormContextProvider>
+                    <Navbar/>
+                    <Component {...pageProps} />
+                </RegistrationFormContextProvider>
             </ThemeProvider>
         </>
     )

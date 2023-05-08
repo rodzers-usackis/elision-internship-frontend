@@ -30,3 +30,25 @@
     background-color: black;
     font-weight: bolder;
 }
+
+.leftInputField {
+    padding-right: 0;
+    padding-top: 16px;
+}
+
+@media (min-width: 600px) {
+    .leftInputField {
+        padding-right: 10px;
+    }
+}
+
+.rightInputField {
+    padding-left: 0;
+    padding-top: 16px;
+}
+
+@media (min-width: 600px) {
+    .rightInputField {
+        padding-left: 10px;
+    }
+}
