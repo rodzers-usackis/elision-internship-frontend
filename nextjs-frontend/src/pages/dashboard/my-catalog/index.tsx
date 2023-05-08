@@ -293,7 +293,7 @@ export default function MyCatalog() {
     const [orderBy, setOrderBy] = React.useState<keyof Data>('cost');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
+    const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleRequestSort = (

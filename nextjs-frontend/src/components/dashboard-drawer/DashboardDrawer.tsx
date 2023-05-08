@@ -12,6 +12,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
+import styles from '<components>/styles/DashboardDrawer.module.css'
 
 
 export default function DashboardDrawer() {
@@ -43,7 +44,7 @@ export default function DashboardDrawer() {
                             <List>
                                 {DashboardDrawerItems.map((item) => (
                                     <ListItem key={item.value}>
-                                        <Link href={item.href}>
+                                        <Link href={item.href} className={styles.listItemLink}>
                                             <ListItemButton {...buttonProps(item.value)}>
                                                 <ListItemIcon>
                                                     {item.icon}

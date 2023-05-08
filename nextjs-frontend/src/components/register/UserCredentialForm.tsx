@@ -17,10 +17,7 @@ export default function UserCredentialForm() {
     const {firstName, setFirstName} = useContext(FormContext);
     const {lastName, setLastName} = useContext(FormContext);
     const {emailAddress, setEmailAddress} = useContext(FormContext);
-    const {password, setPassword} = useContext(FormContext)
-
-    // Tracking state of errors
-    const {errors} = useContext(FormContext);
+    const {password, setPassword} = useContext(FormContext);
 
     return (
         <>

@@ -8,7 +8,7 @@ import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
 import {registerUser} from '<components>/services/API';
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
 import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
 
@@ -27,6 +27,35 @@ function getStepContent(step: number) {
     }
 }
 
+interface FormErrors {
+    firstName?: string;
+    lastName?: string;
+    emailAddress?: string;
+    password?: string;
+}
+
+// Validation
+const validateFirstName = (firstName: string) => {
+    const firstNameRegex = /^[a-zA-Z]+$/i;
+    return firstNameRegex.test(firstName);
+}
+
+const validateLastName = (lastName: string) => {
+    const lastNameRegex = /^[a-zA-Z]+$/i;
+    return lastNameRegex.test(lastName);
+}
+
+const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+    return emailRegex.test(email);
+}
+
+// At least 8 characters long, must contain one uppercase/lowercase and at least one number
+const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i;
+    return passwordRegex.test(password);
+}
+
 export default function Register() {
     const router = useRouter();
 
@@ -40,7 +69,7 @@ export default function Register() {
     const {password} = useContext(FormContext);
 
     // Tracking state of errors
-    const {errors, setErrors} = useContext(FormContext);
+    const [errors, setErrors] = useState<FormErrors>({});
 
     // User object to be sent to backend
     const user = {
@@ -50,51 +79,42 @@ export default function Register() {
         password: password
     }
 
-    // Validation
-    const validateFirstName = (firstName: string) => {
-        const firstNameRegex = /^[a-zA-Z]+$/i;
-        return firstNameRegex.test(firstName);
-    }
-
-    const validateLastName = (lastName: string) => {
-        const lastNameRegex = /^[a-zA-Z]+$/i;
-        return lastNameRegex.test(lastName);
-    }
-
-    const validateEmail = (email: string) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
-        return emailRegex.test(email);
-    }
-
-    // At least 8 characters long, must contain one uppercase/lowercase and at least one number
-    const validatePassword = (password: string) => {
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i;
-        return passwordRegex.test(password);
-    }
-
-    function validateFields() {
-        const errors = {};
-        if (!validateFirstName(firstName)) {
-            errors.firstName = 'First name must contain at least one character';
+    useEffect(() => {
+        // Validate firstName
+        if (!firstName) {
+            setErrors(errors => ({...errors, firstName: "Please enter your first name."}));
+        } else {
+            setErrors(errors => ({...errors, firstName: undefined}));
         }
-        if (!validateLastName(lastName)) {
-            errors.lastName = 'Last name must contain at least one character';
+
+        // Validate lastName
+        if (!lastName) {
+            setErrors(errors => ({...errors, lastName: "Please enter your last name."}));
+        } else {
+            setErrors(errors => ({...errors, lastName: undefined}));
         }
-        if (!validateEmail(emailAddress)) {
-            errors.emailAddress = 'Invalid email address';
+
+        // Validate emailAddress
+        if (!emailAddress) {
+            setErrors(errors => ({...errors, emailAddress: "Please enter your email address."}));
+        } else if (!validateEmail(emailAddress)) {
+            setErrors(errors => ({...errors, emailAddress: "Please enter a valid email address."}));
+        } else {
+            setErrors(errors => ({...errors, emailAddress: undefined}));
         }
-        if (!validatePassword(password)) {
-            errors.password = 'Password must contain at least 8 characters which include at least 1 lowercase character,' +
-                ' 1 uppercase character and 1 number'
+
+        // Validate password
+        if (!password) {
+            setErrors(errors => ({...errors, password: "Please enter a password."}));
+        } else if (password.length < 6) {
+            setErrors(errors => ({...errors, password: "Password must be at least 6 characters long."}));
+        } else {
+            setErrors(errors => ({...errors, password: undefined}));
         }
-        return errors;
-    }
+    }, [firstName, lastName, emailAddress, password]);
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-
-        // Check if all fields are valid
-        const errors = validateFields();
 
         if (Object.keys(errors).length === 0) {
             // Submit the form if all fields are valid
