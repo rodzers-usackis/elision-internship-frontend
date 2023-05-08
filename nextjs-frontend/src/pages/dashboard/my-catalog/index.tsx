@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
-import {alpha, Checkbox, Divider, Grid, TextField, Typography} from "@mui/material";
+import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/MyCatalog.module.css'
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import {visuallyHidden} from '@mui/utils';
+import {useProducts} from "<components>/hooks/register/useProducts";
 
 interface Data {
     name: string;
@@ -33,47 +34,6 @@ interface Data {
     status: string
 }
 
-function createData(
-    name: string,
-    ean: number,
-    brand: string,
-    cost: number,
-    price: number,
-    competitorPrices: string,
-    position: number,
-    status: string
-): Data {
-    return {
-        name,
-        ean,
-        brand,
-        cost,
-        price,
-        competitorPrices,
-        position,
-        status
-    };
-}
-
-const rows = [
-    createData('Iphone 14 Pro 128 GB', 194253401179, 'Apple', 799.00, 1499.00, 'Show', 2, 'Active'),
-    createData('Iphone 14 Pro 256 GB', 194253401180, 'Apple', 899.00, 1599.00, 'Show', 2, 'Active'),
-    createData('Samsung Galaxy S22 128 GB', 194253401181, 'Samsung', 699.00, 1199.00, 'Show', 1, 'Inactive'),
-    createData('Samsung Galaxy S22 256 GB', 194253401182, 'Samsung', 799.00, 1299.00, 'Show', 1, 'Active'),
-    createData('Google Pixel 6 128 GB', 194253401183, 'Google', 699.00, 1099.00, 'Show', 2, 'Active'),
-    createData('Google Pixel 6 256 GB', 194253401184, 'Google', 799.00, 1199.00, 'Show', 2, 'Active'),
-    createData('OnePlus 10 Pro 128 GB', 194253401185, 'OnePlus', 899.00, 1399.00, 'Show', 2, 'Active'),
-    createData('OnePlus 10 Pro 256 GB', 194253401186, 'OnePlus', 999.00, 1499.00, 'Show', 2, 'Active'),
-    createData('Xiaomi Mi 12 128 GB', 194253401187, 'Xiaomi', 599.00, 999.00, 'Show', 1, 'Active'),
-    createData('Xiaomi Mi 12 256 GB', 194253401188, 'Xiaomi', 699.00, 1099.00, 'Show', 1, 'Active'),
-    createData('Sony Xperia 5 III 128 GB', 194253401189, 'Sony', 799.00, 1299.00, 'Show', 2, 'Active'),
-    createData('Sony Xperia 5 III 256 GB', 194253401190, 'Sony', 899.00, 1399.00, 'Show', 2, 'Active'),
-    createData('LG V80 ThinQ 128 GB', 194253401191, 'LG', 599.00, 999.00, 'Show', 1, 'Active'),
-    createData('LG V80 ThinQ 256 GB', 194253401192, 'LG', 699.00, 1099.00, 'Show', 1, 'Active'),
-    createData('Motorola Moto G99 128 GB', 194253401193, 'Motorola', 399.00, 699.00, 'Show', 1, 'Active'),
-    createData('Motorola Moto G99 256 GB', 194253401194, 'Motorola', 499.00, 799.00, 'Show', 1, 'Active'),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -85,30 +45,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 }
 
 type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-    order: Order,
-    orderBy: Key,
-): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string },
-) => number {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
 
 interface HeadCell {
     disablePadding: boolean;
@@ -219,6 +155,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
+const handleAddProduct = () => {
+
+}
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
 }
@@ -278,7 +218,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
                 ) : (
                     <Tooltip title="Add Product">
-                        <IconButton size="large">
+                        <IconButton size="large" onClick={handleAddProduct}>
                             <AddBoxIcon/>
                         </IconButton>
                     </Tooltip>
@@ -296,6 +236,20 @@ export default function MyCatalog() {
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
+
+    if (isLoadingGetProducts) {
+        return <CircularProgress sx={{display: "block", mt: "10em", mx: "auto"}}/>
+    }
+
+    if (isErrorGetProducts) {
+        return <Alert severity="error">Station could not be loaded</Alert>;
+    }
+
+    if (products!.length == 0) {
+        return <Alert severity="error">No products found</Alert>;
+    }
+
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
         property: keyof Data,
@@ -307,7 +261,7 @@ export default function MyCatalog() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.name);
+            const newSelected = products!.map((n) => n.name);
             setSelected(newSelected);
             return;
         }
@@ -355,16 +309,16 @@ export default function MyCatalog() {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products!.length) : 0;
 
-    const visibleRows = React.useMemo(
-        () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage,
-            ),
-        [order, orderBy, page, rowsPerPage],
-    );
+    // const visibleRows = React.useMemo(
+    //     () =>
+    //         stableSort(products!, getComparator(order, orderBy)).slice(
+    //             page * rowsPerPage,
+    //             page * rowsPerPage + rowsPerPage,
+    //         ),
+    //     [order, orderBy, page, rowsPerPage],
+    // );
 
 
     return (
@@ -379,7 +333,7 @@ export default function MyCatalog() {
                         My Catalog
                     </Typography>
                     <Typography className={styles.dashboardSubtitle}>
-                        Import and manage your products ({rows.length} active) (Last import 9 minutes ago)
+                        Import and manage your products ({products!.length} active) (Last import 9 minutes ago)
                     </Typography>
                     <Grid container sx={{
                         display: 'flex',
@@ -408,17 +362,17 @@ export default function MyCatalog() {
                                         orderBy={orderBy}
                                         onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
+                                        rowCount={products!.length}
                                     />
                                     <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            const isItemSelected = isSelected(row.name);
+                                        {products!.map((row, index) => {
+                                            const isItemSelected = isSelected(row.name as string);
                                             const labelId = `enhanced-table-checkbox-${index}`;
 
                                             return (
                                                 <TableRow
                                                     hover
-                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    onClick={(event) => handleClick(event, row!.name as string)}
                                                     role="checkbox"
                                                     aria-checked={isItemSelected}
                                                     tabIndex={-1}
@@ -443,14 +397,14 @@ export default function MyCatalog() {
                                                     >
                                                         {row.name}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.brand}</TableCell>
-                                                    <TableCell align="right">{row.cost}</TableCell>
-                                                    <TableCell align="right">{row.price}</TableCell>
-                                                    <TableCell align="right">{row.competitorPrices}</TableCell>
-                                                    <TableCell align="right">{row.position}/7</TableCell>
+                                                    <TableCell align="right">{row.description}</TableCell>
+                                                    <TableCell align="right">{699.00}</TableCell>
+                                                    <TableCell align="right">{1099.00}</TableCell>
+                                                    <TableCell align="right">{'Show'}</TableCell>
+                                                    <TableCell align="right">2/7</TableCell>
                                                     <TableCell align="right"
-                                                               style={{color: row.status === 'Active' ? 'green' : 'red'}}>
-                                                        {row.status}
+                                                               style={{color: 'Active' === 'Active' ? 'green' : 'red'}}>
+                                                        'Active'
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -470,7 +424,7 @@ export default function MyCatalog() {
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 50]}
                                 component="div"
-                                count={rows.length}
+                                count={products!.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
