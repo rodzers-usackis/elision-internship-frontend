@@ -10,6 +10,7 @@ import {useRouter} from 'next/router'
 import {registerUser} from '<components>/services/API';
 import {useContext} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
+import {User} from '../../model/User';
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -29,6 +30,7 @@ function getStepContent(step: number) {
 export default function Register() {
     const router = useRouter();
 
+    // Steps for registration form
     const MAX_STEP = 3;
     const [currentStep, setCurrentStep] = React.useState(1);
 
@@ -38,16 +40,8 @@ export default function Register() {
     const {emailAddress, setEmailAddress} = useContext(FormContext);
     const {password, setPassword} = useContext(FormContext);
 
-    // Tracking state of errors
-    const {errors, setErrors} = useContext(FormContext);
-
-    // User object to be sent to backend
-    const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: emailAddress,
-        password: password
-    }
+    // Updating state of errors
+    const {setErrors} = useContext(FormContext);
 
     // Validation
     const validateFirstName = (firstName: string) => {
@@ -98,8 +92,18 @@ export default function Register() {
         // Display error messages for invalid fields
         setErrors(errors)
 
+        // Check if there are any errors
         if (Object.keys(errors).length === 0) {
-            // Submit the form if all fields are valid
+
+            // Create user object
+            const user: User = {
+                firstName: firstName,
+                lastName: lastName,
+                email: emailAddress,
+                password: password,
+            }
+
+            // Register user
             registerUser(user).then((response) => {
                 console.log(response);
 
@@ -129,8 +133,8 @@ export default function Register() {
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Something went wrong!',
-                            confirmButtonText: 'Return to home page',
-                            footer: "<a href='#'>Contact customer support?</a>",
+                            confirmButtonText: "<Link href='/'>Return to home page</Link>",
+                            footer: "<Link href='#'>Contact customer support?</Link>",
                         });
                         break;
                 }
