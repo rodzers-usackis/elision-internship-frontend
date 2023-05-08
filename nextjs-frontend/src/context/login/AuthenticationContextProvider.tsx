@@ -7,6 +7,7 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 import AuthenticationResponse from "../../types/AuthenticationResponse";
 import LoginContext from "./AuthenticationContext";
 import {Alert, CircularProgress} from "@mui/material";
+import {fetchUserInfo} from "../../pages/api/users";
 
 interface IWithChildren {
     children: ReactElement | ReactElement[]
@@ -16,20 +17,30 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage('accessToken')
+    const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
     const {
         data: authenticationResponse,
         mutateAsync: mutateLoggingInAsync,
-        isLoading,
-        isError
-    } = useMutation(['login'], loginOnBackend)
-    // const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
+        isLoading: isLoadingAuthentication,
+        isError: isErrorAuthentication
+    } = useMutation(['login'], loginOnBackend);
+    const {
+        data: user,
+        isLoading: isLoadingUser,
+        isError: isErrorUser
+    } = useQuery({queryKey: ['user', loggedInUser], queryFn: fetchUserInfo, enabled: isAuthenticated()});
 
     useEffect(() => {
         setAccessTokenInHttpHeader(accessToken)
     }, [accessToken])
 
+    useEffect(() => {
+        if(!!user){
+            setLoggedInUser(JSON.stringify(user))
+        }
+    }, [user])
 
-    if(isLoading) return <CircularProgress/>
+    if (isLoadingAuthentication) return <CircularProgress/>
 
 
     function isAuthenticated() {
@@ -40,8 +51,8 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
     function login(credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) {
 
         return mutateLoggingInAsync(credentials).then((response: AuthenticationResponse) => {
+            console.log(response, 'logging in response')
             setAccessToken(response.accessToken)
-            // setLoggedInUser(response.user)
             onSuccess()
             return response;
         }).catch((error) => {
@@ -52,14 +63,14 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
     function logout() {
         removeAccessToken()
-        // removeLoggedInUser()
+        removeLoggedInUser()
     }
 
     return (
         <LoginContext.Provider
             value={{
                 isAuthenticated,
-                undefined, // loggedInUser,
+                loggedInUser,
                 login,
                 logout,
             }}

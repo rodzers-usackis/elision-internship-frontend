@@ -12,15 +12,15 @@ export default function useLocalStorage(key: string) {
     }, [key])
 
     const setter = (newValue: any) => {
-        if (newValue !== value) {
+        if (newValue !== value && !!newValue) {
             localStorage.setItem(key, newValue)
             setValue(newValue)
         }
     }
 
     const remove = () => {
-        localStorage.removeItem(key)
         setValue(null)
+        localStorage.removeItem(key)
     }
     return [value, setter, remove]
 }
