@@ -3,12 +3,18 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
-import {useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
+import LoginContext from "../../context/login/AuthenticationContext";
+import {useRouter} from "next/router";
+import AuthenticationRequest from "../../types/AuthenticationRequest";
+
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ email: "", password: "" });
+    const {isAuthenticated, login} = useContext(LoginContext);
+    const {push: goTo} = useRouter();
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
@@ -24,8 +30,36 @@ export default function Login() {
         } else {
             setErrors({ ...errors, email: "" })
             // submit form
+            handleLogin();
         }
     };
+
+
+    if (isAuthenticated()) {
+        goTo('/');
+    }
+
+
+    function handleLogin() {
+        login({
+                email: email,
+            password: password
+            } as AuthenticationRequest,
+            onLoggingInSuccess,
+            onLoggingInError);
+    }
+
+    function onLoggingInSuccess() {
+        //TODO: show something to the user
+        console.log('Logged in!')
+        goTo('/');
+    }
+
+    function onLoggingInError() {
+        //TODO: display error to the user
+        console.log('logging in failed')
+    }
+
 
     return (
         <Box
@@ -54,7 +88,12 @@ export default function Login() {
                     </Grid>
 
                     <Grid item className={styles.cardMainContent}
-                        sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} px={5}
+                          sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignItems: 'center'
+                          }} px={5}
                     >
                         <Grid item className={styles.cardHeader} paddingBottom={3} paddingTop={0} width={'100%'}
                               sx={{
@@ -86,10 +125,12 @@ export default function Login() {
                                 variant="filled"
                                 placeholder="example@domain.com"
                                 fullWidth={true}
+
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 error={!!errors.email}
                                 helperText={errors.email}
+
                             />
                         </Grid>
 
@@ -102,26 +143,30 @@ export default function Login() {
                                 variant="filled"
                                 placeholder="Must have at least 8 characters"
                                 fullWidth={true}
+
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 error={!!errors.password}
                                 helperText={errors.password}
+
                             />
                         </Grid>
 
                         <Grid container paddingBottom={2}
-                            sx={{display: 'flex', justifyContent: 'space-between'}}
+                              sx={{display: 'flex', justifyContent: 'space-between'}}
                         >
                             <Grid item
-                                sx={{display: 'flex', alignItems: 'center'}}
+                                  sx={{display: 'flex', alignItems: 'center'}}
                             >
                                 <FormGroup>
+
                                     <FormControlLabel control={<Checkbox />} label="Remember me"/>
+
                                 </FormGroup>
                             </Grid>
 
                             <Grid item
-                                sx={{display: 'flex', alignItems: 'center'}}
+                                  sx={{display: 'flex', alignItems: 'center'}}
                             >
                                 <Typography>
                                     <Link href={'#'} style={{color: '#007bff'}}>
@@ -132,12 +177,15 @@ export default function Login() {
                         </Grid>
 
                         <Grid item
-                            sx={{display: 'flex', alignItems: 'center', width: '100%'}}
+                              sx={{display: 'flex', alignItems: 'center', width: '100%'}}
                         >
+
                             <Button className={styles.signInButton} fullWidth={true} onClick={handleSubmit}>
+
                                 Sign in
                             </Button>
                         </Grid>
+
 
                         <Grid container className={styles.cardAdditionalActions} paddingY={3}
                               sx={{display: 'flex', justifyContent: 'center'}}
@@ -153,6 +201,7 @@ export default function Login() {
                                 </Typography>
                             </Grid>
                         </Grid>
+
                     </Grid>
                 </Grid>
             </Card>
