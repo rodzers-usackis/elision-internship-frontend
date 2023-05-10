@@ -2,7 +2,6 @@ import axios from 'axios';
 import API_ROUTES from "../../constants/API";
 import AuthenticationRequest from "../../types/AuthenticationRequest";
 import AuthenticationResponse from "../../types/AuthenticationResponse";
-import "./axiosDefaults"
 import {User} from "../../model/User";
 import {ApiResponse} from "../../model/ApiResponse";
 import {backendURL} from "./API";
