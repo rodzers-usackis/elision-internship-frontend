@@ -1,83 +1,34 @@
 import {Divider, Grid, MenuItem, TextField, Typography} from "@mui/material";
 import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
-import styles from "<components>/styles/MyCatalog.module.css";
+import styles from "<components>/styles/DashboardReports.module.css";
 import * as React from "react";
 import {useProducts} from "<components>/hooks/register/useProducts";
 import {Product} from "<components>/model/Product";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import {Line} from 'react-chartjs-2';
 import * as faker from '@faker-js/faker';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 
 
 export default function Reports() {
     const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
 
-    // Set the start date
-    let date = new Date();
+    // Generate data for a period of 30 days
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 29);
+    const endDate = new Date();
 
-// Create an array to hold the objects
-    let objects = [];
+    // Initialize an empty array to store the data
+    const data = [];
 
-// Loop to create 50 objects with incremental timestamps of 1 day
-    for (let i = 0; i < 50; i++) {
-        // Add 1 day to the current date
-        date.setDate(date.getDate() + 1);
-
-        // Generate a random price between 1 and 100
-        const price = faker.faker.datatype.number({ min: 399, max: 699, precision: 2 });
-
-        // Create an object with the date and price
-        const obj = { date: date.toISOString(), price: price };
-
-        // Add the object to the array
-        objects.push(obj);
+    // Generate a data point for each day in the period
+    for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+        const price = parseFloat((699 + Math.random() * 200).toFixed(2));
+        data.push({
+            name: date.toISOString().split('T')[0],
+            price: price,
+        });
     }
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-            },
-            title: {
-                display: true,
-                text: 'Price History',
-            },
-        },
-    };
-
-    const labels = objects.map((obj) => obj.date);
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: objects.map((obj) => obj.price),
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-        ],
-    };
+    console.log(data)
 
     const reportTypes = [
         {
@@ -88,8 +39,8 @@ export default function Reports() {
 
     return (
         <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={5}>
-                <Grid item style={{flex: 0}}>
+            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'}>
+                <Grid item>
                     <DashboardDrawer/>
                 </Grid>
 
@@ -136,11 +87,21 @@ export default function Reports() {
                                 ))}
                             </TextField>
                         </Grid>
-
-                        <Line options={options} data={data} />;
                     </Grid>
                     <Divider/>
 
+                    <Grid item className={styles.lineChart}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={data}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </Grid>
                 </Grid>
             </Grid>
         </>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
 import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
-import styles from '../../../styles/MyCatalog.module.css'
+import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -323,7 +323,7 @@ export default function MyCatalog() {
 
     return (
         <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={5}>
+            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
                 <Grid item style={{flex: 0}}>
                     <DashboardDrawer/>
                 </Grid>
