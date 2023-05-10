@@ -1,9 +1,12 @@
 const PORT = 8080;
 
-const API_ROUTES = {
-    LOGIN : `http://localhost:${PORT}/api/auth/login`,
-    REGISTER : `http://localhost:${PORT}/api/auth/register`,
-    GET_ME : `http://localhost:${PORT}/api/users/me`,
+export const BACKEND_BASEURL = `http://localhost:${PORT}`;
+
+export const API_ROUTES = {
+    LOGIN : `${BACKEND_BASEURL}/api/auth/login`,
+    REGISTER : `${BACKEND_BASEURL}/api/auth/register`,
+    ME : `${BACKEND_BASEURL}/api/users/me`,
+    PRODUCTS : `${BACKEND_BASEURL}/api/products`
 };
 
 export default API_ROUTES;
