@@ -6,9 +6,12 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import Navbar from "<components>/components/navbar/Navbar";
 import {useRouter} from "next/router";
 import React from "react";
+import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
+
 
 export default function App({Component, pageProps}: AppProps) {
     const router = useRouter();
+    const queryClient = new QueryClient();
 
 
     const theme = createTheme({
@@ -20,23 +23,19 @@ export default function App({Component, pageProps}: AppProps) {
         }
     });
 
-
-    const queryClient = new QueryClient();
-        const isLayoutNeeded = (router.pathname.startsWith(`/dashboard`));
+    const isLayoutNeeded = (router.pathname.startsWith(`/dashboard`));
+    const isLoginOrRegister = (router.pathname.startsWith(`/login`) || router.pathname.startsWith(`/register`));
 
     return (
         <>
-
-            <QueryClientProvider
-                client={queryClient}>
+            <QueryClientProvider client={queryClient}>
                 <AuthenticationContextProvider>
                     <ThemeProvider theme={theme}>
                          {isLayoutNeeded ? <React.Fragment/> : <Navbar/>}
-                <Component {...pageProps} />
+                         {isLoginOrRegister ? <><RegistrationFormContextProvider><Component {...pageProps} /></RegistrationFormContextProvider></> : <Component {...pageProps} />}
                     </ThemeProvider>
                 </AuthenticationContextProvider>
             </QueryClientProvider>
-
         </>
     );
 }

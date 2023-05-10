@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {Button, Divider, Drawer, Grid, Typography} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
@@ -12,12 +12,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
+import {useState} from "react";
 import styles from '<components>/styles/DashboardDrawer.module.css'
 
 
 export default function DashboardDrawer() {
     const drawerWidth = '328px'
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = useState(1);
 
     const buttonProps = (value: number) => ({
         selected: selectedIndex === value,

@@ -1,0 +1,3 @@
+interface EnhancedTableToolbarProps {
+    numSelected: number;
+}

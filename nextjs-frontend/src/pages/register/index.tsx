@@ -10,7 +10,8 @@ import {useRouter} from 'next/router'
 import {registerUser} from '<components>/services/API';
 import {useContext, useEffect, useState} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
-import RegistrationFormContextProvider from "<components>/context/register/RegistrationFormContextProvider";
+import {User} from '../../model/User';
+import {useState} from "react";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -59,25 +60,18 @@ const validatePassword = (password: string) => {
 export default function Register() {
     const router = useRouter();
 
+    // Steps for registration form
     const MAX_STEP = 3;
-    const [currentStep, setCurrentStep] = React.useState(1);
+    const [currentStep, setCurrentStep] = useState(1);
 
     // States from RegistrationFormContextProvider
-    const {firstName} = useContext(FormContext);
-    const {lastName} = useContext(FormContext);
-    const {emailAddress} = useContext(FormContext);
-    const {password} = useContext(FormContext);
+    const {firstName, setFirstName} = useContext(FormContext);
+    const {lastName, setLastName} = useContext(FormContext);
+    const {emailAddress, setEmailAddress} = useContext(FormContext);
+    const {password, setPassword} = useContext(FormContext);
 
-    // Tracking state of errors
-    const [errors, setErrors] = useState<FormErrors>({});
-
-    // User object to be sent to backend
-    const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: emailAddress,
-        password: password
-    }
+    // Updating state of errors
+    const {setErrors} = useContext(FormContext);
 
     useEffect(() => {
         // Validate firstName
@@ -115,9 +109,25 @@ export default function Register() {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
+      
+        // Check if all fields are valid
+        const errors = validateFields();
 
+        // Display error messages for invalid fields
+        setErrors(errors)
+
+        // Check if there are any errors
         if (Object.keys(errors).length === 0) {
-            // Submit the form if all fields are valid
+
+            // Create user object
+            const user: User = {
+                firstName: firstName,
+                lastName: lastName,
+                email: emailAddress,
+                password: password,
+            }
+
+            // Register user
             registerUser(user).then((response) => {
                 console.log(response);
 
@@ -132,6 +142,7 @@ export default function Register() {
                         }).then(() => {
                             router.push('/login');
                         });
+                        resetForm();
                         break;
                     case 409:
                         Swal.fire({
@@ -146,16 +157,20 @@ export default function Register() {
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Something went wrong!',
-                            confirmButtonText: 'Return to home page',
-                            footer: "<a href='#'>Contact customer support?</a>",
+                            confirmButtonText: "<Link href='/'>Return to home page</Link>",
+                            footer: "<Link href='#'>Contact customer support?</Link>",
                         });
                         break;
                 }
             })
-        } else {
-            // Display error messages for invalid fields
-            setErrors(errors)
         }
+    }
+
+    const resetForm = () => {
+        setFirstName('');
+        setLastName('');
+        setEmailAddress('');
+        setPassword('');
     }
 
     const handleNext = () => {
@@ -175,7 +190,6 @@ export default function Register() {
     }
 
     return (
-        <RegistrationFormContextProvider>
             <Box
                 display='flex'
                 alignItems='center'
@@ -223,6 +237,5 @@ export default function Register() {
                     </Grid>
                 </Card>
             </Box>
-        </RegistrationFormContextProvider>
     );
 }
