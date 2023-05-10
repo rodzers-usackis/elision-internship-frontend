@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {ChangeEvent, useMemo, useState} from "react";
 import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
 import {Checkbox, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/MyCatalog.module.css'
@@ -60,12 +60,12 @@ const rows = [
 ];
 
 export default function MyCatalog() {
-    const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof ProductData>('cost');
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [order, setOrder] = useState<Order>('asc');
+    const [orderBy, setOrderBy] = useState<keyof ProductData>('cost');
+    const [selected, setSelected] = useState<readonly string[]>([]);
+    const [page, setPage] = useState(0);
+    const [dense, setDense] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -113,12 +113,12 @@ export default function MyCatalog() {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-    const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeDense = (event: ChangeEvent<HTMLInputElement>) => {
         setDense(event.target.checked);
     };
 
@@ -128,7 +128,7 @@ export default function MyCatalog() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = React.useMemo(
+    const visibleRows = useMemo(
         () =>
             stableSort(rows, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,

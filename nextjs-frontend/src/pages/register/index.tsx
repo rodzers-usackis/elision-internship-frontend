@@ -11,6 +11,7 @@ import {registerUser} from '<components>/services/API';
 import {useContext} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
 import {User} from '../../model/User';
+import {useState} from "react";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -32,7 +33,7 @@ export default function Register() {
 
     // Steps for registration form
     const MAX_STEP = 3;
-    const [currentStep, setCurrentStep] = React.useState(1);
+    const [currentStep, setCurrentStep] = useState(1);
 
     // States from RegistrationFormContextProvider
     const {firstName, setFirstName} = useContext(FormContext);
