@@ -1,0 +1,26 @@
+.burgerIcon {
+    color: black;
+}
+
+.signUpButton {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    transition-duration: 0.6s;
+    height: 44px;
+}
+
+.signUpButton:hover {
+    background-color: white;
+    color: black;
+}
+
+.signUpButtonText  {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.navbarItemButton:hover {
+    background-color: white;
+}

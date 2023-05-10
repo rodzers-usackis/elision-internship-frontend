@@ -44,6 +44,22 @@ export interface RegistrationFormContext {
 
     password: string;
     setPassword: (value: string) => void;
+
+
+    // Errors
+    errors: {
+        firstName: string;
+        lastName: string;
+        emailAddress: string;
+        password: string;
+    };
+
+    setErrors: (value: {
+        firstName: string;
+        lastName: string;
+        emailAddress: string;
+        password: string;
+    }) => void;
 }
 
 export default createContext<RegistrationFormContext>({
@@ -100,6 +116,20 @@ export default createContext<RegistrationFormContext>({
 
         password: '',
         setPassword: (value: string) => {
+        },
+
+        errors: {
+            firstName: '',
+            lastName: '',
+            emailAddress: '',
+            password: '',
+        },
+        setErrors: (value: {
+            firstName: string;
+            lastName: string;
+            emailAddress: string;
+            password: string;
+        }) => {
         },
     }
 )

@@ -34,7 +34,7 @@ export default function CompanyInformationForm() {
 
     return (
       <>
-          <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%'}} gap={2}>
+          <Grid container sx={{display: 'flex', flexDirection: 'column', width: '100%', paddingTop: '16px'}} gap={2}>
               <Grid item>
                   <TextField
                       required
