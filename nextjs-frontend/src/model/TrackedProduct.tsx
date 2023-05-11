@@ -1,4 +1,7 @@
+import {UUID} from "crypto";
+
 interface ProductData {
+    id: UUID;
     name: string;
     ean: number,
     brand: string;

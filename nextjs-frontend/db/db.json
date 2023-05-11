@@ -1,0 +1,59 @@
+{
+  "products": [
+    {
+      "id": "51e73e34-10ef-4f81-b4b8-07d61e394f6a",
+      "name": "Samsung Galaxy S21",
+      "ean": 8806092112699,
+      "brand": "Samsung",
+      "cost": 700,
+      "price": 999,
+      "competitorPrices": "899, 949, 999",
+      "position": 1,
+      "status": "tracking"
+    },
+    {
+      "id": "a51472a7-06da-4b6a-91d6-d91af7dc324e",
+      "name": "iPhone 12",
+      "ean": 190199810719,
+      "brand": "Apple",
+      "cost": 800,
+      "price": 1099,
+      "competitorPrices": "999, 1049, 1099",
+      "position": 2,
+      "status": "tracking"
+    },
+    {
+      "id": "d1a64b1f-5cd5-4af5-9307-9b9c9b44dc72",
+      "name": "OnePlus 9 Pro",
+      "ean": 6921815609282,
+      "brand": "OnePlus",
+      "cost": 750,
+      "price": 999,
+      "competitorPrices": "899, 949, 999",
+      "position": 3,
+      "status": "tracking"
+    },
+    {
+      "id": "89d7b2a7-ae9c-4373-b495-66c9308da678",
+      "name": "Google Pixel 5",
+      "ean": 842776125442,
+      "brand": "Google",
+      "cost": 700,
+      "price": 799,
+      "competitorPrices": "749, 799, 849",
+      "position": 4,
+      "status": "tracking"
+    },
+    {
+      "id": "32e9d29c-1cd0-4fb8-b6a3-3aefae2fa2ab",
+      "name": "Xiaomi Mi 11",
+      "ean": 6934177735103,
+      "brand": "Xiaomi",
+      "cost": 700,
+      "price": 899,
+      "competitorPrices": "849, 899, 949",
+      "position": 5,
+      "status": "tracking"
+    }
+  ]
+}
