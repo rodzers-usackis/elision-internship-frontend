@@ -11,7 +11,6 @@ import {registerUser} from '<components>/services/API';
 import {useContext, useEffect, useState} from 'react';
 import FormContext from '<components>/context/register/RegistrationFormContext';
 import {User} from '../../model/User';
-import {useState} from "react";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 

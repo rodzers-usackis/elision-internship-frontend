@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
 import {useContext, useEffect, useRef, useState} from "react";
-import LoginContext from "../../context/login/AuthenticationContext";
+import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import {useRouter} from "next/router";
 import AuthenticationRequest from "../../types/AuthenticationRequest";
 
@@ -13,7 +13,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ email: "", password: "" });
-    const {isAuthenticated, login} = useContext(LoginContext);
+    const {isAuthenticated, login} = useContext(AuthenticationContext);
     const {push: goTo} = useRouter();
 
     const validateEmail = (email: string) => {

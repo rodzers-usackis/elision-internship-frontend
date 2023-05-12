@@ -1,20 +1,27 @@
 import './API'
 import axios from "axios";
 import API_ROUTES from "../../constants/API";
+import {TrackedProduct} from "../../model/TrackedProduct";
+import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
+import {UUID} from "crypto";
 
 
-export async function getTrackedProducts(){
-    const response = await axios.get<ProductData[]>(API_ROUTES.PRODUCTS)
+export async function getTrackedProducts() {
+    const response = await axios.get<TrackedProduct[]>(API_ROUTES.TRACKED_PRODUCTS)
     return response.data
 }
 
 
-
-export async function addTrackedProducts(products : ProductData[]){
-    const response = await axios.post<ProductData[]>(API_ROUTES.PRODUCTS, products)
+export async function addTrackedProducts(products: TrackedProduct[]) {
+    const response = await axios.post<TrackedProduct[]>(API_ROUTES.TRACKED_PRODUCTS, products)
     return response.data
 }
 
-export async function deleteTrackedProducts(products : ProductData[]){
-    return await axios.delete<ProductData[]>(API_ROUTES.PRODUCTS, {data: products})
+export async function deleteTrackedProducts(productIds: UUID[]) {
+    return (await axios.delete<TrackedProduct[]>(API_ROUTES.TRACKED_PRODUCTS, {data: productIds})).data
+}
+
+export async function updateTrackedProduct(product: TrackedProductUpdate) {
+    const response = await axios.patch(API_ROUTES.TRACKED_PRODUCTS, product);
+    return response.data
 }

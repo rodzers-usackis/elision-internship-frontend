@@ -1,7 +1,7 @@
 import {useMutation, UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {deleteTrackedProducts} from "../../services/api/trackedProducts";
+import {updateTrackedProduct} from "../../services/api/trackedProducts";
 import {TrackedProduct} from "../../model/TrackedProduct"
-import {UUID} from "crypto";
+import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 
 
 export function useDeleteTrackedProducts() {
@@ -14,15 +14,20 @@ export function useDeleteTrackedProducts() {
         data: trackedProductsDeleted,
         mutateAsync: deleteTrackedProductsMutation
     } = useMutation({
-        mutationFn: deleteTrackedProducts,
-        onSuccess: (data: any, variables) => {
-            queryClient.setQueryData(['trackedProducts'], (old: TrackedProduct[]) => {
-                return old.filter((trackedProduct: TrackedProduct) => {
-                    return !variables.includes(trackedProduct.id)
+        mutationFn: updateTrackedProduct,
+        onSuccess: (updatedProduct: TrackedProduct) => {
+            queryClient.setQueryData(['trackedProducts'], (oldData: TrackedProduct[]) => {
+                return oldData.map((product) => {
+                    if (product.id === updatedProduct.id) {
+                        return updatedProduct
+                    } else {
+                        return product
+                    }
                 })
             })
+
         }
-    } as UseMutationOptions<TrackedProduct[], Error, UUID[]>);
+    } as UseMutationOptions<TrackedProduct, Error, TrackedProductUpdate>);
 
     return {
         isDeleteTrackedProductsError,

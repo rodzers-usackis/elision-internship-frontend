@@ -6,9 +6,33 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import * as React from "react";
+import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTrackedProducts";
+import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
+import {useMutation} from "@tanstack/react-query/src/useMutation";
+import {deleteTrackedProducts} from "../../../services/api/trackedProducts";
+import {EditProductModal} from "../EditProductModal";
+import {useState} from "react";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const {numSelected} = props;
+    const {
+        deleteTrackedProductsMutation,
+        isDeleteTrackedProductsError,
+        isDeleteTrackedProductsLoading
+    } = useDeleteTrackedProducts()
+    const {numSelected, selected} = props;
+    const [editModalOpen, setEditModalOpen] = useState(false);
+
+    function handleDelete() {
+        deleteTrackedProductsMutation(selected.map(product => product.id));
+    }
+
+    function onEditClick() {
+        setEditModalOpen(true);
+    }
+
+    function onEditModalClose() {
+        setEditModalOpen(false);
+    }
 
     return (
         <Toolbar
@@ -43,12 +67,12 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             {numSelected === 1 ? (
                 <>
                     <Tooltip title="Edit Product">
-                        <IconButton size="large">
+                        <IconButton size="large" onClick={onEditClick}>
                             <EditIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Product">
-                        <IconButton size="large">
+                        <IconButton onClick={handleDelete} size="large">
                             <DeleteIcon/>
                         </IconButton>
                     </Tooltip>
@@ -56,7 +80,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             ) : (
                 numSelected > 1 ? (
                     <Tooltip title="Delete Selected Products">
-                        <IconButton size="large">
+                        <IconButton onClick={handleDelete} size="large">
                             <DeleteIcon/>
                         </IconButton>
                     </Tooltip>
@@ -68,6 +92,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
                 )
             )}
+            {selected.length === 1 ? <EditProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
         </Toolbar>
     );
 }

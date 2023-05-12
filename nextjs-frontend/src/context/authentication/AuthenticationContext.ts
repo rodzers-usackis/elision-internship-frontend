@@ -2,10 +2,11 @@ import { createContext } from 'react'
 import AuthenticationRequest from "../../types/AuthenticationRequest";
 
 export interface IAuthenticationContext {
-    isAuthenticated: () => boolean
-    loggedInUser: string | null
-    login: (credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) => void
-    logout: () => void
+    isAuthenticated: () => boolean;
+    loggedInUser: string | null;
+    login: (credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) => void;
+    logout: () => void;
+    logBackInWithToken:()=>void;
 }
 
 export default createContext<IAuthenticationContext>({
@@ -13,5 +14,6 @@ export default createContext<IAuthenticationContext>({
     loggedInUser: null,
     login: (val) => {},
     logout: () => {},
+    logBackInWithToken: () => {}
 })
 

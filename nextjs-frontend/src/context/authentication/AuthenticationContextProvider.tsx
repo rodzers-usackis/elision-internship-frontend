@@ -5,7 +5,7 @@ import {decodeToken, isExpired} from "react-jwt";
 import AuthenticationRequest from "../../types/AuthenticationRequest";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import AuthenticationResponse from "../../types/AuthenticationResponse";
-import LoginContext from "./AuthenticationContext";
+import AuthenticationContext from "./AuthenticationContext";
 import {Alert, CircularProgress} from "@mui/material";
 import {fetchUserInfo} from "../../services/api/users";
 
@@ -16,8 +16,8 @@ interface IWithChildren {
 export default function AuthenticationContextProvider({children}: IWithChildren) {
 
 
-    const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage('accessToken')
     const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
+    const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage('accessToken')
     const {
         data: authenticationResponse,
         mutateAsync: mutateLoggingInAsync,
@@ -35,15 +35,14 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
     }, [accessToken])
 
     useEffect(() => {
-        if(!!user){
+        if (!!user) {
             setLoggedInUser(JSON.stringify(user))
         }
     }, [user])
 
-    if (isLoadingAuthentication) return <CircularProgress/>
-
 
     function isAuthenticated() {
+        console.log(!isExpired(accessToken), 'access token', accessToken)
         return !isExpired(accessToken)
     }
 
@@ -66,17 +65,22 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         removeLoggedInUser()
     }
 
+    function logBackInWithToken() {
+
+    }
+
     return (
-        <LoginContext.Provider
+        <AuthenticationContext.Provider
             value={{
                 isAuthenticated,
                 loggedInUser,
                 login,
                 logout,
+                isLoadingAuthentication,
             }}
         >
             {children}
-        </LoginContext.Provider>
+        </AuthenticationContext.Provider>
     )
 
 

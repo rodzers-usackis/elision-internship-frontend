@@ -1,13 +1,10 @@
 import {UUID} from "crypto";
+import {Product} from "./Product";
 
-interface ProductData {
+export interface TrackedProduct {
     id: UUID;
-    name: string;
-    ean: number,
-    brand: string;
-    cost: number;
-    price: number;
-    competitorPrices: string;
-    position: number,
-    status: string
+    productPurchaseCost: number;
+    productSellPrice: number;
+    product: Product;
+    tracked: boolean;
 }
