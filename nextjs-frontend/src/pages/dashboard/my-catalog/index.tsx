@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useMemo, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/MyCatalog.module.css'
@@ -82,6 +82,10 @@ export default function MyCatalog() {
         isTrackedProductsLoading
     } = useTrackedProducts<TrackedProduct>();
 
+    useEffect(() => {
+        setSelected([])
+    }, [rows])
+
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -129,7 +133,7 @@ export default function MyCatalog() {
 
     const isSelected = (product: TrackedProduct) => selected.includes(product);
 
-    // Avoid a layout jump when reaching the last page with empty rows.
+// Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -149,7 +153,6 @@ export default function MyCatalog() {
 
     return (
         <>
-            {console.log(visibleRows)}
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={5}>
                 <Grid item style={{flex: 0}}>
                     <DashboardDrawer/>
@@ -176,7 +179,7 @@ export default function MyCatalog() {
 
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar selected={selected} numSelected={selected.length}/>
+                            <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}

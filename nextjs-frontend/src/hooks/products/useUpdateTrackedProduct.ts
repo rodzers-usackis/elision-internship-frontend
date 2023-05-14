@@ -4,15 +4,15 @@ import {TrackedProduct} from "../../model/TrackedProduct"
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 
 
-export function useDeleteTrackedProducts() {
+export function useUpdateTrackedProduct() {
 
     const queryClient = useQueryClient()
 
     const {
-        isError: isDeleteTrackedProductsError,
-        isLoading: isDeleteTrackedProductsLoading,
-        data: trackedProductsDeleted,
-        mutateAsync: deleteTrackedProductsMutation
+        isError: isUpdateTrackedProductError,
+        isLoading: isUpdateTrackedProductLoading,
+        data: trackedProductUpdated,
+        mutateAsync: updateTrackedProductMutation
     } = useMutation({
         mutationFn: updateTrackedProduct,
         onSuccess: (updatedProduct: TrackedProduct) => {
@@ -30,9 +30,9 @@ export function useDeleteTrackedProducts() {
     } as UseMutationOptions<TrackedProduct, Error, TrackedProductUpdate>);
 
     return {
-        isDeleteTrackedProductsError,
-        isDeleteTrackedProductsLoading,
-        trackedProductsDeleted,
-        deleteTrackedProductsMutation
+        isUpdateTrackedProductError,
+        isUpdateTrackedProductLoading,
+        trackedProductUpdated,
+        updateTrackedProductMutation
     }
 }

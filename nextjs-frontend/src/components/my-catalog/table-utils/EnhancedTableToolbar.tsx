@@ -10,8 +10,9 @@ import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTracked
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
 import {useMutation} from "@tanstack/react-query/src/useMutation";
 import {deleteTrackedProducts} from "../../../services/api/trackedProducts";
-import {EditProductModal} from "../EditProductModal";
-import {useState} from "react";
+import {EditTrackedProductModal} from "../EditTrackedProductModal";
+import {useEffect, useState} from "react";
+import {AddTrackedProductModal} from "../AddTrackedProductModal";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {
@@ -21,6 +22,8 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     } = useDeleteTrackedProducts()
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const [addModalOpen, setAddModalOpen] = useState(false);
+
 
     function handleDelete() {
         deleteTrackedProductsMutation(selected.map(product => product.id));
@@ -32,6 +35,14 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
     function onEditModalClose() {
         setEditModalOpen(false);
+    }
+
+    function onAddClick() {
+        setAddModalOpen(true);
+    }
+
+    function onAddModalClose() {
+        setAddModalOpen(false);
     }
 
     return (
@@ -86,13 +97,16 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
                 ) : (
                     <Tooltip title="Add Product">
-                        <IconButton size="large">
+                        <IconButton size="large" onClick={onAddClick}>
                             <AddBoxIcon/>
                         </IconButton>
                     </Tooltip>
                 )
             )}
-            {selected.length === 1 ? <EditProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
+            {selected.length === 1 && editModalOpen ?
+                <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
+            {addModalOpen ? <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
+
         </Toolbar>
     );
 }
