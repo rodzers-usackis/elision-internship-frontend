@@ -29,8 +29,8 @@ interface AddProductModalProps {
 const productUpdateSchema = z.object({
     ean: z.string(),
     manufacturerCode: z.string(),
-    productPurchaseCost: z.number().or(z.string().regex(/^\d*\.?\d+$/).min(1, "Purchase cost must be greater than 0.").transform(value => parseFloat(value))),
-    productSellPrice: z.number().or(z.string().regex(/^\d*\.?\d+$/).min(1, "Sell price must be greater than 0.").transform(value => parseFloat(value))),
+    productPurchaseCost: z.number().positive("Purchase cost has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Purchase cost must be greater than 0.").transform(value => parseFloat(value))),
+    productSellPrice: z.number().positive("Sell price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Sell price must be greater than 0.").transform(value => parseFloat(value))),
 })
 
 export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
@@ -129,7 +129,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
     }
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
             {success ? <SuccessMessage/> : <Form/>}
         </Modal>
     )

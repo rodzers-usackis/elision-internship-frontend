@@ -27,8 +27,8 @@ interface EditProductModalProps {
 
 const productUpdateSchema = z.object({
     isTracked: z.boolean(),
-    productPurchaseCost: z.number().or(z.string().regex(/^\d*\.?\d+$/).min(1, "Purchase cost must be greater than 0.").transform(value => parseFloat(value))),
-    productSellPrice: z.number().or(z.string().regex(/^\d*\.?\d+$/).min(1, "Sell price must be greater than 0.").transform(value => parseFloat(value))),
+    productPurchaseCost: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
+    productSellPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
 });
 
 export function EditTrackedProductModal({open, onClose, product}: EditProductModalProps) {
@@ -129,7 +129,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
     }
 
     return (
-        <Modal open={open} onClose={onClose} >
+        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose} >
             {success ? <SuccessMessage/> : <Form/>}
         </Modal>)
 }
