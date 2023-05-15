@@ -51,8 +51,9 @@ const validatePassword = (password: string) => {
 export default function Register() {
     const router = useRouter();
 
+    // Steps for registration form
     const MAX_STEP = 3;
-    const [currentStep, setCurrentStep] = React.useState(1);
+    const [currentStep, setCurrentStep] = useState(1);
 
     // States from RegistrationFormContextProvider
     const {firstName, setFirstName} = useContext(FormContext);
@@ -70,7 +71,7 @@ export default function Register() {
         password: password
     }
 
-    const handleSubmit = (event: any) => {
+const handleSubmit = (event: any) => {
         event.preventDefault();
 
         let newErrors = {
