@@ -7,9 +7,10 @@ import CompanyInformationForm from '../../components/register/CompanyInformation
 import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
-import {registerUser} from '../../services/API';
-import {useContext, useState} from 'react';
+import {registerUser} from '../../services/api/authentication';
+import {useContext, useEffect, useState} from 'react';
 import FormContext from '../../context/register/RegistrationFormContext';
+import {User} from '../../model/User';
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 

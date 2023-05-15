@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
 import {useContext, useEffect, useRef, useState} from "react";
-import LoginContext from "../../context/login/AuthenticationContext";
+import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import {useRouter} from "next/router";
 import AuthenticationRequest from "../../types/AuthenticationRequest";
 
@@ -12,8 +12,8 @@ import AuthenticationRequest from "../../types/AuthenticationRequest";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({email: "", password: ""});
-    const {isAuthenticated, login} = useContext(LoginContext);
+    const [errors, setErrors] = useState({ email: "", password: "" });
+    const {isAuthenticated, login} = useContext(AuthenticationContext);
     const {push: goTo} = useRouter();
 
     const validateEmail = (email: string) => {
@@ -26,9 +26,9 @@ export default function Login() {
         const isValidEmail = validateEmail(email);
 
         if (!isValidEmail) {
-            setErrors({...errors, email: "Please enter a valid email address"});
+            setErrors({ ...errors, email: "Please enter a valid email address" });
         } else {
-            setErrors({...errors, email: ""})
+            setErrors({ ...errors, email: "" })
             // submit form
             handleLogin();
         }
@@ -47,7 +47,7 @@ export default function Login() {
                 marginTop: "5rem",
                 gap: "1rem",
             }}><Typography variant={"h5"}>You are logged in</Typography>
-                <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/dashboard"}>Go to dashboard</Link></Button>
+                <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/dashboard/my-catalog"}>Go to dashboard</Link></Button>
             </div>
         )
     }

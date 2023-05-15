@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/DashboardCatalog.module.css'
-import {ChangeEvent, useMemo, useState} from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,69 +21,80 @@ import {getComparator, Order} from "../../../components/my-catalog/table-sorting
 import {stableSort} from "../../../components/my-catalog/table-sorting-functions/stableSort";
 import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
+import {TrackedProduct} from "../../../model/TrackedProduct";
+import {UUID, randomUUID} from "crypto";
+import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
+import {Product} from "../../../model/Product";
+import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
+import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
 
-function createData(
-    name: string,
-    ean: number,
-    brand: string,
-    cost: number,
-    price: number,
-    competitorPrices: string,
-    position: number,
-    status: string
-): ProductData {
-    return {
-        name,
-        ean,
-        brand,
-        cost,
-        price,
-        competitorPrices,
-        position,
-        status
-    };
-}
 
-const rows = [
-    createData('Iphone 14 Pro 128 GB', 194253401179, 'Apple', 799.00, 1499.00, 'Show', 2, 'Active'),
-    createData('Iphone 14 Pro 256 GB', 194253401180, 'Apple', 899.00, 1599.00, 'Show', 2, 'Active'),
-    createData('Samsung Galaxy S22 128 GB', 194253401181, 'Samsung', 699.00, 1199.00, 'Show', 1, 'Inactive'),
-    createData('Samsung Galaxy S22 256 GB', 194253401182, 'Samsung', 799.00, 1299.00, 'Show', 1, 'Active'),
-    createData('Google Pixel 6 128 GB', 194253401183, 'Google', 699.00, 1099.00, 'Show', 2, 'Active'),
-    createData('Google Pixel 6 256 GB', 194253401184, 'Google', 799.00, 1199.00, 'Show', 2, 'Active'),
-    createData('OnePlus 10 Pro 128 GB', 194253401185, 'OnePlus', 899.00, 1399.00, 'Show', 2, 'Active'),
-    createData('OnePlus 10 Pro 256 GB', 194253401186, 'OnePlus', 999.00, 1499.00, 'Show', 2, 'Active'),
-    createData('Xiaomi Mi 12 128 GB', 194253401187, 'Xiaomi', 599.00, 999.00, 'Show', 1, 'Active'),
-    createData('Xiaomi Mi 12 256 GB', 194253401188, 'Xiaomi', 699.00, 1099.00, 'Show', 1, 'Active'),
-    createData('Sony Xperia 5 III 128 GB', 194253401189, 'Sony', 799.00, 1299.00, 'Show', 2, 'Active'),
-    createData('Sony Xperia 5 III 256 GB', 194253401190, 'Sony', 899.00, 1399.00, 'Show', 2, 'Active'),
-    createData('LG V80 ThinQ 128 GB', 194253401191, 'LG', 599.00, 999.00, 'Show', 1, 'Active'),
-    createData('LG V80 ThinQ 256 GB', 194253401192, 'LG', 699.00, 1099.00, 'Show', 1, 'Active'),
-    createData('Motorola Moto G99 128 GB', 194253401193, 'Motorola', 399.00, 699.00, 'Show', 1, 'Active'),
-    createData('Motorola Moto G99 256 GB', 194253401194, 'Motorola', 499.00, 799.00, 'Show', 1, 'Active'),
-];
+//
+// function createData(
+//     id: UUID,
+//     name: string,
+//     ean: number,
+//     brand: string,
+//     cost: number,
+//     price: number,
+//     competitorPrices: string,
+//     position: number,
+//     status: string,
+//     isTracked: boolean
+// ): TrackedProduct {
+//     return {
+//         id,
+//         name,
+//         ean,
+//         brand,
+//         cost,
+//         price,
+//         competitorPrices,
+//         position,
+//         status,
+//         isTracked
+//     };
+// }
+
+// const rows = [
+//     createData(randomUUID(), 'Iphone 14 Pro 128 GB', 194253401179, 'Apple', 799.00, 1499.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'Iphone 14 Pro 256 GB', 194253401180, 'Apple', 899.00, 1599.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'Samsung Galaxy S22 128 GB', 194253401181, 'Samsung', 699.00, 1199.00, 'Show', 1, 'Inactive'),
+//     createData(randomUUID(), 'Samsung Galaxy S22 256 GB', 194253401182, 'Samsung', 799.00, 1299.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'Google Pixel 6 128 GB', 194253401183, 'Google', 699.00, 1099.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'Google Pixel 6 256 GB', 194253401184, 'Google', 799.00, 1199.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'OnePlus 10 Pro 128 GB', 194253401185, 'OnePlus', 899.00, 1399.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'OnePlus 10 Pro 256 GB', 194253401186, 'OnePlus', 999.00, 1499.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'Xiaomi Mi 12 128 GB', 194253401187, 'Xiaomi', 599.00, 999.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'Xiaomi Mi 12 256 GB', 194253401188, 'Xiaomi', 699.00, 1099.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'Sony Xperia 5 III 128 GB', 194253401189, 'Sony', 799.00, 1299.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'Sony Xperia 5 III 256 GB', 194253401190, 'Sony', 899.00, 1399.00, 'Show', 2, 'Active'),
+//     createData(randomUUID(), 'LG V80 ThinQ 128 GB', 194253401191, 'LG', 599.00, 999.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'LG V80 ThinQ 256 GB', 194253401192, 'LG', 699.00, 1099.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'Motorola Moto G99 128 GB', 194253401193, 'Motorola', 399.00, 699.00, 'Show', 1, 'Active'),
+//     createData(randomUUID(), 'Motorola Moto G99 256 GB', 194253401194, 'Motorola', 499.00, 799.00, 'Show', 1, 'Active'),
+// ];
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
-    const [orderBy, setOrderBy] = useState<keyof ProductData>('cost');
-    const [selected, setSelected] = useState<readonly string[]>([]);
+    const [orderBy, setOrderBy] = useState<keyof TrackedProduct | keyof Product>('productPurchaseCost');
+    const [selected, setSelected] = useState<TrackedProduct[]>([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const {
+        trackedProducts: rows,
+        isTrackedProductsError,
+        isTrackedProductsLoading
+    } = useTrackedProducts<TrackedProduct>();
 
-    const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
+    useEffect(() => {
+        setSelected([])
+    }, [rows])
 
-    if (isLoadingGetProducts) {
-        return <CircularProgress sx={{display: "block", mt: "10em", mx: "auto"}}/>
-    }
 
-    if (isErrorGetProducts) {
-        return <Alert severity="error">Station could not be loaded</Alert>;
-    }
 
-    if (products!.length == 0) {
-        return <Alert severity="error">No products found</Alert>;
-    }
+
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -97,32 +107,21 @@ export default function MyCatalog() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = products!.map((n) => n.name);
+            const newSelected = rows || [];
             setSelected(newSelected);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected: readonly string[] = [];
+    const handleClick = (event: React.MouseEvent<unknown>, product: TrackedProduct) => {
+        const isAlreadyChecked = selected.includes(product)
 
-        switch (selectedIndex) {
-            case -1:
-                newSelected = newSelected.concat(selected, name);
-                break;
-            case 0:
-                newSelected = newSelected.concat(selected.slice(1));
-                break;
-            case selected.length - 1:
-                newSelected = newSelected.concat(selected.slice(0, -1));
-                break;
-            default:
-                newSelected = newSelected.concat(
-                    selected.slice(0, selectedIndex),
-                    selected.slice(selectedIndex + 1)
-                );
+        let newSelected;
+        if (isAlreadyChecked) {
+            newSelected = selected.filter((selectedProduct) => selectedProduct.id !== product.id)
+        } else {
+            newSelected = [...selected, product]
         }
 
         setSelected(newSelected);
@@ -141,20 +140,25 @@ export default function MyCatalog() {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    const isSelected = (product: TrackedProduct) => selected.includes(product);
 
-    // Avoid a layout jump when reaching the last page with empty rows.
+// Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const visibleRows = useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(rows || [], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, rows],
     );
+
+    if (isTrackedProductsLoading) return <CircularProgress/>;
+
+    if (isTrackedProductsError || !rows) return (<div>Something went wrong</div>);
+
 
     return (
         <>
@@ -168,7 +172,7 @@ export default function MyCatalog() {
                         My Catalog
                     </Typography>
                     <Typography className={styles.dashboardSubtitle}>
-                        Import and manage your products ({products!.length} active) (Last import 9 minutes ago)
+                        Import and manage your products ({rows.length} active) (Last import 9 minutes ago)
                     </Typography>
                     <Grid container sx={{
                         display: 'flex',
@@ -184,7 +188,7 @@ export default function MyCatalog() {
 
                     <Box sx={{width: '100%'}}>
                         <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar numSelected={selected.length}/>
+                            <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
@@ -197,21 +201,21 @@ export default function MyCatalog() {
                                         orderBy={orderBy}
                                         onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={products!.length}
+                                        rowCount={rows.length}
                                     />
                                     <TableBody>
-                                        {products!.map((row, index) => {
-                                            const isItemSelected = isSelected(row.name as string);
+                                        {visibleRows.map((row, index) => {
+                                            const isItemSelected = isSelected(row);
                                             const labelId = `enhanced-table-checkbox-${index}`;
 
                                             return (
                                                 <TableRow
                                                     hover
-                                                    onClick={(event) => handleClick(event, row!.name as string)}
+                                                    onClick={(event) => handleClick(event, row)}
                                                     role="checkbox"
                                                     aria-checked={isItemSelected}
                                                     tabIndex={-1}
-                                                    key={row.name}
+                                                    key={row.id}
                                                     selected={isItemSelected}
                                                     sx={{cursor: 'pointer'}}
                                                 >
@@ -230,16 +234,16 @@ export default function MyCatalog() {
                                                         scope="row"
                                                         padding="none"
                                                     >
-                                                        {row.name}
+                                                        {row.product.name}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.description}</TableCell>
-                                                    <TableCell align="right">{699.00}</TableCell>
-                                                    <TableCell align="right">{1099.00}</TableCell>
-                                                    <TableCell align="right">{'Show'}</TableCell>
-                                                    <TableCell align="right">2/7</TableCell>
+                                                    <TableCell align="right">{row.product.category}</TableCell>
+                                                    <TableCell align="right">{row.productPurchaseCost}</TableCell>
+                                                    <TableCell align="right">{row.productSellPrice}</TableCell>
+                                                    <TableCell align="right">{row.product.ean}</TableCell>
+                                                    <TableCell align="right">{row.product.manufacturerCode}</TableCell>
                                                     <TableCell align="right"
-                                                               style={{color: 'Active' === 'Active' ? 'green' : 'red'}}>
-                                                        'Active'
+                                                               style={{color: row.tracked ? 'green' : 'red'}}>
+                                                        {row.tracked ? 'Tracked' : 'Not tracked'}
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -259,7 +263,7 @@ export default function MyCatalog() {
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 50]}
                                 component="div"
-                                count={products!.length}
+                                count={rows.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
