@@ -1,11 +1,7 @@
 import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-import {Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
-import styles from '../../../styles/MyCatalog.module.css'
-import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/DashboardCatalog.module.css'
-import {ChangeEvent, useMemo, useState} from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,6 +27,7 @@ import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import {Product} from "../../../model/Product";
 import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
 import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
+
 
 //
 // function createData(
@@ -96,19 +93,8 @@ export default function MyCatalog() {
     }, [rows])
 
 
-    const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
 
-    if (isLoadingGetProducts) {
-        return <CircularProgress sx={{display: "block", mt: "10em", mx: "auto"}}/>
-    }
 
-    if (isErrorGetProducts) {
-        return <Alert severity="error">Station could not be loaded</Alert>;
-    }
-
-    if (products!.length == 0) {
-        return <Alert severity="error">No products found</Alert>;
-    }
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,

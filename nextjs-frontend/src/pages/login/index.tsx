@@ -47,7 +47,7 @@ export default function Login() {
                 marginTop: "5rem",
                 gap: "1rem",
             }}><Typography variant={"h5"}>You are logged in</Typography>
-                <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/dashboard"}>Go to dashboard</Link></Button>
+                <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/dashboard/my-catalog"}>Go to dashboard</Link></Button>
             </div>
         )
     }
