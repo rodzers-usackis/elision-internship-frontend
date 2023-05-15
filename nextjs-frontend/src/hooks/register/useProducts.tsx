@@ -1,4 +1,4 @@
-import {getProducts} from "<components>/services/API";
+import {getTrackedProducts} from "../../services/API";
 import {useQuery} from "react-query";
 
 export function useProducts() {
@@ -9,7 +9,7 @@ export function useProducts() {
         data: products
     } = useQuery( {
         queryKey: ['products'],
-        queryFn: () => getProducts()
+        queryFn: () => getTrackedProducts()
     })
 
     return {

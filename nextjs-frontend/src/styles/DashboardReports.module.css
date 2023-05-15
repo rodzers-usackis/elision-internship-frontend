@@ -1,4 +1,30 @@
+.dashboardTitle {
+    font-size: 2rem;
+}
+
+.dashboardSubtitle {
+    font-size: 1rem;
+    padding-bottom: 1rem;
+}
+
+.actionShelf {
+    padding: 0 0 1rem 0;
+}
+
 .lineChart {
-    height: 60vh;
     width: 100%;
+    height: 70%;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.drawerWrapper {
+    width: 328px;
+    height: 100vh;
+}
+
+.mainContentWrapper {
+    width: calc(100% - 328px);
+    padding: 30px;
 }

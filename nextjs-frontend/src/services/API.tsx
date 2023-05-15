@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { User } from '../model/User'
 import { ApiResponse } from '../model/ApiResponse'
-import {Product} from "<components>/model/Product";
+import {Product} from "../model/Product";
 
 // Defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -15,7 +15,7 @@ const API_URL = '/api/'
 
 export async function registerUser(user: User): Promise<ApiResponse> {
     try {
-        const response = await backendURL.post(API_URL + '/auth/register', user)
+        const response = await backendURL.post(API_URL + 'auth/register', user)
 
         return {
             status: response.status,
@@ -29,11 +29,10 @@ export async function registerUser(user: User): Promise<ApiResponse> {
     }
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getTrackedProducts(): Promise<Product[]> {
     try {
         const response = await backendURL.get(API_URL + 'products')
 
-        console.log('te response', response.data)
         return response.data
     } catch (error: any) {
         // handle errors

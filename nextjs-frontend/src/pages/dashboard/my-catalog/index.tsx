@@ -1,5 +1,5 @@
 import * as React from 'react';
-import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
+import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import {visuallyHidden} from '@mui/utils';
-import {useProducts} from "<components>/hooks/register/useProducts";
+import {useProducts} from "../../../hooks/register/useProducts";
 
 interface Data {
     name: string;
