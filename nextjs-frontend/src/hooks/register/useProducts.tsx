@@ -1,5 +1,5 @@
 import {getTrackedProducts} from "../../services/API";
-import {useQuery} from "react-query";
+import {useQuery} from "@tanstack/react-query";
 
 export function useProducts() {
 
