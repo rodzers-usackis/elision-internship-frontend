@@ -31,9 +31,10 @@ const productUpdateSchema = z.object({
     productSellPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
 });
 
+
+
 export function EditTrackedProductModal({open, onClose, product}: EditProductModalProps) {
 
-    const {isTrackedSwitch, setIsTrackedSwitch} = useState(product.tracked)
     const [submissionError, setSubmissionError] = useState(false)
     const [success, setSuccess] = useState(false)
     const {updateTrackedProductMutation} = useUpdateTrackedProduct();
@@ -51,9 +52,6 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
 
     const {errors, isLoading} = formState;
 
-    function handleSwitchChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setIsTrackedSwitch(e.target.checked)
-    }
 
     function handleProductUpdateSubmit() {
         console.log(watch())
@@ -106,8 +104,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
             <FormControlLabel
                 control={
                     <Switch
-                        checked={isTrackedSwitch}
-                        onChange={handleSwitchChange}
+                        checked={watch('isTracked')}
                         id="isTracked"
                         {...register('isTracked')}
                     />
