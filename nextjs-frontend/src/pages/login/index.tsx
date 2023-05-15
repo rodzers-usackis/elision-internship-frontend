@@ -12,7 +12,7 @@ import AuthenticationRequest from "../../types/AuthenticationRequest";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({ email: "", password: "" });
+    const [errors, setErrors] = useState({email: "", password: ""});
     const {isAuthenticated, login} = useContext(LoginContext);
     const {push: goTo} = useRouter();
 
@@ -26,9 +26,9 @@ export default function Login() {
         const isValidEmail = validateEmail(email);
 
         if (!isValidEmail) {
-            setErrors({ ...errors, email: "Please enter a valid email address" });
+            setErrors({...errors, email: "Please enter a valid email address"});
         } else {
-            setErrors({ ...errors, email: "" })
+            setErrors({...errors, email: ""})
             // submit form
             handleLogin();
         }
@@ -36,14 +36,27 @@ export default function Login() {
 
 
     if (isAuthenticated()) {
-        goTo('/');
+        return (
+            <div style={{
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "auto",
+                marginTop: "5rem",
+                gap: "1rem",
+            }}><Typography variant={"h5"}>You are logged in</Typography>
+                <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/dashboard"}>Go to dashboard</Link></Button>
+            </div>
+        )
     }
 
 
     function handleLogin() {
         login({
                 email: email,
-            password: password
+                password: password
             } as AuthenticationRequest,
             onLoggingInSuccess,
             onLoggingInError);
@@ -52,7 +65,7 @@ export default function Login() {
     function onLoggingInSuccess() {
         //TODO: show something to the user
         console.log('Logged in!')
-        goTo('/');
+        // goTo('/');
     }
 
     function onLoggingInError() {
@@ -160,7 +173,7 @@ export default function Login() {
                             >
                                 <FormGroup>
 
-                                    <FormControlLabel control={<Checkbox />} label="Remember me"/>
+                                    <FormControlLabel control={<Checkbox/>} label="Remember me"/>
 
                                 </FormGroup>
                             </Grid>
