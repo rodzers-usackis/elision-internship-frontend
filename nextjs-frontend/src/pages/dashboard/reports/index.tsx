@@ -2,7 +2,7 @@ import * as React from "react";
 
 // Component Imports
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-import {Divider, Grid, MenuItem, TextField, Typography} from "@mui/material";
+import {Button, Divider, Grid, MenuItem, TextField, Typography} from "@mui/material";
 
 // Styling Imports
 import styles from "../../../styles/DashboardReports.module.css";
@@ -12,8 +12,11 @@ import {useProducts} from "../../../hooks/register/useProducts";
 import {Product} from "../../../model/Product";
 
 // Misc Imports
-import * as faker from '@faker-js/faker';
 import {PricingHistoryGraph} from "../../../components/reports/PricingHistoryGraph";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 
 
 export default function Reports() {
@@ -46,9 +49,10 @@ export default function Reports() {
                     <Grid container sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        alignContent: 'start',
                     }}>
-                        <Grid item xs={4} className={styles.actionShelf}>
+                        <Grid item xs={3} className={styles.actionShelf}>
                             <TextField
                                 id="outlined-select-report-type"
                                 select
@@ -64,7 +68,7 @@ export default function Reports() {
                             </TextField>
                         </Grid>
 
-                        <Grid item xs={4} className={styles.actionShelf}>
+                        <Grid item xs={3} className={styles.actionShelf}>
                             <TextField
                                 id="outlined-select-product"
                                 select
@@ -78,6 +82,16 @@ export default function Reports() {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                        </Grid>
+
+                        <Grid item xs={3} className={styles.actionShelf}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateRangePicker slots={{ field: SingleInputDateRangeField }} sx={{width: '100%'}} />
+                            </LocalizationProvider>
+                        </Grid>
+
+                        <Grid item xs={1} className={styles.actionShelf}>
+                            <Button variant={'contained'}>Apply</Button>
                         </Grid>
                     </Grid>
 
