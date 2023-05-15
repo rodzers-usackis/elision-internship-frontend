@@ -1,7 +1,7 @@
 import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import * as React from "react";
 import {ReactNode, useContext} from "react";
-import FormContext from "<components>/context/register/RegistrationFormContext";
+import FormContext from "../../context/register/RegistrationFormContext";
 
 const productCategories = [
     "Apparel and accessories",

@@ -1,10 +1,10 @@
-import styles from "<components>/styles/Register.module.css";
+import styles from "../../styles/Register.module.css";
 import {
     Grid,
     TextField,
 } from "@mui/material";
 import * as React from "react";
-import FormContext from "<components>/context/register/RegistrationFormContext";
+import FormContext from "../../context/register/RegistrationFormContext";
 import {useContext} from "react";
 
 

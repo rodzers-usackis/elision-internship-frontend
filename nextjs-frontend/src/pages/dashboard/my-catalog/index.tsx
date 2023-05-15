@@ -2,6 +2,10 @@ import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "reac
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import styles from '../../../styles/MyCatalog.module.css'
+import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
+import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
+import styles from '../../../styles/DashboardCatalog.module.css'
+import {ChangeEvent, useMemo, useState} from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +16,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import EditIcon from '@mui/icons-material/Edit';
+import {visuallyHidden} from '@mui/utils';
+import {useProducts} from "../../../hooks/register/useProducts";
 import {getComparator, Order} from "../../../components/my-catalog/table-sorting-functions/getComparator";
 import {stableSort} from "../../../components/my-catalog/table-sorting-functions/stableSort";
 import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
@@ -87,6 +96,20 @@ export default function MyCatalog() {
     }, [rows])
 
 
+    const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
+
+    if (isLoadingGetProducts) {
+        return <CircularProgress sx={{display: "block", mt: "10em", mx: "auto"}}/>
+    }
+
+    if (isErrorGetProducts) {
+        return <Alert severity="error">Station could not be loaded</Alert>;
+    }
+
+    if (products!.length == 0) {
+        return <Alert severity="error">No products found</Alert>;
+    }
+
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
         property: keyof ProductData,
@@ -153,7 +176,7 @@ export default function MyCatalog() {
 
     return (
         <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={5}>
+            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
                 <Grid item style={{flex: 0}}>
                     <DashboardDrawer/>
                 </Grid>
