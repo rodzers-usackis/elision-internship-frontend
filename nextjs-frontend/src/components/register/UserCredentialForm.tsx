@@ -7,7 +7,7 @@ import {
     Typography,
 } from "@mui/material";
 import * as React from "react";
-import FormContext from "<components>/context/register/RegistrationFormContext";
+import FormContext from "../../context/register/RegistrationFormContext";
 import {useContext} from "react";
 import Link from "next/link";
 import styles from "<components>/styles/Register.module.css";
@@ -18,6 +18,7 @@ export default function UserCredentialForm() {
     const {lastName, setLastName} = useContext(FormContext);
     const {emailAddress, setEmailAddress} = useContext(FormContext);
     const {password, setPassword} = useContext(FormContext);
+    const {errors} = useContext(FormContext);
 
     return (
         <>

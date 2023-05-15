@@ -7,9 +7,9 @@ import CompanyInformationForm from '../../components/register/CompanyInformation
 import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
-import {registerUser} from '<components>/services/API';
+import {registerUser} from '../../services/api/authentication';
 import {useContext, useEffect, useState} from 'react';
-import FormContext from '<components>/context/register/RegistrationFormContext';
+import FormContext from '../../context/register/RegistrationFormContext';
 import {User} from '../../model/User';
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
@@ -70,7 +70,7 @@ export default function Register() {
     const {password, setPassword} = useContext(FormContext);
 
     // Updating state of errors
-    const {setErrors} = useContext(FormContext);
+    const {setErrors, errors} = useContext(FormContext);
 
     useEffect(() => {
         // Validate firstName

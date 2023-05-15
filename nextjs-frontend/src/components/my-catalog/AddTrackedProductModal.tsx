@@ -76,7 +76,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
             margin: "3rem",
             padding: "2rem"
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
-            <Typography variant={"h5"}>Added a product to track</Typography>
+            <Typography variant={"h5"}>Add a product to track</Typography>
 
             <TextField type={"number"}
                        error={!!errors.productPurchaseCost}
@@ -116,7 +116,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
             <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}}>Save</Button>
             {isLoading ? <CircularProgress/> : ''}
             {submissionError ?
-                <Alert variant={"filled"} severity={"error"}> Error updating the product.</Alert> : ''}
+                <Alert variant={"filled"} severity={"error"}> Error adding the product.</Alert> : ''}
         </form>)
     }
 

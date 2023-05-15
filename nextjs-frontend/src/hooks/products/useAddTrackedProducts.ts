@@ -12,15 +12,15 @@ export function useAddTrackedProducts() {
         isError: isAddTrackedProductsError,
         data: trackedProductsAdded,
         mutateAsync: addTrackedProductsMutation
-    } = useMutation<TrackedProduct[], Error, AddedTrackedProduct>({
+    } = useMutation<TrackedProduct, Error, AddedTrackedProduct>({
         mutationFn: addTrackedProducts,
         onSuccess: data => {
             queryClient.setQueryData(['trackedProducts'], (oldData: any) => {
-                return [...oldData, ...data]
+                return [...oldData, data]
             })
 
         }
-    } as UseMutationOptions<TrackedProduct[], Error, AddedTrackedProduct>)
+    } as UseMutationOptions<TrackedProduct, Error, AddedTrackedProduct>)
 
     return {isAddTrackedProductsError, isAddTrackedProductsLoading, trackedProductsAdded, addTrackedProductsMutation}
 }
