@@ -2,7 +2,7 @@ import * as React from "react";
 import {Button, Divider, Drawer, Grid, Typography} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import {DashboardDrawerItems} from "<components>/components/dashboard-drawer/DashboardDrawerItems";
+import {DashboardDrawerItems} from "../../components/dashboard-drawer/DashboardDrawerItems";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -12,8 +12,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
+import styles from '../../styles/DashboardDrawer.module.css'
 import {useState} from "react";
-import styles from '<components>/styles/DashboardDrawer.module.css'
 
 
 export default function DashboardDrawer() {

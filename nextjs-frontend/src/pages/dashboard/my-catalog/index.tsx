@@ -1,7 +1,8 @@
-import React, {ChangeEvent, useMemo, useState} from "react";
-import DashboardDrawer from "<components>/components/dashboard-drawer/DashboardDrawer";
-import {Checkbox, Divider, Grid, TextField, Typography} from "@mui/material";
-import styles from '../../../styles/MyCatalog.module.css'
+import * as React from 'react';
+import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
+import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
+import styles from '../../../styles/DashboardCatalog.module.css'
+import {ChangeEvent, useMemo, useState} from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,11 +13,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import {getComparator, Order} from "<components>/components/my-catalog/table-sorting-functions/getComparator";
-import {stableSort} from "<components>/components/my-catalog/table-sorting-functions/stableSort";
-import {EnhancedTableToolbar} from "<components>/components/my-catalog/table-utils/EnhancedTableToolbar";
-import {EnhancedTableHead} from "<components>/components/my-catalog/table-utils/EnhancedTableHead";
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import EditIcon from '@mui/icons-material/Edit';
+import {visuallyHidden} from '@mui/utils';
+import {useProducts} from "../../../hooks/register/useProducts";
+import {getComparator, Order} from "../../../components/my-catalog/table-sorting-functions/getComparator";
+import {stableSort} from "../../../components/my-catalog/table-sorting-functions/stableSort";
+import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
+import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 
 function createData(
     name: string,
@@ -67,6 +72,20 @@ export default function MyCatalog() {
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
+    const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
+
+    if (isLoadingGetProducts) {
+        return <CircularProgress sx={{display: "block", mt: "10em", mx: "auto"}}/>
+    }
+
+    if (isErrorGetProducts) {
+        return <Alert severity="error">Station could not be loaded</Alert>;
+    }
+
+    if (products!.length == 0) {
+        return <Alert severity="error">No products found</Alert>;
+    }
+
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
         property: keyof ProductData,
@@ -78,7 +97,7 @@ export default function MyCatalog() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.name);
+            const newSelected = products!.map((n) => n.name);
             setSelected(newSelected);
             return;
         }
@@ -137,10 +156,9 @@ export default function MyCatalog() {
         [order, orderBy, page, rowsPerPage],
     );
 
-
     return (
         <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={5}>
+            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
                 <Grid item style={{flex: 0}}>
                     <DashboardDrawer/>
                 </Grid>
@@ -150,7 +168,7 @@ export default function MyCatalog() {
                         My Catalog
                     </Typography>
                     <Typography className={styles.dashboardSubtitle}>
-                        Import and manage your products ({rows.length} active) (Last import 9 minutes ago)
+                        Import and manage your products ({products!.length} active) (Last import 9 minutes ago)
                     </Typography>
                     <Grid container sx={{
                         display: 'flex',
@@ -179,17 +197,17 @@ export default function MyCatalog() {
                                         orderBy={orderBy}
                                         onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
+                                        rowCount={products!.length}
                                     />
                                     <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            const isItemSelected = isSelected(row.name);
+                                        {products!.map((row, index) => {
+                                            const isItemSelected = isSelected(row.name as string);
                                             const labelId = `enhanced-table-checkbox-${index}`;
 
                                             return (
                                                 <TableRow
                                                     hover
-                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    onClick={(event) => handleClick(event, row!.name as string)}
                                                     role="checkbox"
                                                     aria-checked={isItemSelected}
                                                     tabIndex={-1}
@@ -214,14 +232,14 @@ export default function MyCatalog() {
                                                     >
                                                         {row.name}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.brand}</TableCell>
-                                                    <TableCell align="right">{row.cost}</TableCell>
-                                                    <TableCell align="right">{row.price}</TableCell>
-                                                    <TableCell align="right">{row.competitorPrices}</TableCell>
-                                                    <TableCell align="right">{row.position}/7</TableCell>
+                                                    <TableCell align="right">{row.description}</TableCell>
+                                                    <TableCell align="right">{699.00}</TableCell>
+                                                    <TableCell align="right">{1099.00}</TableCell>
+                                                    <TableCell align="right">{'Show'}</TableCell>
+                                                    <TableCell align="right">2/7</TableCell>
                                                     <TableCell align="right"
-                                                               style={{color: row.status === 'Active' ? 'green' : 'red'}}>
-                                                        {row.status}
+                                                               style={{color: 'Active' === 'Active' ? 'green' : 'red'}}>
+                                                        'Active'
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -241,7 +259,7 @@ export default function MyCatalog() {
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 50]}
                                 component="div"
-                                count={rows.length}
+                                count={products!.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}

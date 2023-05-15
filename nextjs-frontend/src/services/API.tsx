@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { User } from '../model/User'
 import { ApiResponse } from '../model/ApiResponse'
+import {Product} from "../model/Product";
 
 // Defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -10,11 +11,11 @@ const backendURL = axios.create({
     baseURL: 'http://localhost:8080',
 });
 
-const AUTHENTICATION_URL = '/api/auth/'
+const API_URL = '/api/'
 
 export async function registerUser(user: User): Promise<ApiResponse> {
     try {
-        const response = await backendURL.post(AUTHENTICATION_URL + 'register', user)
+        const response = await backendURL.post(API_URL + 'auth/register', user)
 
         return {
             status: response.status,
@@ -25,5 +26,18 @@ export async function registerUser(user: User): Promise<ApiResponse> {
             status: error.response.status,
             message: error.response.data
         }
+    }
+}
+
+export async function getTrackedProducts(): Promise<Product[]> {
+    try {
+        const response = await backendURL.get(API_URL + 'products')
+
+        return response.data
+    } catch (error: any) {
+        // handle errors
+        console.log(error)
+
+        return [] as Product[]
     }
 }
