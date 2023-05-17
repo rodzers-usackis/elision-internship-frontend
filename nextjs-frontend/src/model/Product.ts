@@ -6,5 +6,6 @@ export interface Product{
     category: string;
     ean: string;
     manufacturerCode: string;
+    //TODO: delete this field
     isTracked: boolean;
 }
