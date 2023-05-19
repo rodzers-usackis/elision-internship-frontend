@@ -79,8 +79,6 @@ const data = {
     }],
 };
 
-console.log(data)
-
 export function PricingHistoryGraph() {
     return <Line options={options} data={data}></Line>
 }
