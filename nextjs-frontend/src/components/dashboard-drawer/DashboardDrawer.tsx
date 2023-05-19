@@ -29,7 +29,7 @@ export default function DashboardDrawer() {
     return (
         <>
             <Drawer variant={'permanent'} anchor={'left'} sx={{
-                width: drawerWidth,
+                minWidth: drawerWidth,
             }}>
                 <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'}
                       paddingX={2} sx={{height: '100%'}}>
