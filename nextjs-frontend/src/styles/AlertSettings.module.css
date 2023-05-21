@@ -1,0 +1,23 @@
+.alert-settings-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #858585;
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.alert-settings-form {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 75%;
+    padding: 2rem;
+    gap: 2rem;
+}

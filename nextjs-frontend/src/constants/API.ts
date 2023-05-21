@@ -8,6 +8,7 @@ export const API_ROUTES = {
     ME : `${BACKEND_BASEURL}/api/users/me`,
     TRACKED_PRODUCTS : `${BACKEND_BASEURL}/api/client-company/tracked-products`,
     ALERTS: `${BACKEND_BASEURL}/api/alerts`,
+    ALERT_SETTINGS: `${BACKEND_BASEURL}/api/alert-settings`,
 };
 
 export default API_ROUTES;
