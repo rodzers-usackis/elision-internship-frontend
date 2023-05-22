@@ -1,4 +1,4 @@
-import {getTrackedProducts} from "../../services/API";
+import {getTrackedProducts} from "../../services/api/trackedProducts";
 import {useQuery} from "@tanstack/react-query";
 
 export function useProducts() {
@@ -7,7 +7,7 @@ export function useProducts() {
         isLoading: isLoadingGetProducts,
         isError: isErrorGetProducts,
         data: products
-    } = useQuery( {
+    } = useQuery({
         queryKey: ['products'],
         queryFn: () => getTrackedProducts()
     })

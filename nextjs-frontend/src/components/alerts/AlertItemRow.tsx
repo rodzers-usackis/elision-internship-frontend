@@ -1,5 +1,5 @@
 import {Alert} from "../../model/Alert";
-import {Grid, ListItem, TableCell} from "@mui/material";
+import {TableCell} from "@mui/material";
 import {PriceComparisonTypeEnum} from "../../model/PriceComparisonTypeEnum";
 import TableRow from "@mui/material/TableRow";
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -18,7 +18,6 @@ const dateTimeOptions : Intl.DateTimeFormatOptions = {
 }
 
 export function AlertItemRow({alert}: AlertItemProps) {
-
 
     return (
         <TableRow>

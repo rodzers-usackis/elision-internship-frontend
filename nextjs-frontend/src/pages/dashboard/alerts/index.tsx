@@ -4,12 +4,9 @@ import * as React from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import {
     Alert,
-    Button,
     CircularProgress,
     Divider,
     Grid,
-    List,
-    MenuItem,
     TextField,
     Tooltip,
     Typography
@@ -20,24 +17,28 @@ import styles from "../../../styles/DashboardReports.module.css";
 import "../../../styles/AlertList.module.css";
 
 // Hook Imports
-import {useProducts} from "../../../hooks/register/useProducts";
-import {Product} from "../../../model/Product";
+import {setAlertsRead} from "../../../services/api/alerts";
 
 // Misc Imports
-import {PricingHistoryGraph} from "../../../components/reports/PricingHistoryGraph";
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {DateRangePicker} from '@mui/x-date-pickers-pro/DateRangePicker';
-import {SingleInputDateRangeField} from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 import {useAlerts} from "../../../hooks/alerts/useAlerts";
-import {AlertItemRow} from "../../../components/alerts/AlertItemRow";
 import {AlertTable} from "../../../components/alerts/AlertTable";
-
+import {useEffect} from "react";
 
 export default function Alerts() {
 
     const {isAlertsError, alerts, isAlertsLoading} = useAlerts()
 
+    useEffect(() => {
+        const unreadAlerts = alerts?.filter(alert => !alert.read) ?? [];
+
+        if (unreadAlerts.length > 0) {
+            unreadAlerts.forEach(alert => {
+                alert.read = true;
+            })
+
+            setAlertsRead(unreadAlerts);
+        }
+    }, [alerts]);
 
     return (
         <>

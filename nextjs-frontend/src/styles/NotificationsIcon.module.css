@@ -1,0 +1,20 @@
+.notificationBellIcon {
+    position: relative;
+    /* Add styling for your notification bell icon */
+}
+
+.notificationNumber {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    color: white;
+    background-color: red;
+    padding: 2px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px; /* Adjust the width to your desired size */
+    height: 16px; /* Adjust the height to your desired size */
+    border-radius: 50%;
+}
