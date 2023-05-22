@@ -9,7 +9,6 @@ import {useRouter} from "next/router";
 import RouteProtector from "../context/authentication/RouteProtector";
 import RegistrationFormContextProvider from "../context/register/RegistrationFormContextProvider";
 
-
 export default function App({Component, pageProps}: AppProps) {
     const router = useRouter();
     const queryClient = new QueryClient();
@@ -31,10 +30,10 @@ export default function App({Component, pageProps}: AppProps) {
             <AuthenticationContextProvider>
                 <RouteProtector>
                     <ThemeProvider theme={theme}>
-                        {isDashboardPage ? null : <Navbar/>}
-                        {isRegisterPage ?
-                            <RegistrationFormContextProvider><Component {...pageProps}/></RegistrationFormContextProvider> :
-                            <Component {...pageProps}/>}
+                            {isDashboardPage ? null : <Navbar/>}
+                            {isRegisterPage ?
+                                <RegistrationFormContextProvider><Component {...pageProps}/></RegistrationFormContextProvider> :
+                                <Component {...pageProps}/>}
                     </ThemeProvider>
                 </RouteProtector>
             </AuthenticationContextProvider>
