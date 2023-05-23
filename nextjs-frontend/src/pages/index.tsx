@@ -2,10 +2,21 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '../styles/Home.module.css'
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
+import {LogoutSuccessSnackbar} from "../components/logout/LogoutSuccessSnackbar";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const router = useRouter();
+  const [logoutSnackbarOpen, setLogoutSnackbarOpen] = useState(false);
+  useEffect(() => {
+    if (router.query.logout) {
+      setLogoutSnackbarOpen(true);
+    }
+  }, [router]);
+
   return (
     <>
       <Head>
@@ -15,6 +26,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
+        <LogoutSuccessSnackbar open={logoutSnackbarOpen} onClose={()=>{
+          setLogoutSnackbarOpen(false);
+        }} />
         <div className={styles.description}>
           <p>
             Get started by editing &nbsp;
@@ -107,6 +121,7 @@ export default function Home() {
               with&nbsp;Vercel.
             </p>
           </a>
+
         </div>
       </main>
     </>

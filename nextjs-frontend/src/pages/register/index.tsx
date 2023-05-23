@@ -10,7 +10,7 @@ import {useRouter} from 'next/router'
 import {registerUser} from '../../services/api/authentication';
 import {useContext, useEffect, useState} from 'react';
 import FormContext from '../../context/register/RegistrationFormContext';
-import {User} from '../../model/User';
+import {RegisteringUser} from '../../model/RegisteringUser';
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -64,7 +64,7 @@ export default function Register() {
     const {setErrors} = useContext(FormContext);
 
 
-    // User object to be sent to backend
+    // LoggedInUser object to be sent to backend
     const user = {
         firstName: firstName,
         lastName: lastName,
