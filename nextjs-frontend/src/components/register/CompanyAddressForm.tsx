@@ -16,6 +16,8 @@ export default function CompanyAddressForm() {
     const {state, setState} = useContext(FormContext);
     const {zipCode, setZipCode} = useContext(FormContext);
     const {country, setCountry} = useContext(FormContext);
+    const {companyAddressFormFieldErrors} = useContext(FormContext);
+
 
     return (
         <>
@@ -31,6 +33,8 @@ export default function CompanyAddressForm() {
                             placeholder="Street Address"
                             value={streetAddress}
                             onChange={(e) => setStreetAddress(e.target.value)}
+                            error={!!companyAddressFormFieldErrors.streetAddress}
+                            helperText={companyAddressFormFieldErrors.streetAddress}
                             fullWidth={true}
                         />
                     </Grid>
@@ -45,6 +49,8 @@ export default function CompanyAddressForm() {
                             placeholder="Street Nr."
                             value={streetNumber}
                             onChange={(e) => setStreetNumber(e.target.value)}
+                            error={!!companyAddressFormFieldErrors.streetNumber}
+                            helperText={companyAddressFormFieldErrors.streetNumber}
                             fullWidth={true}
                         />
                     </Grid>
@@ -61,6 +67,8 @@ export default function CompanyAddressForm() {
                             placeholder="City"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
+                            error={!!companyAddressFormFieldErrors.city}
+                            helperText={companyAddressFormFieldErrors.city}
                             fullWidth={true}
                         />
                     </Grid>
@@ -90,6 +98,8 @@ export default function CompanyAddressForm() {
                             placeholder="Zip / Postal Code"
                             value={zipCode}
                             onChange={(e) => setZipCode(e.target.value)}
+                            error={!!companyAddressFormFieldErrors.zipCode}
+                            helperText={companyAddressFormFieldErrors.zipCode}
                             fullWidth={true}
                         />
                     </Grid>
@@ -104,6 +114,8 @@ export default function CompanyAddressForm() {
                             placeholder="Country"
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
+                            error={!!companyAddressFormFieldErrors.country}
+                            helperText={companyAddressFormFieldErrors.country}
                             fullWidth={true}
                         />
                     </Grid>

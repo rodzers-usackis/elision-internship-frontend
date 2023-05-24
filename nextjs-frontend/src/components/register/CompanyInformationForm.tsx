@@ -1,35 +1,39 @@
 import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import * as React from "react";
-import {ReactNode, useContext} from "react";
+import {useContext} from "react";
 import FormContext from "../../context/register/RegistrationFormContext";
+import { FormHelperText } from '@mui/material';
 
 const productCategories = [
-    "Apparel and accessories",
-    "Beauty and personal care",
-    "Books and stationery",
-    "Consumer electronics",
-    "Food and beverage",
-    "Furniture and home goods",
-    "Healthcare and wellness",
-    "Jewelry and watches",
-    "Sporting goods",
-    "Toys and games",
-    "Travel and leisure",
-    "Vehicles and automotive",
+    { stringValue: "Apparel and accessories", enumValue: "APPAREL_AND_ACCESSORIES" },
+    { stringValue: "Beauty and personal care", enumValue: "BEAUTY_AND_PERSONAL_CARE" },
+    { stringValue: "Books and stationery", enumValue: "BOOKS_AND_STATIONERY" },
+    { stringValue: "Consumer electronics", enumValue: "CONSUMER_ELECTRONICS" },
+    { stringValue: "Food and beverage", enumValue: "FOOD_AND_BEVERAGE" },
+    { stringValue: "Furniture and home goods", enumValue: "FURNITURE_AND_HOME_GOODS" },
+    { stringValue: "Healthcare and wellness", enumValue: "HEALTHCARE_AND_WELLNESS" },
+    { stringValue: "Jewelry and watches", enumValue: "JEWELRY_AND_WATCHES" },
+    { stringValue: "Sporting goods", enumValue: "SPORTING_GOODS" },
+    { stringValue: "Toys and games", enumValue: "TOYS_AND_GAMES" },
+    { stringValue: "Travel and leisure", enumValue: "TRAVEL_AND_LEISURE" },
+    { stringValue: "Vehicles and automotive", enumValue: "VEHICLES_AND_AUTOMOTIVE" }
 ];
+
 
 export default function CompanyInformationForm() {
     // States from RegistrationFormContextProvider
     const {companyName, setCompanyName} = useContext(FormContext);
     const {companyWebsite, setCompanyWebsite} = useContext(FormContext);
-    const {productType, setProductType} = useContext(FormContext);
+    const {productCategory, setProductCategory} = useContext(FormContext);
+    const {vatNumber, setVatNumber} = useContext(FormContext);
+    const {companyInformationFormFieldErrors} = useContext(FormContext);
+
 
     // Used for setting state of productType select
-    const handleProductTypeChange = (
-        event: SelectChangeEvent<string>,
-        child: ReactNode
+    const handleProductCategoryChange = (
+        event: SelectChangeEvent,
     ) => {
-        setProductType(event.target.value);
+        setProductCategory([event.target.value]);
     };
 
     return (
@@ -45,12 +49,31 @@ export default function CompanyInformationForm() {
                       placeholder="Company Name"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
+                      error={!!companyInformationFormFieldErrors.companyName}
+                      helperText={companyInformationFormFieldErrors.companyName}
                       fullWidth={true}
                   />
               </Grid>
 
               <Grid item>
                   <TextField
+                      required
+                      id="filled-company-vat-number-input"
+                      label="VAT Number"
+                      type="text"
+                      variant="filled"
+                      placeholder="BE0999999999"
+                      value={vatNumber}
+                      onChange={(e) => setVatNumber(e.target.value)}
+                      error={!!companyInformationFormFieldErrors.vatNumber}
+                      helperText={companyInformationFormFieldErrors.vatNumber}
+                      fullWidth={true}
+                  />
+              </Grid>
+
+              <Grid item>
+                  <TextField
+                      required
                       id="filled-company-website-input"
                       label="Company Website"
                       type="url"
@@ -58,24 +81,27 @@ export default function CompanyInformationForm() {
                       placeholder="https://www.example.com"
                       value={companyWebsite}
                       onChange={(e) => setCompanyWebsite(e.target.value)}
+                      error={!!companyInformationFormFieldErrors.companyWebsite}
+                      helperText={companyInformationFormFieldErrors.companyWebsite}
                       fullWidth={true}
                   />
               </Grid>
 
               <Grid item>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!companyInformationFormFieldErrors.productCategory}>
                       <InputLabel id="company-category-select-label">Products</InputLabel>
                       <Select
                           labelId="company-category-select-label"
                           id="company-category-select"
-                          value={productType}
+                          value={productCategory[0]}
                           label="Products"
-                          onChange={handleProductTypeChange}
+                          onChange={handleProductCategoryChange}
                       >
                           {productCategories.map((category) => (
-                              <MenuItem key={category} value={category}>{category}</MenuItem>
+                              <MenuItem key={category.enumValue} value={category.enumValue}>{category.stringValue}</MenuItem>
                           ))}
                       </Select>
+                      <FormHelperText>{companyInformationFormFieldErrors.productCategory}</FormHelperText>
                   </FormControl>
               </Grid>
           </Grid>
