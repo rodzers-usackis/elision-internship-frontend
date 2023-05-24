@@ -2,7 +2,7 @@ import axios from 'axios';
 import API_ROUTES from "../../constants/API";
 import AuthenticationRequest from "../../model/AuthenticationRequest";
 import AuthenticationResponse from "../../model/AuthenticationResponse";
-import {RegisteringUser} from "../../model/RegisteringUser";
+import {RegistrationForm} from "../../model/RegistrationForm";
 import {ApiResponse} from "../../model/ApiResponse";
 import {backendURL} from "./API";
 import {RegistrationForm} from "<components>/model/RegistrationForm";
