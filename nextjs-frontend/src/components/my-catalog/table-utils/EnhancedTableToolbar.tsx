@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import React from "react";
 import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTrackedProducts";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
@@ -14,6 +15,8 @@ import {deleteTrackedProducts} from "../../../services/api/trackedProducts";
 import {EditTrackedProductModal} from "../EditTrackedProductModal";
 import {useEffect, useState} from "react";
 import {AddTrackedProductModal} from "../AddTrackedProductModal";
+import {usePostScrapingTask} from "../../../hooks/usePostScrapingTask";
+import {ScrapingTask} from "../../../model/ScrapingTask";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {
@@ -21,6 +24,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         isDeleteTrackedProductsError,
         isDeleteTrackedProductsLoading
     } = useDeleteTrackedProducts()
+    const {isPostScrapingTaskError, isPostScrapingTaskLoading, postScrapingTaskMutation} = usePostScrapingTask();
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -44,6 +48,14 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
     function onAddModalClose() {
         setAddModalOpen(false);
+    }
+
+    function handlePostScrape() {
+        const productIds = selected.map(product => product.id);
+        const scrapingTask = {
+            productIds: productIds
+        } as ScrapingTask;
+        postScrapingTaskMutation(scrapingTask);
     }
 
     return (
@@ -78,24 +90,40 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             )}
             {numSelected === 1 ? (
                 <>
+                    <Tooltip title="Scrape Product's Price">
+                        <IconButton onClick={handlePostScrape} size="large">
+                            <CloudDownloadIcon/>
+                        </IconButton>
+                    </Tooltip>
+
                     <Tooltip title="Edit Product">
                         <IconButton size="large" onClick={onEditClick}>
                             <EditIcon/>
                         </IconButton>
                     </Tooltip>
+
                     <Tooltip title="Delete Product">
                         <IconButton onClick={handleDelete} size="large">
                             <DeleteIcon/>
                         </IconButton>
                     </Tooltip>
+
                 </>
             ) : (
                 numSelected > 1 ? (
-                    <Tooltip title="Delete Selected Products">
-                        <IconButton onClick={handleDelete} size="large">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </Tooltip>
+                    <>
+                        <Tooltip title="Scrape Selected Products' Prices">
+                            <IconButton onClick={handlePostScrape} size="large">
+                                <CloudDownloadIcon/>
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title="Delete Selected Products">
+                            <IconButton onClick={handleDelete} size="large">
+                                <DeleteIcon/>
+                            </IconButton>
+                        </Tooltip>
+                    </>
                 ) : (
                     <Tooltip title="Add Product">
                         <IconButton size="large" onClick={onAddClick}>
@@ -106,7 +134,8 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             )}
             {selected.length === 1 && editModalOpen ?
                 <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
-            {addModalOpen ? <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
+            {addModalOpen ?
+                <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
 
         </Toolbar>
     );
