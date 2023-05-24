@@ -23,6 +23,7 @@ export default function CompanyInformationForm() {
     const {companyName, setCompanyName} = useContext(FormContext);
     const {companyWebsite, setCompanyWebsite} = useContext(FormContext);
     const {productType, setProductType} = useContext(FormContext);
+    const {vatNumber, setVatNumber} = useContext(FormContext);
 
     // Used for setting state of productType select
     const handleProductTypeChange = (
@@ -44,6 +45,20 @@ export default function CompanyInformationForm() {
                       variant="filled"
                       placeholder="Company Name"
                       value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      fullWidth={true}
+                  />
+              </Grid>
+
+              <Grid item>
+                  <TextField
+                      required
+                      id="filled-company-vat-number-input"
+                      label="VAT Number"
+                      type="text"
+                      variant="filled"
+                      placeholder="BE0999999999"
+                      value={vatNumber}
                       onChange={(e) => setCompanyName(e.target.value)}
                       fullWidth={true}
                   />

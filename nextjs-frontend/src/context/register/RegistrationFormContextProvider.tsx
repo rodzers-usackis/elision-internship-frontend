@@ -8,6 +8,7 @@ interface WithChildren {
 export default function RegistrationFormContextProvider({ children }: WithChildren) {
     // Company Information Form
     const [companyName, setCompanyName] = useState('')
+    const [vatNumber, setVatNumber] = useState('')
     const [companyWebsite, setCompanyWebsite] = useState('')
     const [productType, setProductType] = useState('')
 
@@ -29,7 +30,7 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [errors, setErrors] = useState({ firstName: '', lastName: '', emailAddress: '', password: ''})
 
     return (
-        <FormContext.Provider value={{companyName, setCompanyName, companyWebsite, setCompanyWebsite, productType, setProductType,
+        <FormContext.Provider value={{companyName, setCompanyName, vatNumber, setVatNumber, companyWebsite, setCompanyWebsite, productType, setProductType,
                                         streetAddress, setStreetAddress, streetNumber, setStreetNumber, city, setCity, state, setState,
                                             zipCode, setZipCode, country, setCountry, firstName, setFirstName, lastName, setLastName, emailAddress, setEmailAddress,
                                                 password, setPassword, errors, setErrors}}>

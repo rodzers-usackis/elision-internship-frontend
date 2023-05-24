@@ -1,9 +1,12 @@
-import React, { createContext } from 'react';
+import React, {createContext} from 'react';
 
 export interface RegistrationFormContext {
     // Company Information Form
     companyName: string;
     setCompanyName: (value: string) => void;
+
+    vatNumber: string;
+    setVatNumber: (value: string) => void;
 
     companyWebsite: string;
     setCompanyWebsite: (value: string) => void;
@@ -66,6 +69,10 @@ export default createContext<RegistrationFormContext>({
         // Company Information Form
         companyName: '',
         setCompanyName: (value: string) => {
+        },
+
+        vatNumber: '',
+        setVatNumber: (value: string) => {
         },
 
         companyWebsite: '',
