@@ -7,10 +7,16 @@ import CompanyInformationForm from '../../components/register/CompanyInformation
 import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
-import {registerUser} from '../../services/api/authentication';
+import {register} from '../../services/api/authentication';
 import {useContext, useEffect, useState} from 'react';
 import FormContext from '../../context/register/RegistrationFormContext';
-import {RegisteringUser} from '../../model/RegisteringUser';
+import {validateCompanyInformationFields} from "../../utils/registration-utils/company-information-form/ValidateCompanyInformationFields";
+import {validateCompanyAddressFields} from "../../utils/registration-utils/company-address-form/ValidateCompanyAddressFields";
+import {validateUserCredentialFields} from "../../utils/registration-utils/user-credential-form/ValidateUserCredentialFields";
+import {RegistrationForm} from "../../model/RegistrationForm";
+import {CompanyInformationFormFields} from "<components>/model/registration-models/CompanyInformationFormFields";
+import {CompanyAddressFormFields} from "<components>/model/registration-models/CompanyAddressFormFields";
+import {UserCredentialFormFields} from "<components>/model/registration-models/UserCredentialFormFields";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -27,28 +33,6 @@ function getStepContent(step: number) {
     }
 }
 
-// Validation
-const validateFirstName = (firstName: string) => {
-    const firstNameRegex = /^[a-zA-Z]+$/i;
-    return firstNameRegex.test(firstName);
-}
-
-const validateLastName = (lastName: string) => {
-    const lastNameRegex = /^[a-zA-Z]+$/i;
-    return lastNameRegex.test(lastName);
-}
-
-const validateEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
-    return emailRegex.test(email);
-}
-
-// At least 8 characters long, must contain one uppercase/lowercase and at least one number
-const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i;
-    return passwordRegex.test(password);
-}
-
 export default function Register() {
     const router = useRouter();
 
@@ -57,107 +41,60 @@ export default function Register() {
     const [currentStep, setCurrentStep] = useState(1);
 
     // States from RegistrationFormContextProvider
-    const {firstName, setFirstName} = useContext(FormContext);
-    const {lastName, setLastName} = useContext(FormContext);
-    const {emailAddress, setEmailAddress} = useContext(FormContext);
-    const {password, setPassword} = useContext(FormContext);
-    const {setErrors} = useContext(FormContext);
+    const {
+        companyName,
+        vatNumber,
+        companyWebsite,
+        productCategory,
+        setCompanyInformationFormFieldErrors
+    } = useContext(FormContext);
 
+    const companyInformationFormFields: CompanyInformationFormFields = {
+        companyName: companyName.trim(),
+        vatNumber: vatNumber.trim(),
+        companyWebsite: companyWebsite.trim(),
+        productCategory: productCategory
+    };
 
-    // LoggedInUser object to be sent to backend
-    const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: emailAddress,
-        password: password
+    const {
+        streetAddress,
+        streetNumber,
+        city,
+        zipCode,
+        country,
+        setCompanyAddressFormFieldErrors
+    } = useContext(FormContext);
+
+    let companyAddressFormFields : CompanyAddressFormFields = {
+        streetAddress: streetAddress.trim(),
+        streetNumber: streetNumber.trim(),
+        city: city.trim(),
+        zipCode: zipCode.trim(),
+        country: country.trim()
     }
 
-const handleSubmit = (event: any) => {
-        event.preventDefault();
+    const {
+        firstName,
+        lastName,
+        emailAddress,
+        password,
+        setUserCredentialFormFieldErrors
+    } = useContext(FormContext);
 
-        let newErrors = {
-            firstName: '',
-            lastName: '',
-            emailAddress: '',
-            password: ''
-        }
-
-        // Validate all fields
-        if (!validateFirstName(firstName)) {
-            newErrors.firstName = 'First name must contain at least 2 letters';
-        } else {
-            newErrors.firstName = '';
-        }
-
-        if (!validateLastName(lastName)) {
-            newErrors.lastName = 'First name must contain at least 2 letters';
-        } else {
-            newErrors.lastName = '';
-        }
-
-        if (!validateEmail(emailAddress)) {
-            newErrors.emailAddress = 'Invalid email address';
-        } else {
-            newErrors.emailAddress = '';
-        }
-
-        if (!validatePassword(password)) {
-            newErrors.password = 'Password must be at least 8 characters long, must contain one uppercase/lowercase and at least one number';
-        } else {
-            newErrors.password = '';
-        }
-
-        // If there are errors, set the errors state and return
-        if (!Object.values(newErrors).every((x) => x === '')) {
-            setErrors(newErrors);
-            return;
-        }
-
-        // If there are no errors, send the user object to backend and register the user
-        registerUser(user).then((response) => {
-            console.log(response);
-
-            switch (response.status) {
-                case 200:
-                case 201:
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Registration Successful',
-                        text: 'Your account has been registered successfully',
-                        confirmButtonText: 'OK',
-                    }).then(() => {
-                        router.push('/login');
-                    });
-                    break;
-                case 409:
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Registration Failed',
-                        text: response.message,
-                        confirmButtonText: 'OK',
-                    });
-                    break;
-                default:
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                        confirmButtonText: 'Return to home page',
-                        footer: "<a href='#'>Contact customer support?</a>",
-                    });
-                    break;
-            }
-        })
+    const userCredentialFormFields : UserCredentialFormFields = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        emailAddress: emailAddress.trim(),
+        password: password.trim()
     }
 
-    const handleNext = () => {
-        if (currentStep === MAX_STEP) {
-            return;
-        }
-
-        setCurrentStep(currentStep + 1);
+    const registrationFormFields: RegistrationForm = {
+        ...companyInformationFormFields,
+        ...companyAddressFormFields,
+        ...userCredentialFormFields
     }
 
+    // Handle button click for previous step
     const handleBack = () => {
         if (currentStep === 1) {
             return;
@@ -165,6 +102,93 @@ const handleSubmit = (event: any) => {
 
         setCurrentStep(currentStep - 1);
     }
+
+    // Handle button click for next step / submit
+// Handle button click for next step / submit
+    const handleNext = () => {
+        if (currentStep > MAX_STEP) {
+            return;
+        }
+
+        let newErrors = {};
+
+        switch (currentStep) {
+            case 1:
+                // Validate company information fields
+                const companyInformationErrors = validateCompanyInformationFields(companyInformationFormFields);
+                setCompanyInformationFormFieldErrors(companyInformationErrors);
+                newErrors = companyInformationErrors;
+                break;
+
+            case 2:
+                // Validate company address fields
+                const companyAddressErrors = validateCompanyAddressFields(companyAddressFormFields);
+                setCompanyAddressFormFieldErrors(companyAddressErrors);
+                newErrors = companyAddressErrors; // Update newErrors state
+                break;
+
+            case 3:
+                // Validate user credential fields
+                const userCredentialErrors = validateUserCredentialFields(userCredentialFormFields);
+                setUserCredentialFormFieldErrors(userCredentialErrors);
+                newErrors = userCredentialErrors; // Update newErrors state
+                break;
+
+            default:
+                break;
+        }
+
+        if (!Object.values(newErrors).some((x) => x !== '') && currentStep < MAX_STEP) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+
+        const userCredentialErrors = validateUserCredentialFields(userCredentialFormFields);
+        setUserCredentialFormFieldErrors(userCredentialErrors);
+
+        if (!Object.values(userCredentialErrors).some((x) => x !== '')) {
+            event.preventDefault();
+
+            register(registrationFormFields).then((response) => {
+                console.log(response);
+
+                switch (response.status) {
+                    case 200:
+                    case 201:
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful',
+                            text: 'Your account has been registered successfully',
+                            confirmButtonText: 'OK',
+                        }).then(() => {
+                            router.push('/login');
+                        });
+                        break;
+                    case 409:
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registration Failed',
+                            text: response.message,
+                            confirmButtonText: 'OK',
+                        });
+                        break;
+                    default:
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            confirmButtonText: 'Return to home page',
+                            footer: "<a href='#'>Contact customer support?</a>",
+                        });
+                        break;
+                }
+            });
+        }
+    }
+
 
     return (
         <Box

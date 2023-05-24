@@ -4,6 +4,6 @@ import {registerUser} from "../../services/api/authentication";
 
 export function useRegisterUser() {
     return useMutation({
-        mutationFn: (user: RegisteringUser) => registerUser(user),
-    } as UseMutationOptions<AuthenticatorResponse, Error, RegisteringUser>)
+        mutationFn: (registrationForm: RegistrationForm) => registerUser(registrationForm),
+    } as UseMutationOptions<AuthenticatorResponse, Error, RegistrationForm>)
 }
