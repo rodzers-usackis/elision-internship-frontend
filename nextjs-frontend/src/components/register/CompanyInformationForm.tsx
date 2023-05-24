@@ -73,6 +73,7 @@ export default function CompanyInformationForm() {
 
               <Grid item>
                   <TextField
+                      required
                       id="filled-company-website-input"
                       label="Company Website"
                       type="url"
