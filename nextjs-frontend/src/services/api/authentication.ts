@@ -1,8 +1,8 @@
 import axios from 'axios';
 import API_ROUTES from "../../constants/API";
-import AuthenticationRequest from "../../types/AuthenticationRequest";
-import AuthenticationResponse from "../../types/AuthenticationResponse";
-import {User} from "../../model/User";
+import AuthenticationRequest from "../../model/AuthenticationRequest";
+import AuthenticationResponse from "../../model/AuthenticationResponse";
+import {RegistrationForm} from "../../model/RegistrationForm";
 import {ApiResponse} from "../../model/ApiResponse";
 import {backendURL} from "./API";
 import {RegistrationForm} from "<components>/model/RegistrationForm";
@@ -13,7 +13,7 @@ export async function loginOnBackend(credentials : AuthenticationRequest) {
 }
 
 //TODO: backend returns accessToken on successful registration - add it then
-export async function register(registrationForm: RegistrationForm): Promise<ApiResponse> {
+export async function registerUser(registrationForm: RegistrationForm): Promise<ApiResponse> {
     try {
         const response = await backendURL.post(API_ROUTES.REGISTER, registrationForm)
         return {

@@ -1,5 +1,5 @@
 import axios, {CreateAxiosDefaults} from 'axios'
-import { User } from '../../model/User'
+import { RegisteringUser } from '../../model/RegisteringUser'
 import { ApiResponse } from '../../model/ApiResponse'
 import API_ROUTES, {BACKEND_BASEURL} from "../../constants/API";
 

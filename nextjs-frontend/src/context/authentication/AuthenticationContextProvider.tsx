@@ -2,12 +2,14 @@ import {ReactElement, useEffect} from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import {loginOnBackend, setAccessTokenInHttpHeader} from "../../services/api/authentication";
 import {decodeToken, isExpired} from "react-jwt";
-import AuthenticationRequest from "../../types/AuthenticationRequest";
+import AuthenticationRequest from "../../model/AuthenticationRequest";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import AuthenticationResponse from "../../types/AuthenticationResponse";
+import AuthenticationResponse from "../../model/AuthenticationResponse";
 import AuthenticationContext from "./AuthenticationContext";
 import {Alert, CircularProgress} from "@mui/material";
 import {fetchUserInfo} from "../../services/api/users";
+import {useRouter} from "next/router";
+import LoggedInUser from "../../model/LoggedInUser";
 
 interface IWithChildren {
     children: ReactElement | ReactElement[]
@@ -16,8 +18,9 @@ interface IWithChildren {
 export default function AuthenticationContextProvider({children}: IWithChildren) {
 
 
-    const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
+    // const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
     const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage('accessToken')
+    const router = useRouter();
     const {
         data: authenticationResponse,
         mutateAsync: mutateLoggingInAsync,
@@ -28,17 +31,17 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         data: user,
         isLoading: isLoadingUser,
         isError: isErrorUser
-    } = useQuery({queryKey: ['user', loggedInUser], queryFn: fetchUserInfo, enabled: isAuthenticated()});
+    } = useQuery<LoggedInUser>({queryKey: ['user'], queryFn: fetchUserInfo, enabled: isAuthenticated()});
 
     useEffect(() => {
         setAccessTokenInHttpHeader(accessToken)
     }, [accessToken])
 
-    useEffect(() => {
-        if (!!user) {
-            setLoggedInUser(JSON.stringify(user))
-        }
-    }, [user])
+    // useEffect(() => {
+    //     if (!!user) {
+    //         setLoggedInUser(JSON.stringify(user))
+    //     }
+    // }, [user])
 
 
     function isAuthenticated() {
@@ -61,8 +64,9 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     function logout() {
-        removeAccessToken()
-        removeLoggedInUser()
+        removeAccessToken();
+        // removeLoggedInUser();
+        router.push("/?logout=true")
     }
 
     function logBackInWithToken() {
@@ -73,7 +77,7 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         <AuthenticationContext.Provider
             value={{
                 isAuthenticated,
-                loggedInUser,
+                loggedInUser : user,
                 login,
                 logout,
                 isLoadingAuthentication,

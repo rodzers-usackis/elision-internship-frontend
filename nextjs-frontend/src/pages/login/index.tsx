@@ -6,7 +6,7 @@ import styles from '../../styles/Login.module.css'
 import {useContext, useEffect, useRef, useState} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import {useRouter} from "next/router";
-import AuthenticationRequest from "../../types/AuthenticationRequest";
+import AuthenticationRequest from "../../model/AuthenticationRequest";
 
 
 export default function Login() {
