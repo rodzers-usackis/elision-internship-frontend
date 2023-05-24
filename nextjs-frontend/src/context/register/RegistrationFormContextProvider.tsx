@@ -10,7 +10,7 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [companyName, setCompanyName] = useState('')
     const [vatNumber, setVatNumber] = useState('')
     const [companyWebsite, setCompanyWebsite] = useState('')
-    const [productType, setProductType] = useState('')
+    const [productCategory, setProductCategory] = useState([''])
 
     // Company Address Form
     const [streetAddress, setStreetAddress] = useState('')
@@ -27,13 +27,35 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [password, setPassword] = useState('')
 
     // Errors
-    const [errors, setErrors] = useState({ firstName: '', lastName: '', emailAddress: '', password: ''})
+    const [companyInformationFormFieldErrors, setCompanyInformationFormFieldErrors] = useState({
+        companyName: '',
+        vatNumber: '',
+        companyWebsite: '',
+        productCategory: '',
+    });
+
+    const [companyAddressFormFieldErrors, setCompanyAddressFormFieldErrors] = useState({
+        streetAddress: '',
+        streetNumber: '',
+        city: '',
+        zipCode: '',
+        country: '',
+    });
+
+    const [userCredentialFormFieldErrors, setUserCredentialFormFieldErrors] = useState({
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        password: '',
+    });
 
     return (
-        <FormContext.Provider value={{companyName, setCompanyName, vatNumber, setVatNumber, companyWebsite, setCompanyWebsite, productType, setProductType,
+        <FormContext.Provider value={{companyName, setCompanyName, vatNumber, setVatNumber, companyWebsite, setCompanyWebsite, productCategory, setProductCategory,
                                         streetAddress, setStreetAddress, streetNumber, setStreetNumber, city, setCity, state, setState,
                                             zipCode, setZipCode, country, setCountry, firstName, setFirstName, lastName, setLastName, emailAddress, setEmailAddress,
-                                                password, setPassword, errors, setErrors}}>
+                                                password, setPassword, companyInformationFormFieldErrors, setCompanyInformationFormFieldErrors,
+                                                    companyAddressFormFieldErrors, setCompanyAddressFormFieldErrors,
+                                                        userCredentialFormFieldErrors, setUserCredentialFormFieldErrors}}>
             {children}
         </FormContext.Provider>
     )

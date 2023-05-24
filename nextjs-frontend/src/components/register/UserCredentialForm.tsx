@@ -18,7 +18,7 @@ export default function UserCredentialForm() {
     const {lastName, setLastName} = useContext(FormContext);
     const {emailAddress, setEmailAddress} = useContext(FormContext);
     const {password, setPassword} = useContext(FormContext);
-    const {errors, setErrors} = useContext(FormContext);
+    const {userCredentialFormFieldErrors} = useContext(FormContext);
 
     return (
         <>
@@ -34,8 +34,8 @@ export default function UserCredentialForm() {
                             placeholder="First Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName}
+                            error={!!userCredentialFormFieldErrors.firstName}
+                            helperText={userCredentialFormFieldErrors.firstName}
                             fullWidth={true}
                         />
                     </Grid>
@@ -50,8 +50,8 @@ export default function UserCredentialForm() {
                             placeholder="Last Name"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName}
+                            error={!!userCredentialFormFieldErrors.lastName}
+                            helperText={userCredentialFormFieldErrors.lastName}
                             fullWidth={true}
                         />
                     </Grid>
@@ -68,8 +68,8 @@ export default function UserCredentialForm() {
                             placeholder="example@domain.com"
                             value={emailAddress}
                             onChange={(e) => setEmailAddress(e.target.value)}
-                            error={!!errors.emailAddress}
-                            helperText={errors.emailAddress}
+                            error={!!userCredentialFormFieldErrors.emailAddress}
+                            helperText={userCredentialFormFieldErrors.emailAddress}
                             fullWidth={true}
                         />
                     </Grid>
@@ -84,8 +84,8 @@ export default function UserCredentialForm() {
                             placeholder="Must have at least 6 characters"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            error={!!errors.password}
-                            helperText={errors.password}
+                            error={!!userCredentialFormFieldErrors.password}
+                            helperText={userCredentialFormFieldErrors.password}
                             fullWidth={true}
                         />
                     </Grid>

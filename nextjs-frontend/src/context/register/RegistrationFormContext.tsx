@@ -11,8 +11,8 @@ export interface RegistrationFormContext {
     companyWebsite: string;
     setCompanyWebsite: (value: string) => void;
 
-    productType: string;
-    setProductType: (value: string) => void;
+    productCategory: string[];
+    setProductCategory: (value: string[]) => void;
 
 
     // Company Address Form
@@ -49,15 +49,47 @@ export interface RegistrationFormContext {
     setPassword: (value: string) => void;
 
 
-    // Errors
-    errors: {
+    // Company Information Form Field Errors
+    companyInformationFormFieldErrors: {
+        companyName: string;
+        vatNumber: string;
+        companyWebsite: string;
+        productCategory: string;
+    };
+
+    setCompanyInformationFormFieldErrors: (value: {
+        companyName: string;
+        vatNumber: string;
+        companyWebsite: string;
+        productCategory: string;
+    }) => void;
+
+    // Company Address Form Field Errors
+    companyAddressFormFieldErrors: {
+        streetAddress: string;
+        streetNumber: string;
+        city: string;
+        zipCode: string;
+        country: string;
+    }
+
+    setCompanyAddressFormFieldErrors: (value: {
+        streetAddress: string;
+        streetNumber: string;
+        city: string;
+        zipCode: string;
+        country: string;
+    }) => void;
+
+    // User Credential Form Field Errors
+    userCredentialFormFieldErrors: {
         firstName: string;
         lastName: string;
         emailAddress: string;
         password: string;
-    };
+    }
 
-    setErrors: (value: {
+    setUserCredentialFormFieldErrors: (value: {
         firstName: string;
         lastName: string;
         emailAddress: string;
@@ -79,8 +111,8 @@ export default createContext<RegistrationFormContext>({
         setCompanyWebsite: (value: string) => {
         },
 
-        productType: '',
-        setProductType: (value: string) => {
+        productCategory: [''],
+        setProductCategory: (value: string[]) => {
         },
 
         // Company Address Form
@@ -125,13 +157,46 @@ export default createContext<RegistrationFormContext>({
         setPassword: (value: string) => {
         },
 
-        errors: {
+        companyInformationFormFieldErrors: {
+            companyName: '',
+            vatNumber: '',
+            companyWebsite: '',
+            productCategory: '',
+        },
+
+        setCompanyInformationFormFieldErrors: (value: {
+            companyName: string;
+            vatNumber: string;
+            companyWebsite: string;
+            productCategory: string;
+        }) => {
+        },
+
+        companyAddressFormFieldErrors: {
+            streetAddress: '',
+            streetNumber: '',
+            city: '',
+            zipCode: '',
+            country: '',
+        },
+
+        setCompanyAddressFormFieldErrors: (value: {
+            streetAddress: string;
+            streetNumber: string;
+            city: string;
+            zipCode: string;
+            country: string;
+        }) => {
+        },
+
+        userCredentialFormFieldErrors: {
             firstName: '',
             lastName: '',
             emailAddress: '',
             password: '',
         },
-        setErrors: (value: {
+
+        setUserCredentialFormFieldErrors: (value: {
             firstName: string;
             lastName: string;
             emailAddress: string;
