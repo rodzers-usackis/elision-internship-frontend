@@ -1,5 +1,8 @@
-import * as React from "react";
-import {Button, Divider, Drawer, Grid, Typography} from "@mui/material";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import {DashboardDrawerItems} from "../../components/dashboard-drawer/DashboardDrawerItems";

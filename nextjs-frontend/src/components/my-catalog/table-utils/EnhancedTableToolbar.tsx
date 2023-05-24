@@ -1,11 +1,12 @@
 import Toolbar from "@mui/material/Toolbar";
-import {alpha, Typography} from "@mui/material";
+import {alpha} from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import * as React from "react";
+import React from "react";
 import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTrackedProducts";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
 import {useMutation} from "@tanstack/react-query/src/useMutation";

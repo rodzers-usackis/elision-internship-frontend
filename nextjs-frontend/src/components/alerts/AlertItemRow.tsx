@@ -1,5 +1,5 @@
 import {Alert} from "../../model/Alert";
-import {TableCell} from "@mui/material";
+import TableCell from "@mui/material/TableCell";
 import {PriceComparisonTypeEnum} from "../../model/PriceComparisonTypeEnum";
 import TableRow from "@mui/material/TableRow";
 import FiberNewIcon from '@mui/icons-material/FiberNew';

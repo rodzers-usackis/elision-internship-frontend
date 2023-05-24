@@ -1,6 +1,14 @@
 import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
+// import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import {alpha} from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
 import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';

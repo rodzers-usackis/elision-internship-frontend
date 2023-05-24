@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {Order} from "<components>/components/my-catalog/table-sorting-functions/getComparator";
 
 export interface EnhancedTableProps {
