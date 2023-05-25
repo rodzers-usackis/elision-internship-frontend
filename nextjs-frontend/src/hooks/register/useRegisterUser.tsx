@@ -1,9 +1,10 @@
 import {useMutation, UseMutationOptions} from '@tanstack/react-query';
-import {User} from '../../model/User';
 import {register} from "../../services/api/authentication";
+import {RegistrationForm} from "../../model/RegistrationForm";
+import {AuthenticationResponse} from "../../types/AuthenticationResponse";
 
 export function useRegisterUser() {
     return useMutation({
-        mutationFn: (user: User) => register(user),
-    } as UseMutationOptions<AuthenticatorResponse, Error, User>)
+        mutationFn: (registrationForm: RegistrationForm) => register(registrationForm),
+    } as UseMutationOptions<AuthenticationResponse, Error, RegistrationForm>)
 }
