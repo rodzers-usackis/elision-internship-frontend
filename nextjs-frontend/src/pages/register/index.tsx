@@ -8,7 +8,7 @@ import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
 import {register} from '../../services/api/authentication';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import FormContext from '../../context/register/RegistrationFormContext';
 import {validateCompanyInformationFields} from "../../utils/registration-utils/company-information-form/ValidateCompanyInformationFields";
 import {validateCompanyAddressFields} from "../../utils/registration-utils/company-address-form/ValidateCompanyAddressFields";

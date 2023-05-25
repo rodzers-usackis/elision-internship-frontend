@@ -1,7 +1,7 @@
 import {useMutation, UseMutationOptions} from '@tanstack/react-query';
 import {register} from "../../services/api/authentication";
 import {RegistrationForm} from "../../model/RegistrationForm";
-import {AuthenticationResponse} from "../../types/AuthenticationResponse";
+import AuthenticationResponse from "../../model/AuthenticationResponse";
 
 export function useRegisterUser() {
     return useMutation({
