@@ -8,15 +8,15 @@ import CompanyAddressForm from '../../components/register/CompanyAddressForm';
 import styles from '../../styles/Register.module.css'
 import {useRouter} from 'next/router'
 import {register} from '../../services/api/authentication';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import FormContext from '../../context/register/RegistrationFormContext';
 import {validateCompanyInformationFields} from "../../utils/registration-utils/company-information-form/ValidateCompanyInformationFields";
 import {validateCompanyAddressFields} from "../../utils/registration-utils/company-address-form/ValidateCompanyAddressFields";
 import {validateUserCredentialFields} from "../../utils/registration-utils/user-credential-form/ValidateUserCredentialFields";
 import {RegistrationForm} from "../../model/RegistrationForm";
-import {CompanyInformationFormFields} from "<components>/model/registration-models/CompanyInformationFormFields";
-import {CompanyAddressFormFields} from "<components>/model/registration-models/CompanyAddressFormFields";
-import {UserCredentialFormFields} from "<components>/model/registration-models/UserCredentialFormFields";
+import {CompanyInformationFormFields} from "../../model/registration-models/CompanyInformationFormFields";
+import {CompanyAddressFormFields} from "../../model/registration-models/CompanyAddressFormFields";
+import {UserCredentialFormFields} from "../../model/registration-models/UserCredentialFormFields";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 

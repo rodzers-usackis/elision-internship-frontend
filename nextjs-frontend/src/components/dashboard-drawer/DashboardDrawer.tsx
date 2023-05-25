@@ -13,14 +13,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
 import styles from '../../styles/DashboardDrawer.module.css'
-import {useContext, useState} from "react";
-import AuthenticationContext from "../../context/authentication/AuthenticationContext";
+import {useState} from "react";
 
 
 export default function DashboardDrawer() {
     const drawerWidth = '328px'
     const [selectedIndex, setSelectedIndex] = useState(1);
-    const {logout, loggedInUser} = useContext(AuthenticationContext)
 
     const buttonProps = (value: number) => ({
         selected: selectedIndex === value,
@@ -87,15 +85,11 @@ export default function DashboardDrawer() {
                                     Customer
                                 </Typography>
                                 <Typography fontWeight={'bold'}>
-                                    {loggedInUser?.firstName}
+                                    customer@elision.eu
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Button onClick={(e)=>{
-                                    e.preventDefault();
-                                    logout()
-
-                                }}>
+                                <Button>
                                     <LogoutIcon sx={{fontSize: '30px'}}/>
                                 </Button>
                             </Grid>

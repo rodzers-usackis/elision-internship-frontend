@@ -35,7 +35,7 @@ export interface RegistrationFormContext {
     setCountry: (value: string) => void;
 
 
-    // LoggedInUser Credential Form
+    // User Credential Form
     firstName: string;
     setFirstName: (value: string) => void;
 
@@ -140,7 +140,7 @@ export default createContext<RegistrationFormContext>({
         setCountry: (value: string) => {
         },
 
-        // LoggedInUser Credential Form
+        // User Credential Form
         firstName: '',
         setFirstName: (value: string) => {
         },

@@ -20,7 +20,7 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [zipCode, setZipCode] = useState('')
     const [country, setCountry] = useState('')
 
-    // LoggedInUser Credential Form
+    // User Credential Form
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [emailAddress, setEmailAddress] = useState('')
