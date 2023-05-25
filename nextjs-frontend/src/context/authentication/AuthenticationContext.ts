@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import AuthenticationRequest from "../../types/AuthenticationRequest";
+import AuthenticationRequest from "../../model/AuthenticationRequest";
 
 export interface IAuthenticationContext {
     isAuthenticated: () => boolean;

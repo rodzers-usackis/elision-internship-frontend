@@ -2,11 +2,10 @@ import {ReactElement, useEffect} from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import {loginOnBackend, setAccessTokenInHttpHeader} from "../../services/api/authentication";
 import {decodeToken, isExpired} from "react-jwt";
-import AuthenticationRequest from "../../types/AuthenticationRequest";
+import AuthenticationRequest from "../../model/AuthenticationRequest";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import AuthenticationResponse from "../../types/AuthenticationResponse";
+import AuthenticationResponse from "../../model/AuthenticationResponse";
 import AuthenticationContext from "./AuthenticationContext";
-import {Alert, CircularProgress} from "@mui/material";
 import {fetchUserInfo} from "../../services/api/users";
 
 interface IWithChildren {
