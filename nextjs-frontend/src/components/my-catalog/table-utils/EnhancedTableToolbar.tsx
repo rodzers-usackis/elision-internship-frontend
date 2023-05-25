@@ -17,6 +17,7 @@ import {useEffect, useState} from "react";
 import {AddTrackedProductModal} from "../AddTrackedProductModal";
 import {usePostScrapingTask} from "../../../hooks/usePostScrapingTask";
 import {ScrapingTask} from "../../../model/ScrapingTask";
+import {ScrapingFeedbackSnackbar} from "./ScrapingFeedbackSnackbar";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {
@@ -28,6 +29,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const [scrapingFeedbackSnackbarOpen, setScrapingFeedbackSnackbarOpen] = useState(false);
 
 
     function handleDelete() {
@@ -51,6 +53,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     }
 
     function handlePostScrape() {
+        setScrapingFeedbackSnackbarOpen(true);
         const productIds = selected.map(product => product.id);
         const scrapingTask = {
             productIds: productIds
@@ -69,6 +72,10 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 }),
             }}
         >
+            <ScrapingFeedbackSnackbar open={scrapingFeedbackSnackbarOpen} onClose={() => {
+                setScrapingFeedbackSnackbarOpen(false)
+            }} isError={isPostScrapingTaskError} isLoading={isPostScrapingTaskLoading}/>
+
             {numSelected > 0 ? (
                 <Typography
                     sx={{flex: '1 1 100%'}}
