@@ -1,6 +1,5 @@
-import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
+import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-// import {Alert, alpha, Checkbox, CircularProgress, Divider, Grid, TextField, Typography} from "@mui/material";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -36,59 +35,12 @@ import {Product} from "../../../model/Product";
 import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
 import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
 
-
-//
-// function createData(
-//     id: UUID,
-//     name: string,
-//     ean: number,
-//     brand: string,
-//     cost: number,
-//     price: number,
-//     competitorPrices: string,
-//     position: number,
-//     status: string,
-//     isTracked: boolean
-// ): TrackedProduct {
-//     return {
-//         id,
-//         name,
-//         ean,
-//         brand,
-//         cost,
-//         price,
-//         competitorPrices,
-//         position,
-//         status,
-//         isTracked
-//     };
-// }
-
-// const rows = [
-//     createData(randomUUID(), 'Iphone 14 Pro 128 GB', 194253401179, 'Apple', 799.00, 1499.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'Iphone 14 Pro 256 GB', 194253401180, 'Apple', 899.00, 1599.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'Samsung Galaxy S22 128 GB', 194253401181, 'Samsung', 699.00, 1199.00, 'Show', 1, 'Inactive'),
-//     createData(randomUUID(), 'Samsung Galaxy S22 256 GB', 194253401182, 'Samsung', 799.00, 1299.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'Google Pixel 6 128 GB', 194253401183, 'Google', 699.00, 1099.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'Google Pixel 6 256 GB', 194253401184, 'Google', 799.00, 1199.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'OnePlus 10 Pro 128 GB', 194253401185, 'OnePlus', 899.00, 1399.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'OnePlus 10 Pro 256 GB', 194253401186, 'OnePlus', 999.00, 1499.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'Xiaomi Mi 12 128 GB', 194253401187, 'Xiaomi', 599.00, 999.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'Xiaomi Mi 12 256 GB', 194253401188, 'Xiaomi', 699.00, 1099.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'Sony Xperia 5 III 128 GB', 194253401189, 'Sony', 799.00, 1299.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'Sony Xperia 5 III 256 GB', 194253401190, 'Sony', 899.00, 1399.00, 'Show', 2, 'Active'),
-//     createData(randomUUID(), 'LG V80 ThinQ 128 GB', 194253401191, 'LG', 599.00, 999.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'LG V80 ThinQ 256 GB', 194253401192, 'LG', 699.00, 1099.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'Motorola Moto G99 128 GB', 194253401193, 'Motorola', 399.00, 699.00, 'Show', 1, 'Active'),
-//     createData(randomUUID(), 'Motorola Moto G99 256 GB', 194253401194, 'Motorola', 499.00, 799.00, 'Show', 1, 'Active'),
-// ];
-
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof TrackedProduct | keyof Product>('productPurchaseCost');
     const [selected, setSelected] = useState<TrackedProduct[]>([]);
     const [page, setPage] = useState(0);
-    const [dense, setDense] = useState(false);
+    const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const {
         trackedProducts: rows,
@@ -192,9 +144,10 @@ export default function MyCatalog() {
                                        fullWidth={true}/>
                         </Grid>
                     </Grid>
+
                     <Divider/>
 
-                    <Box sx={{width: '100%'}}>
+                    <Box sx={{width: '100%', pt: 2}}>
                         <Paper sx={{width: '100%', mb: 2}}>
                             <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
                             <TableContainer>

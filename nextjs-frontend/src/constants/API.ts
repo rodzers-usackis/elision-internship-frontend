@@ -11,6 +11,7 @@ export const API_ROUTES = {
     ALERT_SETTINGS: `${BACKEND_BASEURL}/api/alert-settings`,
     ALERT_COUNT: `${BACKEND_BASEURL}/api/alerts/unread/count`,
     SCRAPING_TASKS: `${BACKEND_BASEURL}/api/scraping-tasks`,
+    PRODUCT_PRICE_HISTORY: `${BACKEND_BASEURL}/api/prices/products`,
 };
 
 export default API_ROUTES;
