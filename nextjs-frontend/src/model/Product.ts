@@ -1,6 +1,6 @@
 import {UUID} from "crypto";
 
-export interface Product{
+export interface Product {
     id: UUID;
     name: string;
     category: string;

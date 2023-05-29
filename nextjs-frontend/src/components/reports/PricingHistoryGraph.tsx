@@ -9,6 +9,8 @@ import {
     Legend,
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
+import dayjs from "dayjs";
+import {ProductPriceHistorian} from "../../model/product-price-historian/ProductPriceHistorian";
 
 ChartJS.register(
     CategoryScale,
@@ -20,65 +22,45 @@ ChartJS.register(
     Legend
 );
 
-export interface ProductPriceData {
-    timestamp: Date;
-    productName: string;
-    price: number;
-}
-
-const minPrice = 799;
-const maxPrice = 899;
-const dataPoints = 100;
-
-const generateRandomPrice = (dataPoints: number): ProductPriceData[] => {
-    const data: ProductPriceData[] = [];
-    const startDate = new Date(2023, 1, 1, 0, 0, 0);
-
-    for (let i = 0; i < dataPoints; i++) {
-        const timestamp = new Date(startDate.getTime() + (i * 8 * 60 * 60 * 1000));
-        const price = Math.random() * (maxPrice - minPrice) + minPrice;
-        const roundedPrice = Math.round(price * 100) / 100;
-
-        const dataPoint: ProductPriceData = {
-            timestamp: timestamp,
-            productName: 'Apple Iphone 13',
-            price: roundedPrice
-        };
-
-        data.push(dataPoint);
-    }
-
-    return data;
-}
-
 
 const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-        legend: {
-            position: 'top' as const,
-            display: false
-        },
-        layout: {
-            padding: {
-                right: 0,
+        title: {
+            display: true,
+            text: 'Pricing History', // Specify the title text here
+            font: {
+                size: 16, // Adjust the font size as needed
             },
+            legend: {
+                position: 'top' as const,
+                display: false
+            },
+            layout: {
+                padding: {
+                    right: 0,
+                },
+            }
         }
     },
 };
 
-const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September' , 'October', 'November', 'December'],
-    datasets: [{
-        label: generateRandomPrice(dataPoints)[0].productName,
-        data: generateRandomPrice(dataPoints).map((dataPoint) => dataPoint.price),
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-        backgroundColor: 'rgba(53, 162, 235, 0.2)',
-    }],
-};
 
-export function PricingHistoryGraph() {
-    return <Line options={options} data={data}></Line>
+export function PricingHistoryGraph({data}: { data?: ProductPriceHistorian }) {
+    const timestamps = data?.data[0].timestampAmounts.map((item) => item.timestamp);
+    const amounts = data?.data[0].timestampAmounts.map((item) => item.amount);
+
+    const chartData = {
+        labels: timestamps?.map((timestamp) => dayjs(timestamp).format('YYYY-MM-DD')),
+        datasets: [{
+            label: data?.product.name,
+            data: amounts,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            backgroundColor: 'rgba(53, 162, 235, 0.2)',
+        }],
+    };
+
+    return <Line options={options} data={chartData}></Line>
 }
