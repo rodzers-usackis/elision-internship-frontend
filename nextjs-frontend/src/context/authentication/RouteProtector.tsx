@@ -1,37 +1,39 @@
-import {ReactElement, useContext} from "react";
+import {ReactNode, useContext, useEffect} from "react";
 import AuthenticationContext from "./AuthenticationContext";
 import {useRouter} from "next/router";
-import {Button, Typography} from "@mui/material";
-import Link from "next/link";
 
-const protectedRoutes = [
-    "/dashboard"
+const authenticatedUserRoutes = [
+    "/dashboard/my-catalog",
+    "/dashboard/reports",
+    "/dashboard/alerts",
+]
+
+const unauthenticatedUserRoutes = [
+    "/",
+    "/login",
+    "/register",
 ]
 
 
-export default function RouteProtector({children}: { children: ReactElement }) {
-    const {isAuthenticated} = useContext(AuthenticationContext);
+export default function RouteProtector({children}: { children: ReactNode }) {
+    const { isAuthenticated } = useContext(AuthenticationContext);
     const router = useRouter();
 
-    if (protectedRoutes.some(route => router.pathname.startsWith(route)) && !isAuthenticated()) {
-        //TODO: something better here
-        return (<div style={{
-            boxSizing: "border-box",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "auto",
-            marginTop: "5rem",
-            gap: "1rem",
-        }}><Typography>You are not
-            logged in.</Typography>
-            <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/login"}>Log in</Link></Button>
-            <Button sx={{maxWidth: "10rem"}} variant={"contained"}><Link href={"/"}>Home page</Link></Button>
-        </div>)
-    } else {
-        return children;
-    }
+    useEffect(() => {
+        console.log(router.pathname)
+        console.log(isAuthenticated)
+        console.log(authenticatedUserRoutes.includes(router.pathname))
 
+        // Redirect if user is not authenticated and accessing authenticated routes
+        if (!isAuthenticated() && authenticatedUserRoutes.includes(router.pathname)) {
+            router.replace("/login"); // Redirect to login page
+        }
 
+        // Redirect if user is authenticated and accessing unauthenticated routes
+        if (isAuthenticated() && unauthenticatedUserRoutes.includes(router.pathname)) {
+            router.replace("/dashboard/my-catalog"); // Redirect to dashboard
+        }
+    }, [isAuthenticated]);
+
+    return <>{children}</>;
 }
