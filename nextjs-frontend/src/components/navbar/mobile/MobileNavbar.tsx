@@ -5,14 +5,18 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import Image from "next/image";
 import Box from "@mui/material/Box";
-import {NavbarItems} from "../../../components/navbar/NavbarItems";
+import {NavbarItems} from "../NavbarItems";
 import Button from "@mui/material/Button";
 import styles from "../../../styles/MobileNavbar.module.css";
-import {Divider, Drawer, IconButton} from "@mui/material";
+// import {Divider, Drawer, IconButton} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
 import MenuIcon from '@mui/icons-material/Menu';
 import {useState} from "react";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
-import {Person} from "@mui/icons-material";
+// import {Person} from "@mui/icons-material";
+import Person from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 
 type Props = {

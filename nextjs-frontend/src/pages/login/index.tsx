@@ -1,4 +1,13 @@
-import {Box, Button, Card, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
+// import {Box, Button, Card, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";

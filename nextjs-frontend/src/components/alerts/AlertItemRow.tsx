@@ -1,5 +1,5 @@
 import {Alert} from "../../model/Alert";
-import {TableCell} from "@mui/material";
+import TableCell from "@mui/material/TableCell";
 import {PriceComparisonTypeEnum} from "../../model/PriceComparisonTypeEnum";
 import TableRow from "@mui/material/TableRow";
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -11,7 +11,7 @@ interface AlertItemProps {
     alert: Alert;
 }
 
-const dateTimeOptions : Intl.DateTimeFormatOptions = {
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "narrow",
     day: "numeric"
@@ -27,8 +27,17 @@ export function AlertItemRow({alert}: AlertItemProps) {
             <TableCell>{alert.retailerCompany.name}</TableCell>
             <TableCell>{alert.price} €</TableCell>
             <TableCell>
-                {alert.priceComparisonType === PriceComparisonTypeEnum.LOWER ?
-                    <TrendingDownIcon/> : <TrendingUpIcon/>
+                {
+                    alert.priceComparisonType === PriceComparisonTypeEnum.LOWER ?
+                        <span>
+                            Competitor's price decreased
+                            <TrendingDownIcon/>
+                        </span>
+                        :
+                        <span>
+                            Competitor's price increased
+                            <TrendingUpIcon/>
+                      </span>
                 }
             </TableCell>
         </TableRow>)

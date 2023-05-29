@@ -1,5 +1,4 @@
-import Box from "@mui/material/Box";
-import {Typography} from "@mui/material";
+import Typography from "@mui/material/Typography";
 import styles from '../../styles/AlertSettings.module.css'
 import React from "react";
 

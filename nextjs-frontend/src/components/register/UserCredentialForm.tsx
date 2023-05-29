@@ -1,11 +1,17 @@
-import {
-    Checkbox,
-    FormControlLabel,
-    FormGroup,
-    Grid,
-    TextField,
-    Typography,
-} from "@mui/material";
+// import {
+//     Checkbox,
+//     FormControlLabel,
+//     FormGroup,
+//     Grid,
+//     TextField,
+//     Typography,
+// } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import * as React from "react";
 import FormContext from "../../context/register/RegistrationFormContext";
 import {useContext} from "react";

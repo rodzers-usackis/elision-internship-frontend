@@ -2,6 +2,8 @@ import React from "react";
 import '../styles/globals.css'
 import type {AppProps} from 'next/app'
 import {createTheme, ThemeProvider} from "@mui/material";
+// import ThemeProvider from "@mui/material/styles/ThemeProvider";
+// import {createTheme} from "@mui/material/styles";
 import AuthenticationContextProvider from "../context/authentication/AuthenticationContextProvider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import Navbar from "../components/navbar/Navbar";

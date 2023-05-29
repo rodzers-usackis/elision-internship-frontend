@@ -1,4 +1,4 @@
-import {Grid, List, TableCell} from "@mui/material";
+import TableCell from "@mui/material/TableCell";
 import {Alert} from "../../model/Alert";
 import {AlertItemRow} from "./AlertItemRow";
 import styles from "../../styles/AlertList.module.css"

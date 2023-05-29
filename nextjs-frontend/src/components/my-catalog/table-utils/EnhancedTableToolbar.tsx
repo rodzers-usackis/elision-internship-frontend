@@ -1,11 +1,13 @@
 import Toolbar from "@mui/material/Toolbar";
-import {alpha, Typography} from "@mui/material";
+import {alpha} from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import * as React from "react";
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import React from "react";
 import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTrackedProducts";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
 import {useMutation} from "@tanstack/react-query/src/useMutation";
@@ -13,6 +15,9 @@ import {deleteTrackedProducts} from "../../../services/api/trackedProducts";
 import {EditTrackedProductModal} from "../EditTrackedProductModal";
 import {useEffect, useState} from "react";
 import {AddTrackedProductModal} from "../AddTrackedProductModal";
+import {usePostScrapingTask} from "../../../hooks/usePostScrapingTask";
+import {ScrapingTask} from "../../../model/ScrapingTask";
+import {ScrapingFeedbackSnackbar} from "./ScrapingFeedbackSnackbar";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {
@@ -20,9 +25,11 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         isDeleteTrackedProductsError,
         isDeleteTrackedProductsLoading
     } = useDeleteTrackedProducts()
+    const {isPostScrapingTaskError, isPostScrapingTaskLoading, postScrapingTaskMutation} = usePostScrapingTask();
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const [scrapingFeedbackSnackbarOpen, setScrapingFeedbackSnackbarOpen] = useState(false);
 
 
     function handleDelete() {
@@ -45,6 +52,15 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         setAddModalOpen(false);
     }
 
+    function handlePostScrape() {
+        setScrapingFeedbackSnackbarOpen(true);
+        const productIds = selected.map(product => product.id);
+        const scrapingTask = {
+            productIds: productIds
+        } as ScrapingTask;
+        postScrapingTaskMutation(scrapingTask);
+    }
+
     return (
         <Toolbar
             sx={{
@@ -56,6 +72,10 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 }),
             }}
         >
+            <ScrapingFeedbackSnackbar open={scrapingFeedbackSnackbarOpen} onClose={() => {
+                setScrapingFeedbackSnackbarOpen(false)
+            }} isError={isPostScrapingTaskError} isLoading={isPostScrapingTaskLoading}/>
+
             {numSelected > 0 ? (
                 <Typography
                     sx={{flex: '1 1 100%'}}
@@ -77,24 +97,40 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             )}
             {numSelected === 1 ? (
                 <>
+                    <Tooltip title="Scrape Product's Price">
+                        <IconButton onClick={handlePostScrape} size="large">
+                            <CloudDownloadIcon/>
+                        </IconButton>
+                    </Tooltip>
+
                     <Tooltip title="Edit Product">
                         <IconButton size="large" onClick={onEditClick}>
                             <EditIcon/>
                         </IconButton>
                     </Tooltip>
+
                     <Tooltip title="Delete Product">
                         <IconButton onClick={handleDelete} size="large">
                             <DeleteIcon/>
                         </IconButton>
                     </Tooltip>
+
                 </>
             ) : (
                 numSelected > 1 ? (
-                    <Tooltip title="Delete Selected Products">
-                        <IconButton onClick={handleDelete} size="large">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </Tooltip>
+                    <>
+                        <Tooltip title="Scrape Selected Products' Prices">
+                            <IconButton onClick={handlePostScrape} size="large">
+                                <CloudDownloadIcon/>
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title="Delete Selected Products">
+                            <IconButton onClick={handleDelete} size="large">
+                                <DeleteIcon/>
+                            </IconButton>
+                        </Tooltip>
+                    </>
                 ) : (
                     <Tooltip title="Add Product">
                         <IconButton size="large" onClick={onAddClick}>
@@ -105,7 +141,8 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             )}
             {selected.length === 1 && editModalOpen ?
                 <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
-            {addModalOpen ? <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
+            {addModalOpen ?
+                <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
 
         </Toolbar>
     );
