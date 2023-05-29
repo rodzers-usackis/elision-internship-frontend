@@ -1,7 +1,5 @@
 import axios, {CreateAxiosDefaults} from 'axios'
-import { RegisteringUser } from '../../model/RegisteringUser'
-import { ApiResponse } from '../../model/ApiResponse'
-import API_ROUTES, {BACKEND_BASEURL} from "../../constants/API";
+import {BACKEND_BASEURL} from "../../constants/API";
 
 // Defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";

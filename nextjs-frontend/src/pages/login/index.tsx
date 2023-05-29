@@ -12,7 +12,7 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import styles from '../../styles/Login.module.css'
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useState} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import {useRouter} from "next/router";
 import AuthenticationRequest from "../../model/AuthenticationRequest";

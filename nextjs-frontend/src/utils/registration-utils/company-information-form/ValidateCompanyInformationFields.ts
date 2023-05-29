@@ -1,5 +1,3 @@
-import {useContext} from "react";
-
 import {
     validateCompanyName,
     validateVatNumber,
@@ -8,7 +6,6 @@ import {
 } from './CompanyInformationValidation';
 
 import {CompanyInformationFormFields} from "../../../model/registration-models/CompanyInformationFormFields";
-import FormContext from "../../../context/register/RegistrationFormContext";
 
 export function validateCompanyInformationFields(companyInformationFormFields : CompanyInformationFormFields) {
     let newErrors = {

@@ -1,3 +1,5 @@
 export default interface AuthenticationResponse {
-    accessToken : String
+    accessToken : string,
+    status : number,
+    message : string,
 }
