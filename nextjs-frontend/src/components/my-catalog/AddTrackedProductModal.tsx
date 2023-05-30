@@ -152,11 +152,9 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
 
     function SuccessMessage() {
         return (
-            // <Paper sx={{width:'fit-content', padding:'1rem'}}>
                 <Alert sx={{padding:"1rem"}} variant={"filled"} severity={"success"}>Product added successfully.
                     <Button sx={{margin:'1rem'}} variant={"contained"} onClick={onClose}>Ok</Button>
                 </Alert>
-            // </Paper>
         )
     }
 
