@@ -4,8 +4,7 @@ export enum UserRole {
     ADMIN = "ADMIN",
     CLIENT = "CLIENT"
 }
-//TODO: rename to DisplayedUser and move to model/
-export default interface User {
+export default interface LoggedInUser {
     id: UUID;
     email : String;
     firstName : String;

@@ -7,6 +7,12 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 import AuthenticationResponse from "../../model/AuthenticationResponse";
 import AuthenticationContext from "./AuthenticationContext";
 import {fetchUserInfo} from "../../services/api/users";
+import LoggedInUser from "../../model/LoggedInUser";
+import {router} from "next/client";
+import {useRouter} from "next/router";
+import {CircularProgress} from "@mui/material";
+import Box from "@mui/material/Box";
+import axios from "axios";
 
 interface IWithChildren {
     children: ReactElement | ReactElement[]
@@ -15,7 +21,6 @@ interface IWithChildren {
 export default function AuthenticationContextProvider({children}: IWithChildren) {
 
 
-    const [loggedInUser, setLoggedInUser, removeLoggedInUser] = useLocalStorage('user')
     const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage('accessToken')
     const {
         data: authenticationResponse,
@@ -27,17 +32,24 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         data: user,
         isLoading: isLoadingUser,
         isError: isErrorUser
-    } = useQuery({queryKey: ['user', loggedInUser], queryFn: fetchUserInfo, enabled: isAuthenticated()});
+    } = useQuery<LoggedInUser>({
+        queryKey: ['user'], queryFn: fetchUserInfo, enabled: isAuthenticated(), onError: (error) => {
+            if(!!error.config.headers.Authorization) {
+                removeAccessToken();
+                delete axios.defaults.headers.common['Authorization'];
+            }
+        }
+    });
+    const router = useRouter();
 
     useEffect(() => {
         setAccessTokenInHttpHeader(accessToken)
     }, [accessToken])
 
-    useEffect(() => {
-        if (!!user) {
-            setLoggedInUser(JSON.stringify(user))
-        }
-    }, [user])
+
+    // if (isLoadingAuthentication || isLoadingUser) {
+    //     return (<Box sx={{display: 'flex', justifyContent: 'center', alignItems:'center', minHeight:'80%'}}><CircularProgress/></Box>)
+    // }
 
 
     function isAuthenticated() {
@@ -60,22 +72,20 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     function logout() {
-        removeAccessToken()
-        removeLoggedInUser()
+        removeAccessToken();
+        delete axios.defaults.headers.common['Authorization'];
+        router.push("/?logout=true");
     }
 
-    function logBackInWithToken() {
-
-    }
 
     return (
         <AuthenticationContext.Provider
             value={{
                 isAuthenticated,
-                loggedInUser,
+                loggedInUser: user,
                 login,
                 logout,
-                isLoadingAuthentication,
+                isLoading: isLoadingAuthentication || isLoadingUser,
             }}
         >
             {children}
