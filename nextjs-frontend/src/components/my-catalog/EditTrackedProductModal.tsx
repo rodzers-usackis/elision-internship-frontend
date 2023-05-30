@@ -28,6 +28,7 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProduct";
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
+import Paper from "@mui/material/Paper";
 
 
 interface EditProductModalProps {
@@ -40,6 +41,7 @@ const productUpdateSchema = z.object({
     isTracked: z.boolean(),
     productPurchaseCost: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
     productSellPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
+    minPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))).or(z.null())
 });
 
 
@@ -53,7 +55,8 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
         resolver: zodResolver(productUpdateSchema), defaultValues: {
             isTracked: product.tracked,
             productPurchaseCost: product.productPurchaseCost,
-            productSellPrice: product.productSellPrice
+            productSellPrice: product.productSellPrice,
+            minPrice: product.minPrice
         }
     })
 
@@ -67,12 +70,13 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
     function handleProductUpdateSubmit() {
         console.log(watch())
         setSubmissionError(false);
-        const {isTracked, productPurchaseCost, productSellPrice} = watch();
+        const {isTracked, productPurchaseCost, productSellPrice, minPrice} = watch();
         const updatedProduct: TrackedProductUpdate = {
             id: product.id,
             tracked: isTracked,
             productPurchaseCost,
-            productSellPrice
+            productSellPrice,
+            minPrice
         }
         updateTrackedProductMutation(updatedProduct).then(r => {
             setSuccess(true)
@@ -111,6 +115,14 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 placeholder={"Sell price"}
                 label={"Sell price"}
             />
+            <TextField
+                // type={"number"}
+                error={!!errors.minPrice}
+                helperText={errors.minPrice?.message?.toString()}
+                {...register('minPrice')}
+                placeholder={"Minimum price"}
+                label={"Minimum price"}
+            />
 
             <FormControlLabel
                 control={
@@ -137,8 +149,10 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
     }
 
     return (
-        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose} >
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper sx={{width:'fit-content'}}>
             {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>)
 }
 

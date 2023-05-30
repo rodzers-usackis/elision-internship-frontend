@@ -26,6 +26,12 @@ export const headCells: readonly HeadCell[] = [
         label: 'Price',
     },
     {
+        id: 'minPrice',
+        numeric: true,
+        disablePadding: false,
+        label: 'Minimum Price',
+    },
+    {
         id: 'ean',
         numeric: false,
         disablePadding: false,
@@ -42,5 +48,5 @@ export const headCells: readonly HeadCell[] = [
         numeric: true,
         disablePadding: false,
         label: 'Status',
-    },
+    }
 ];
