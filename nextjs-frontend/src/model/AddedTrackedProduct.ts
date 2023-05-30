@@ -3,4 +3,5 @@ export interface AddedTrackedProduct{
     manufacturerCode : string;
     productPurchaseCost: number;
     productSellPrice: number;
+    minPrice: number;
 }
