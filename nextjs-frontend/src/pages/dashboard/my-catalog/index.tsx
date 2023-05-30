@@ -5,8 +5,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-import {alpha} from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
@@ -19,21 +17,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import EditIcon from '@mui/icons-material/Edit';
-import {visuallyHidden} from '@mui/utils';
-import {useProducts} from "../../../hooks/register/useProducts";
 import {getComparator, Order} from "../../../components/my-catalog/table-sorting-functions/getComparator";
 import {stableSort} from "../../../components/my-catalog/table-sorting-functions/stableSort";
 import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 import {TrackedProduct} from "../../../model/TrackedProduct";
-import {UUID, randomUUID} from "crypto";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import {Product} from "../../../model/Product";
-import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
-import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -200,6 +190,7 @@ export default function MyCatalog() {
                                                     <TableCell align="right">{row.product.category}</TableCell>
                                                     <TableCell align="right">{row.productPurchaseCost}</TableCell>
                                                     <TableCell align="right">{row.productSellPrice}</TableCell>
+                                                    <TableCell align="right">{row.minPrice || "no minimum price set"}</TableCell>
                                                     <TableCell align="right">{row.product.ean}</TableCell>
                                                     <TableCell align="right">{row.product.manufacturerCode}</TableCell>
                                                     <TableCell align="right"

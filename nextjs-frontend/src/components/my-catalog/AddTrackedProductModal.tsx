@@ -30,6 +30,7 @@ import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProd
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
+import Paper from "@mui/material/Paper";
 
 
 interface AddProductModalProps {
@@ -42,6 +43,7 @@ const productUpdateSchema = z.object({
     manufacturerCode: z.string(),
     productPurchaseCost: z.number().positive("Purchase cost has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Purchase cost must be greater than 0.").transform(value => parseFloat(value))),
     productSellPrice: z.number().positive("Sell price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Sell price must be greater than 0.").transform(value => parseFloat(value))),
+    minPrice: z.number().positive("Min price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Min price must be greater than 0.").transform(value => parseFloat(value))).or(z.null())
 })
 
 export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
@@ -59,13 +61,14 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
 
     function handleProductUpdateSubmit() {
         setSubmissionError(false);
-        const {ean, manufacturerCode, productPurchaseCost, productSellPrice} = watch();
+        const {ean, manufacturerCode, productPurchaseCost, productSellPrice, minPrice} = watch();
 
         const addedTrackedProduct: AddedTrackedProduct = {
             ean,
             manufacturerCode,
             productPurchaseCost,
-            productSellPrice
+            productSellPrice,
+            minPrice
         }
 
         addTrackedProductsMutation(addedTrackedProduct).then(r => {
@@ -104,7 +107,22 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                        label={"Sell price"}
             />
 
-            <FormGroup>
+            <TextField type={"number"}
+                       error={!!errors.minPrice}
+                       helperText={errors.minPrice?.message?.toString()}
+                       {...register('minPrice')}
+                       placeholder={"Minimum price"}
+                       label={"Minimum price"}
+            />
+
+
+            <FormGroup sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem"
+            }}>
                 <TextField sx={{marginTop: "0.5rem"}}
                            type={"text"}
                            error={!!errors.ean}
@@ -113,6 +131,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            placeholder={"EAN"}
                            label={"EAN"}
                 />
+                <Typography variant={"caption"}>OR</Typography>
                 <TextField sx={{marginTop: "0.5rem"}}
                            type={"text"}
                            error={!!errors.manufacturerCode}
@@ -132,16 +151,18 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
     }
 
     function SuccessMessage() {
-        return (<>
-                <Alert variant={"filled"} severity={"success"}>Product added successfully.</Alert>
-                <Button onClick={onClose}>Ok</Button>
-            </>
+        return (
+                <Alert sx={{padding:"1rem"}} variant={"filled"} severity={"success"}>Product added successfully.
+                    <Button sx={{margin:'1rem'}} variant={"contained"} onClick={onClose}>Ok</Button>
+                </Alert>
         )
     }
 
     return (
-        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
-            {success ? <SuccessMessage/> : <Form/>}
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper sx={{width:'fit-content'}}>
+                {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>
     )
 
