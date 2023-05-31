@@ -28,10 +28,12 @@ import {UUID} from "crypto";
 import {ChangeEvent, useEffect, useState} from "react";
 import {DateRange} from "@mui/x-date-pickers-pro";
 import dayjs, {Dayjs} from "dayjs";
+import {useRouter} from "next/router";
 
 export default function Reports() {
     const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
-    const [productId, setProductId] = useState<UUID | undefined>('' as UUID);
+    const router = useRouter();
+    const [productId, setProductId] = useState<UUID | undefined>(router.query?.product_id as UUID || '' as UUID);
 
     const beforeDate = dayjs('2023-12-12');
     const afterDate = dayjs('2023-01-01');
@@ -55,11 +57,12 @@ export default function Reports() {
     };
 
     useEffect(() => {
-        if (selectedDateRange[1] && selectedDateRange[0] && products && products.length > 0) {
-            const selectedProductId = products[0].product.id;
-            setProductId(selectedProductId); // Set the productId state
+        if (!router.query?.product_id) {
+            if (selectedDateRange[1] && selectedDateRange[0] && products && products.length > 0) {
+                const selectedProductId = products[0].product.id;
+                setProductId(selectedProductId); // Set the productId state
+            }
         }
-
     }, [products]);
 
     const reportTypes = [

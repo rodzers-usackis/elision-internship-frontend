@@ -24,6 +24,8 @@ import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/Enha
 import {TrackedProduct} from "../../../model/TrackedProduct";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import {Product} from "../../../model/Product";
+import Button from "@mui/material/Button";
+import Link from "next/link";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -41,9 +43,6 @@ export default function MyCatalog() {
     useEffect(() => {
         setSelected([])
     }, [rows])
-
-
-
 
 
     const handleRequestSort = (
@@ -139,7 +138,8 @@ export default function MyCatalog() {
 
                     <Box sx={{width: '100%', pt: 2}}>
                         <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
+                            <EnhancedTableToolbar selected={selected} numSelected={selected.length}
+                                                  setSelected={setSelected}/>
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
@@ -185,12 +185,23 @@ export default function MyCatalog() {
                                                         scope="row"
                                                         padding="none"
                                                     >
-                                                        {row.product.name}
+                                                        <Button className={styles.productLinkButton} sx={{my: '0.4rem'}} component={Link}
+                                                                href={{
+                                                                    pathname:'/dashboard/reports',
+                                                                    query: {
+                                                                        product_id : row.product.id
+                                                                    }
+                                                                }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                        }}
+                                                        >{row.product.name}</Button>
                                                     </TableCell>
                                                     <TableCell align="right">{row.product.category}</TableCell>
                                                     <TableCell align="right">{row.productPurchaseCost}</TableCell>
                                                     <TableCell align="right">{row.productSellPrice}</TableCell>
-                                                    <TableCell align="right">{row.minPrice || "no minimum price set"}</TableCell>
+                                                    <TableCell
+                                                        align="right">{row.minPrice || "no minimum price set"}</TableCell>
                                                     <TableCell align="right">{row.product.ean}</TableCell>
                                                     <TableCell align="right">{row.product.manufacturerCode}</TableCell>
                                                     <TableCell align="right"
