@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import {DashboardDrawerItems} from "../../components/dashboard-drawer/DashboardDrawerItems";
+import {DashboardDrawerItem, DashboardDrawerItems} from "../../components/dashboard-drawer/DashboardDrawerItems";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -19,15 +19,18 @@ import styles from '../../styles/DashboardDrawer.module.css'
 import {useContext, useState} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 
+interface DashboardDrawerProps {
+    selectedPage : DashboardDrawerItem
+}
 
-export default function DashboardDrawer() {
+export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
     const drawerWidth = '328px'
-    const [selectedIndex, setSelectedIndex] = useState(1);
+    // const [selectedIndex, setSelectedIndex] = useState(1);
     const {logout, loggedInUser} = useContext(AuthenticationContext);
 
     const buttonProps = (value: number) => ({
-        selected: selectedIndex === value,
-        onClick: () => setSelectedIndex(value),
+        selected: selectedPage === value
+        // onClick: () => setSelectedIndex(value),
     });
 
 
