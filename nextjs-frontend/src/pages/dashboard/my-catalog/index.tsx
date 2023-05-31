@@ -163,17 +163,18 @@ export default function MyCatalog() {
                                                     scope="row"
                                                     padding="none"
                                                 >
-                                                    <Tooltip title={"Click to go to this product's report"}><Button className={styles.productLinkButton} sx={{my: '0.4rem'}}
-                                                               component={Link}
-                                                               href={{
-                                                                   pathname: '/dashboard/reports',
-                                                                   query: {
-                                                                       product_id: row.product.id
-                                                                   }
-                                                               }}
-                                                               onClick={(e) => {
-                                                                   e.stopPropagation();
-                                                               }}
+                                                    <Tooltip title={"Click to go to this product's report"}><Button
+                                                        className={styles.productLinkButton} sx={{my: '0.4rem'}}
+                                                        component={Link}
+                                                        href={{
+                                                            pathname: '/dashboard/reports',
+                                                            query: {
+                                                                product_id: row.product.id
+                                                            }
+                                                        }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                        }}
                                                     >{row.product.name}</Button></Tooltip>
                                                 </TableCell>
                                                 <TableCell align="right">{row.product.category}</TableCell>
@@ -222,11 +223,21 @@ export default function MyCatalog() {
     }
 
     function ActionShelf() {
-        return (<>
-            <Tooltip title={"Not available yet"}><TextField id="search-field-input" label={"Search Product"}
-                                                            variant="outlined"
-                                                            fullWidth={true} disabled/></Tooltip>
-        </>)
+        return (
+            <Grid container sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <Grid item xs={6} className={styles.actionShelf}>
+                    <Tooltip title={"Searching not available yet"}>
+                        <TextField id="search-field-input" label={"Search Product"}
+                                   variant="outlined"
+                                   fullWidth={true} disabled/>
+                    </Tooltip>
+                </Grid>
+            </Grid>
+        )
     }
 
     return (

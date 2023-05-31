@@ -1,6 +1,5 @@
 // Component Imports
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
@@ -29,6 +28,8 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {DateRange} from "@mui/x-date-pickers-pro";
 import dayjs, {Dayjs} from "dayjs";
 import {useRouter} from "next/router";
+import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
+import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
 
 export default function Reports() {
     const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
@@ -72,6 +73,84 @@ export default function Reports() {
         }
     ]
 
+    function PageComponent() {
+
+        return(
+            <Grid item className={styles.chartWrapper}>
+                {isLoadingGetProducts || isProductPriceHistoryLoading ? (
+                    <CircularProgress/>
+                ) : isErrorGetProducts || isProductPriceHistoryError ? (
+                    <Alert severity="error">Price historian for this product could not be loaded</Alert>
+                ) : (
+                    <Grid item className={styles.lineChart}>
+                        <PricingHistoryGraph data={productPriceHistory}/>
+                    </Grid>
+                )}
+            </Grid>
+        )
+
+    }
+
+    function ActionShelf() {
+        return (
+            <Grid container sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}>
+                <Grid item xs={3} className={styles.actionShelf}>
+                    <TextField
+                        select
+                        id="outlined-select-report-type"
+                        label="Select report type"
+                        defaultValue={reportTypes[0].value}
+                        fullWidth={true}
+                    >
+                        {reportTypes.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+
+                <Grid item xs={3} className={styles.actionShelf}>
+                    <TextField
+                        select
+                        id="outlined-select-product"
+                        label="Select product"
+                        defaultValue={products?.[0].product.id}
+                        value={productId}
+                        onChange={handleProductChange}
+                        fullWidth={true}
+                    >
+                        {products?.map((option: TrackedProduct) => (
+                            <MenuItem key={option.product.name} value={option.product.id}>
+                                {option.product.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+
+                <Grid item xs={3} className={styles.actionShelf}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateRangePicker slots={{field: SingleInputDateRangeField}} sx={{width: '100%'}}
+                                         defaultValue={selectedDateRange} onChange={handleDateChange}/>
+                    </LocalizationProvider>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    return (
+        <DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Reports}
+                                     pageTitle={"Reports"}
+                                     pageSubtitle={"Find out about the pricing trends of your competitors"}
+                                     actionShelf={<ActionShelf/>}
+                                     pageComponent={<PageComponent/>}
+        />
+    )
+
     return (
         <>
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'}>
@@ -86,52 +165,7 @@ export default function Reports() {
                     <Typography className={styles.dashboardSubtitle}>
                         Find out about the pricing trends of your competitors
                     </Typography>
-                    <Grid container sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}>
-                        <Grid item xs={3} className={styles.actionShelf}>
-                            <TextField
-                                select
-                                id="outlined-select-report-type"
-                                label="Select report type"
-                                defaultValue={reportTypes[0].value}
-                                fullWidth={true}
-                            >
-                                {reportTypes.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
 
-                        <Grid item xs={3} className={styles.actionShelf}>
-                            <TextField
-                                select
-                                id="outlined-select-product"
-                                label="Select product"
-                                defaultValue={products?.[0].product.id}
-                                value={productId}
-                                onChange={handleProductChange}
-                                fullWidth={true}
-                            >
-                                {products?.map((option: TrackedProduct) => (
-                                    <MenuItem key={option.product.name} value={option.product.id}>
-                                        {option.product.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
-
-                        <Grid item xs={3} className={styles.actionShelf}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DateRangePicker slots={{field: SingleInputDateRangeField}} sx={{width: '100%'}}
-                                                 defaultValue={selectedDateRange} onChange={handleDateChange}/>
-                            </LocalizationProvider>
-                        </Grid>
-                    </Grid>
 
                     <Divider/>
 

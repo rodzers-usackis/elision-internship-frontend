@@ -7,11 +7,11 @@ import Divider from "@mui/material/Divider";
 import {DashboardDrawerItem} from "./DashboardDrawerItems";
 
 interface DashboardDrawerPageTemplateProps {
-    pageComponent: ReactNode;
+    currentPage: DashboardDrawerItem
     pageTitle: string;
     pageSubtitle: string;
     actionShelf: ReactNode;
-    currentPage: DashboardDrawerItem
+    pageComponent: ReactNode;
 }
 
 export default function DashboardDrawerPageTemplate({
@@ -36,15 +36,10 @@ export default function DashboardDrawerPageTemplate({
                     <Typography className={styles.dashboardSubtitle}>
                         {pageSubtitle}
                     </Typography>
-                    <Grid container sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Grid item xs={6} className={styles.actionShelf}>
-                            {actionShelf}
-                        </Grid>
-                    </Grid>
+
+
+                    {actionShelf}
+
 
                     <Divider/>
 
