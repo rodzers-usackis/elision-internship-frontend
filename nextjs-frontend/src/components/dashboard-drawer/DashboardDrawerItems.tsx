@@ -47,5 +47,6 @@ export enum DashboardDrawerItem{
     Competitors = 2,
     Reports = 3,
     Alerts = 4,
-    MyAccount = 5
+    MyAccount = 5,
+    AlertSettings = 6,
 }
