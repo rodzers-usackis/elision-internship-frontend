@@ -163,7 +163,10 @@ export default function MyCatalog() {
                                                     scope="row"
                                                     padding="none"
                                                 >
-                                                    <Tooltip title={"Click to go to this product's report"}><Button
+                                                    <Tooltip title={"Click to go to this product's report"}
+                                                             placement={"left"}
+                                                             arrow
+                                                    ><Button
                                                         className={styles.productLinkButton} sx={{my: '0.4rem'}}
                                                         component={Link}
                                                         href={{
