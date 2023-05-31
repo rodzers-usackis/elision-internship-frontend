@@ -151,37 +151,4 @@ export default function Reports() {
         />
     )
 
-    return (
-        <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'}>
-                <Grid item className={styles.drawerWrapper}>
-                    <DashboardDrawer/>
-                </Grid>
-
-                <Grid item className={styles.mainContentWrapper}>
-                    <Typography className={styles.dashboardTitle}>
-                        Reports
-                    </Typography>
-                    <Typography className={styles.dashboardSubtitle}>
-                        Find out about the pricing trends of your competitors
-                    </Typography>
-
-
-                    <Divider/>
-
-                    <Grid item className={styles.chartWrapper}>
-                        {isLoadingGetProducts || isProductPriceHistoryLoading ? (
-                            <CircularProgress/>
-                        ) : isErrorGetProducts || isProductPriceHistoryError ? (
-                            <Alert severity="error">Price historian for this product could not be loaded</Alert>
-                        ) : (
-                            <Grid item className={styles.lineChart}>
-                                <PricingHistoryGraph data={productPriceHistory}/>
-                            </Grid>
-                        )}
-                    </Grid>
-                </Grid>
-            </Grid>
-        </>
-    )
 }
