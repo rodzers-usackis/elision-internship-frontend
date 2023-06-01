@@ -1,5 +1,5 @@
 import NotificationsActive from "@mui/icons-material/NotificationsActive";
-import {useAlertCount} from "<components>/hooks/alerts/useAlertCount";
+import {useAlertCount} from "../../hooks/alerts/useAlertCount";
 import Badge from "@mui/material/Badge";
 
 export const NotificationsBellIcon = () => {

@@ -17,9 +17,6 @@ export default function AlertsSettings() {
 
     const {isAlertSettingsError, alertSettings, isAlertSettingsLoading} = useAlertSettings();
 
-
-
-
     return (
         <>
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'}>

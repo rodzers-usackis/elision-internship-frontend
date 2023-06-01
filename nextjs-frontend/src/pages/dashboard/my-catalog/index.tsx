@@ -24,8 +24,8 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import {visuallyHidden} from '@mui/utils';
 import {useProducts} from "../../../hooks/register/useProducts";
-import {getComparator, Order} from "../../../components/my-catalog/table-sorting-functions/getComparator";
-import {stableSort} from "../../../components/my-catalog/table-sorting-functions/stableSort";
+import {getComparator, Order} from "../../../components/table-components/table-sorting-functions/getComparator";
+import {stableSort} from "../../../components/table-components/table-sorting-functions/stableSort";
 import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 import {TrackedProduct} from "../../../model/TrackedProduct";
@@ -34,6 +34,7 @@ import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import {Product} from "../../../model/Product";
 import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
 import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
+import {useAlertRules} from "../../../hooks/alert-rules/useAlertRules";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -51,10 +52,6 @@ export default function MyCatalog() {
     useEffect(() => {
         setSelected([])
     }, [rows])
-
-
-
-
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,

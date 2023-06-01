@@ -9,6 +9,7 @@ export const API_ROUTES = {
     TRACKED_PRODUCTS : `${BACKEND_BASEURL}/api/client-company/tracked-products`,
     ALERTS: `${BACKEND_BASEURL}/api/alerts`,
     ALERT_SETTINGS: `${BACKEND_BASEURL}/api/alert-settings`,
+    ALERT_RULES: `${BACKEND_BASEURL}/api/alert-rules`,
     ALERT_COUNT: `${BACKEND_BASEURL}/api/alerts/unread/count`,
     SCRAPING_TASKS: `${BACKEND_BASEURL}/api/scraping-tasks`,
     PRODUCT_PRICE_HISTORY: `${BACKEND_BASEURL}/api/prices/products`,

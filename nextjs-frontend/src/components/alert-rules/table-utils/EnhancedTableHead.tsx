@@ -8,12 +8,14 @@ import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import {EnhancedTableProps} from "./EnhancedTableProps";
 import {headCells} from "./headCells";
+import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
     const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
         props;
+
     const createSortHandler =
-        (property: keyof ProductData) => (event: React.MouseEvent<unknown>) => {
+        (property: keyof AlertRulesTableData) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
@@ -41,7 +43,7 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
+                            onClick={createSortHandler(headCell.id as keyof AlertRules)}
                         >
                             {headCell.label}
                             {orderBy === headCell.id ? (

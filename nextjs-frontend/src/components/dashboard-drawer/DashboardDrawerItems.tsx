@@ -3,6 +3,8 @@ import RadarIcon from '@mui/icons-material/Radar';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import {NotificationsBellIcon} from "../../components/dashboard-drawer/NotificationsBellIcon"
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import Settings from '@mui/icons-material/Settings';
+import EditNotificationsIcon from '@mui/icons-material/EditNotifications';
 
 export const DashboardDrawerItems = [
     {
@@ -32,6 +34,22 @@ export const DashboardDrawerItems = [
         className: 'nav-links',
         icon: <NotificationsBellIcon/>,
         value: 4,
+    },
+    {
+        title: ' Alert Rules',
+        href: '/dashboard/alert-rules',
+        className: 'nav-links',
+        icon: <EditNotificationsIcon/>,
+        value: 4,
+        subValue: 1,
+    },
+    {
+        title: 'Alert Settings',
+        href: '/dashboard/alert-settings',
+        className: 'nav-links',
+        icon: <Settings/>,
+        value: 4,
+        subValue: 2,
     },
     {
         title: 'My Account',

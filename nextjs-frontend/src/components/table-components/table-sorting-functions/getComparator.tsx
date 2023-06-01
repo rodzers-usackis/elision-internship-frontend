@@ -1,4 +1,4 @@
-import {descendingComparator} from "../../../components/my-catalog/table-sorting-functions/descendingComparator";
+import {descendingComparator} from "./descendingComparator";
 
 export type Order = 'asc' | 'desc';
 
