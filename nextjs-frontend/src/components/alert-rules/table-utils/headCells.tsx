@@ -5,10 +5,10 @@ export const headCells: readonly HeadCell[] = [
         id: 'id',
         numeric: false,
         disablePadding: false,
-        label: 'uuid',
+        label: 'Product ID',
     },
     {
-        id: 'product',
+        id: 'productName',
         numeric: false,
         disablePadding: false,
         label: 'Product',

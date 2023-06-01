@@ -1,9 +1,8 @@
-import AlertRules from "../../../model/alert-rules/AlertRules";
-import Product from "../../../model/alert-rules/Product";
+import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 
 export interface HeadCell {
     disablePadding: boolean;
-    id: keyof AlertRules | keyof Product;
+    id: keyof AlertRulesTableData;
     label: string;
     numeric: boolean;
 }

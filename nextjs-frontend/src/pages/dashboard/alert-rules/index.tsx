@@ -26,7 +26,6 @@ import {stableSort} from "../../../components/table-components/table-sorting-fun
 import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
-import {PricingHistoryGraph} from "../../../components/reports/PricingHistoryGraph";
 
 export default function AlertRulesPage() {
     const {isAlertRulesLoading, isAlertRulesError, alertRules} = useAlertRules();

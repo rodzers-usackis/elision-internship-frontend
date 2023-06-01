@@ -43,7 +43,7 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id as keyof AlertRules)}
+                            onClick={createSortHandler(headCell.id as keyof AlertRulesTableData)}
                         >
                             {headCell.label}
                             {orderBy === headCell.id ? (
