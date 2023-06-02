@@ -26,6 +26,12 @@ export const headCells: readonly HeadCell[] = [
         label: 'Price',
     },
     {
+        id: 'minPrice',
+        numeric: true,
+        disablePadding: false,
+        label: 'Minimum Price',
+    },
+    {
         id: 'productEan',
         numeric: false,
         disablePadding: false,

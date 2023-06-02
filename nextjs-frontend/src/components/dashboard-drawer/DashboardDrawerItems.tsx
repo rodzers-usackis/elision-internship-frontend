@@ -59,3 +59,12 @@ export const DashboardDrawerItems = [
         value: 7,
     }
 ]
+
+export enum DashboardDrawerItem{
+    MyCatalog = 1,
+    Competitors = 2,
+    Reports = 3,
+    Alerts = 4,
+    MyAccount = 5,
+    AlertSettings = 6,
+}

@@ -1,12 +1,13 @@
 import { createContext } from 'react'
 import AuthenticationRequest from "../../model/AuthenticationRequest";
+import LoggedInUser from "../../model/LoggedInUser";
 
 export interface IAuthenticationContext {
     isAuthenticated: () => boolean;
-    loggedInUser: string | null;
+    loggedInUser: LoggedInUser | null;
     login: (credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) => void;
     logout: () => void;
-    logBackInWithToken:()=>void;
+    isLoading: boolean;
 }
 
 export default createContext<IAuthenticationContext>({
@@ -14,6 +15,6 @@ export default createContext<IAuthenticationContext>({
     loggedInUser: null,
     login: (val) => {},
     logout: () => {},
-    logBackInWithToken: () => {}
+    isLoading: true
 })
 
