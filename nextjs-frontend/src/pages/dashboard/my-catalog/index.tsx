@@ -24,7 +24,7 @@ import {TrackedProduct} from "../../../model/TrackedProduct";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 import Alert from "@mui/material/Alert";
-import styles from "../../../styles/DashboardReports.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');

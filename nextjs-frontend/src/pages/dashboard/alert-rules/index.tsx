@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import styles from "../../../styles/DashboardReports.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";

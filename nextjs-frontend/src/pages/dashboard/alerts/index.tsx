@@ -20,7 +20,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 
 // Styling Imports
-import styles from "../../../styles/DashboardReports.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 import "../../../styles/AlertList.module.css";
 
 // Hook Imports

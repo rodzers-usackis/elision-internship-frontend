@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 // Styling Imports
-import styles from "../../../styles/DashboardReports.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 
 // Hook Imports
 import {useProducts} from "../../../hooks/register/useProducts";
