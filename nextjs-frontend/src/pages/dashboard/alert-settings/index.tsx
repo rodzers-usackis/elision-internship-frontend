@@ -24,7 +24,7 @@ export default function AlertsSettings() {
                     <DashboardDrawer/>
                 </Grid>
 
-                <Grid item className={styles.mainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         Alert settings
                     </Typography>
@@ -35,12 +35,12 @@ export default function AlertsSettings() {
 
                     <Divider/>
 
-                    <Grid item className={styles.lineChart}>
-                        {isAlertSettingsLoading && <CircularProgress/>}
+                    <Grid item className={styles.contentWrapper}>
                         {isAlertSettingsError && <Alert severity="error">Error loading alert settings</Alert>}
                         {!isAlertSettingsLoading && !isAlertSettingsError && alertSettings &&
-                        <AlertSettingsForm alertSettings={alertSettings}/>}
-
+                            <Grid item className={styles.lineChart}>
+                                <AlertSettingsForm alertSettings={alertSettings}/>
+                            </Grid>}
                     </Grid>
                 </Grid>
             </Grid>

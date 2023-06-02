@@ -62,16 +62,18 @@ export default function Alerts() {
                         Check out your latest price alerts
                     </Typography>
 
-                    <TextField
-                        variant={'outlined'}
-                        disabled
-                        placeholder={'Search alert'}
-                        sx={{my: 2}}
-                    />
+                    <Tooltip title={"Feature not available yet"} arrow>
+                        <TextField
+                            variant={'outlined'}
+                            disabled
+                            placeholder={'Search alert'}
+                            sx={{my: 2}}
+                        />
+                    </Tooltip>
 
                     <Divider/>
 
-                    <Grid item>
+                    <Grid item className={styles.contentWrapper}>
                         {isAlertsLoading && <CircularProgress/>}
                         {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
                         {!isAlertsLoading && !isAlertsError && alerts &&
