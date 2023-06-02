@@ -5,7 +5,7 @@ export interface TrackedProduct {
     id: UUID;
     productPurchaseCost: number;
     productSellPrice: number;
-    minPrice?: number;
+    minPrice: number;
     product: Product;
     tracked: boolean;
 }

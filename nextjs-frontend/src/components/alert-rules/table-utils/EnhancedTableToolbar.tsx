@@ -60,7 +60,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     id="tableTitle"
                     component="div"
                 >
-                    Products
+                    {props.title}
                 </Typography>
             )}
             {numSelected === 1 ? (
@@ -95,10 +95,10 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
                 )
             )}
-            {selected.length === 1 && editModalOpen ?
-                <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
-            {addModalOpen ?
-                <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
+            {/*{selected.length === 1 && editModalOpen ?*/}
+            {/*    <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}*/}
+            {/*{addModalOpen ?*/}
+            {/*    <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}*/}
         </Toolbar>
     );
 }

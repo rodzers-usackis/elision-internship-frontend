@@ -21,8 +21,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 
 // Styling Imports
-import styles from "../../../styles/DashboardReports.module.css";
-import "../../../styles/AlertList.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 
 // Hook Imports
 import {setAlertsRead} from "../../../services/api/alerts";
@@ -64,15 +63,26 @@ export default function Alerts() {
 
     function PageComponent() {
         return (
-            <Grid item className={styles.lineChart}>
-                {isAlertsLoading && <CircularProgress/>}
-                {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
-                {!isAlertsLoading && !isAlertsError && alerts &&
-                <AlertTable alerts={alerts}/>}
-
+            <Grid item className={styles.contentWrapper}>
+                {isAlertsLoading ? (
+                    <CircularProgress/>
+                ) : isAlertsError ? (
+                    <Alert severity="error">Error loading alerts</Alert>
+                ) : (
+                    !isAlertsLoading && !isAlertsError && alerts && (
+                        <Grid item className={styles.lineChart}>
+                            {isAlertsLoading && <CircularProgress/>}
+                            {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
+                            {!isAlertsLoading && !isAlertsError && alerts && (
+                                <AlertTable alerts={alerts}/>
+                            )}
+                        </Grid>
+                    )
+                )}
             </Grid>
-        )
+        );
     }
+
 
 
     return (

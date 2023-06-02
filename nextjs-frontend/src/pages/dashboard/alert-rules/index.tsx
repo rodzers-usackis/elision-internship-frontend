@@ -26,6 +26,9 @@ import {stableSort} from "../../../components/table-components/table-sorting-fun
 import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import {AlertTable} from "../../../components/alerts/AlertTable";
+import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
+import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
 
 export default function AlertRulesPage() {
     const {isAlertRulesLoading, isAlertRulesError, alertRules} = useAlertRules();
@@ -102,127 +105,131 @@ export default function AlertRulesPage() {
         [order, orderBy, page, rowsPerPage, tableData],
     );
 
-    console.log('Visible Rows:', visibleRows);
+    function ActionShelf() {
+        return (
+            <Tooltip title={"Feature not available yet"} arrow><TextField
+                variant={'outlined'}
+                disabled
+                placeholder={'Search alert rule'}
+                sx={{my: 2}}
+
+            /></Tooltip>
+        )
+    }
+
+    function PageComponent() {
+        return (
+            <>
+                <Grid item className={styles.contentWrapper}>
+                    {isAlertRulesLoading ? (
+                        <CircularProgress/>
+                    ) : isAlertRulesError ? (
+                        <Alert severity="error">Alert rules could not be loaded</Alert>
+                    ) : (<>
+                            <Grid item className={styles.lineChart}>
+                                <Box sx={{width: '100%', pt: 2}}>
+                                    <Paper sx={{width: '100%', mb: 2}}>
+                                        <EnhancedTableToolbar title={"Alert Rules"} selected={selected} numSelected={selected.length}
+                                                              setSelected={setSelected}/>
+                                        <TableContainer>
+                                            <Table
+                                                aria-labelledby="tableTitle"
+                                                size={dense ? 'small' : 'medium'}
+                                            >
+                                                <EnhancedTableHead
+                                                    numSelected={selected.length}
+                                                    order={order}
+                                                    orderBy={orderBy}
+                                                    onSelectAllClick={handleSelectAllClick}
+                                                    onRequestSort={handleRequestSort}
+                                                    rowCount={tableData.length}
+                                                />
+                                                <TableBody>
+                                                    {visibleRows.map((row, index) => {
+                                                        const isItemSelected = isSelected(row);
+                                                        const labelId = `enhanced-table-checkbox-${index}`;
+
+                                                        return (
+                                                            <TableRow
+                                                                hover
+                                                                onClick={(event) => handleClick(event, row)}
+                                                                role="checkbox"
+                                                                aria-checked={isItemSelected}
+                                                                tabIndex={-1}
+                                                                key={row.id}
+                                                                selected={isItemSelected}
+                                                                sx={{cursor: 'pointer'}}
+                                                            >
+                                                                <TableCell padding="checkbox">
+                                                                    <Checkbox
+                                                                        color="primary"
+                                                                        checked={isItemSelected}
+                                                                        inputProps={{
+                                                                            'aria-labelledby': labelId,
+                                                                        }}
+                                                                    />
+                                                                </TableCell>
+                                                                <TableCell
+                                                                    component="th"
+                                                                    id={labelId}
+                                                                    scope="row"
+                                                                    padding="none"
+                                                                >
+                                                                    {row.id}
+                                                                </TableCell>
+                                                                <TableCell align="right">{row.productName}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.priceThreshold}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.priceComparisonType}</TableCell>
+                                                            </TableRow>
+                                                        );
+                                                    })}
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+                                                            <TableCell colSpan={6}/>
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        <TablePagination
+                                            rowsPerPageOptions={[10, 25, 50]}
+                                            component="div"
+                                            count={tableData.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                        />
+                                    </Paper>
+                                    <FormControlLabel
+                                        control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                                        label="Dense padding"
+                                    />
+                                </Box>
+                            </Grid>
+                        </>
+                    )}
+                </Grid>
+            </>);
+    }
 
     return (
-        <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'}>
-                <Grid item className={styles.drawerWrapper}>
-                    <DashboardDrawer/>
-                </Grid>
-
-                <Grid item className={styles.dashboardWrapper}>
-                    <Typography className={styles.dashboardTitle}>
-                        Alert Rules
-                    </Typography>
-                    <Typography className={styles.dashboardSubtitle}>
-                        Adjust your alert rules
-                    </Typography>
-
-
-                    <Tooltip title={"Feature not available yet"} arrow><TextField
-                        variant={'outlined'}
-                        disabled
-                        placeholder={'Search alert'}
-                        sx={{my: 2}}
-
-                    /></Tooltip>
-                    <Divider/>
-
-                    <Grid item className={styles.contentWrapper}>
-                        {isAlertRulesLoading ? (
-                            <CircularProgress/>
-                        ) : isAlertRulesError ? (
-                            <Alert severity="error">Alert rules could not be loaded</Alert>
-                        ) : (<>
-                                <Grid item className={styles.lineChart}>
-                                    <Box sx={{width: '100%', pt: 2}}>
-                                        <Paper sx={{width: '100%', mb: 2}}>
-                                            <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
-                                            <TableContainer>
-                                                <Table
-                                                    aria-labelledby="tableTitle"
-                                                    size={dense ? 'small' : 'medium'}
-                                                >
-                                                    <EnhancedTableHead
-                                                        numSelected={selected.length}
-                                                        order={order}
-                                                        orderBy={orderBy}
-                                                        onSelectAllClick={handleSelectAllClick}
-                                                        onRequestSort={handleRequestSort}
-                                                        rowCount={tableData.length}
-                                                    />
-                                                    <TableBody>
-                                                        {visibleRows.map((row, index) => {
-                                                            const isItemSelected = isSelected(row);
-                                                            const labelId = `enhanced-table-checkbox-${index}`;
-
-                                                            return (
-                                                                <TableRow
-                                                                    hover
-                                                                    onClick={(event) => handleClick(event, row)}
-                                                                    role="checkbox"
-                                                                    aria-checked={isItemSelected}
-                                                                    tabIndex={-1}
-                                                                    key={row.id}
-                                                                    selected={isItemSelected}
-                                                                    sx={{cursor: 'pointer'}}
-                                                                >
-                                                                    <TableCell padding="checkbox">
-                                                                        <Checkbox
-                                                                            color="primary"
-                                                                            checked={isItemSelected}
-                                                                            inputProps={{
-                                                                                'aria-labelledby': labelId,
-                                                                            }}
-                                                                        />
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        component="th"
-                                                                        id={labelId}
-                                                                        scope="row"
-                                                                        padding="none"
-                                                                    >
-                                                                        {row.id}
-                                                                    </TableCell>
-                                                                    <TableCell align="right">{row.productName}</TableCell>
-                                                                    <TableCell align="right">{row.priceThreshold}</TableCell>
-                                                                    <TableCell align="right">{row.priceComparisonType}</TableCell>
-                                                                </TableRow>
-                                                            );
-                                                        })}
-                                                        {emptyRows > 0 && (
-                                                            <TableRow
-                                                                style={{
-                                                                    height: (dense ? 33 : 53) * emptyRows,
-                                                                }}
-                                                            >
-                                                                <TableCell colSpan={6}/>
-                                                            </TableRow>
-                                                        )}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                            <TablePagination
-                                                rowsPerPageOptions={[10, 25, 50]}
-                                                component="div"
-                                                count={tableData.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
-                                        </Paper>
-                                        <FormControlLabel
-                                            control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                                            label="Dense padding"
-                                        />
-                                    </Box>
-                                </Grid>
-                            </>
-                        )}
-                    </Grid>
-                </Grid>
-            </Grid>
-        </>);
+        <DashboardDrawerPageTemplate
+            currentPage={DashboardDrawerItem.AlertRules}
+            pageTitle={"Alert Rules"}
+            pageSubtitle={`Adjust your alert rules`}
+            actionShelf={(
+                <ActionShelf/>
+            )}
+            pageComponent={(
+                <PageComponent/>
+            )}
+        />
+    );
 }

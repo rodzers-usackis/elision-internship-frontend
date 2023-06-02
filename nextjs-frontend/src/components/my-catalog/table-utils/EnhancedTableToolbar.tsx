@@ -25,7 +25,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     } = useDeleteTrackedProducts()
 
     const {isPostScrapingTaskError, isPostScrapingTaskLoading, postScrapingTaskMutation} = usePostScrapingTask();
-    const {numSelected, selected, trackedProducts} = props;
+    const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [scrapingFeedbackSnackbarOpen, setScrapingFeedbackSnackbarOpen] = useState(false);
@@ -91,7 +91,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     id="tableTitle"
                     component="div"
                 >
-                    Products
+                    {props.title}
                 </Typography>
             )}
             {numSelected === 1 ? (

@@ -27,11 +27,11 @@
 }
 
 .drawerWrapper {
-    width: 328px;
+    min-width: 260px;
     height: 100vh;
 }
 
 .dashboardWrapper {
-    width: calc(100% - 328px);
+    width: calc(100% - 260px);
     padding: 30px;
 }

@@ -2,10 +2,9 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Checkbox from '@mui/material/Checkbox';
+import styles from '../../../styles/DashboardGenericContent.module.css'
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,6 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import {getComparator, Order} from "../../../components/table-components/table-sorting-functions/getComparator";
@@ -22,9 +22,13 @@ import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/E
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 import {TrackedProduct} from "../../../model/TrackedProduct";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
+import {Product} from "../../../model/Product";
+import Button from "@mui/material/Button";
+import Link from "next/link";
+import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
+import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
 import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 import Alert from "@mui/material/Alert";
-import styles from "../../../styles/DashboardGenericContent.module.css";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -46,6 +50,7 @@ export default function MyCatalog() {
         productCategory: trackedProduct.product.category,
         productPurchaseCost: trackedProduct.productPurchaseCost,
         productSellPrice: trackedProduct.productSellPrice,
+        minPrice: trackedProduct.minPrice,
         productEan: trackedProduct.product.ean,
         productManufacturerCode: trackedProduct.product.manufacturerCode,
         isTracked: trackedProduct.tracked,
@@ -109,134 +114,163 @@ export default function MyCatalog() {
         [order, orderBy, page, rowsPerPage, catalogTableData],
     );
 
-    return (
-        <>
-            <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
-                <Grid item style={{flex: 0}}>
-                    <DashboardDrawer/>
-                </Grid>
+    function PageComponent() {
+        return (
+            <>
+                <Grid item className={styles.contentWrapper}>
+                    {isTrackedProductsLoading ? (
+                        <CircularProgress/>
+                    ) : isTrackedProductsError ? (
+                        <Alert severity="error">Error loading alerts</Alert>
+                    ) : (
+                        !isTrackedProductsLoading && !isTrackedProductsError && catalogTableData && (
+                            <Grid item className={styles.lineChart}>
+                                <Box sx={{width: '100%', pt: 2}}>
+                                    <Paper sx={{width: '100%', mb: 2}}>
+                                        <EnhancedTableToolbar title={"Products"} selected={selected}
+                                                              numSelected={selected.length}
+                                                              setSelected={setSelected}/>
+                                        <TableContainer>
+                                            <Table
+                                                aria-labelledby="tableTitle"
+                                                size={dense ? 'small' : 'medium'}
+                                            >
+                                                <EnhancedTableHead
+                                                    numSelected={selected.length}
+                                                    order={order}
+                                                    orderBy={orderBy}
+                                                    onSelectAllClick={handleSelectAllClick}
+                                                    onRequestSort={handleRequestSort}
+                                                    rowCount={catalogTableData.length}
+                                                />
+                                                <TableBody>
+                                                    {visibleRows.map((row, index) => {
+                                                        const isItemSelected = isSelected(row);
+                                                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                <Grid item className={styles.dashboardWrapper}>
-                    <Typography className={styles.dashboardTitle}>
-                        My Catalog
-                    </Typography>
-                    <Typography className={styles.dashboardSubtitle}>
-                        Import and manage your products ({catalogTableData.length} active) (Last import 9 minutes ago)
-                    </Typography>
-                    <Grid container sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Grid item xs={6} className={styles.actionShelf}>
-                            <TextField id="search-field-input" label={"Search Product"} variant="outlined"
-                                       fullWidth={true}/>
-                        </Grid>
-                    </Grid>
-
-                    <Divider/>
-
-                    <Grid item className={styles.contentWrapper}>
-                        {isTrackedProductsLoading ? (
-                            <CircularProgress/>
-                        ) : isTrackedProductsError ? (
-                            <Alert severity="error">Price historian for this product could not be loaded</Alert>
-                        ) : (<>
-                                <Grid item className={styles.lineChart}>
-                                    <Box sx={{width: '100%', pt: 2}}>
-                                        <Paper sx={{width: '100%', mb: 2}}>
-                                            <EnhancedTableToolbar selected={selected} numSelected={selected.length}
-                                                                  setSelected={setSelected}/>
-                                            <TableContainer>
-                                                <Table
-                                                    aria-labelledby="tableTitle"
-                                                    size={dense ? 'small' : 'medium'}
-                                                >
-                                                    <EnhancedTableHead
-                                                        numSelected={selected.length}
-                                                        order={order}
-                                                        orderBy={orderBy}
-                                                        onSelectAllClick={handleSelectAllClick}
-                                                        onRequestSort={handleRequestSort}
-                                                        rowCount={catalogTableData.length}
-                                                    />
-                                                    <TableBody>
-                                                        {visibleRows.map((row, index) => {
-                                                            const isItemSelected = isSelected(row);
-                                                            const labelId = `enhanced-table-checkbox-${index}`;
-
-                                                            return (
-                                                                <TableRow
-                                                                    hover
-                                                                    onClick={(event) => handleClick(event, row)}
-                                                                    role="checkbox"
-                                                                    aria-checked={isItemSelected}
-                                                                    tabIndex={-1}
-                                                                    key={row.id}
-                                                                    selected={isItemSelected}
-                                                                    sx={{cursor: 'pointer'}}
-                                                                >
-                                                                    <TableCell padding="checkbox">
-                                                                        <Checkbox
-                                                                            color="primary"
-                                                                            checked={isItemSelected}
-                                                                            inputProps={{
-                                                                                'aria-labelledby': labelId,
-                                                                            }}
-                                                                        />
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productName}</TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productCategory}</TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productPurchaseCost}</TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productSellPrice}</TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productEan}</TableCell>
-                                                                    <TableCell
-                                                                        align="right">{row.productManufacturerCode}</TableCell>
-                                                                    <TableCell align="right"
-                                                                               style={{color: row.isTracked ? 'green' : 'red'}}>
-                                                                        {row.isTracked ? 'Tracked' : 'Not tracked'}
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            );
-                                                        })}
-                                                        {emptyRows > 0 && (
+                                                        return (
                                                             <TableRow
-                                                                style={{
-                                                                    height: (dense ? 33 : 53) * emptyRows,
-                                                                }}
+                                                                hover
+                                                                onClick={(event) => handleClick(event, row)}
+                                                                role="checkbox"
+                                                                aria-checked={isItemSelected}
+                                                                tabIndex={-1}
+                                                                key={row.id}
+                                                                selected={isItemSelected}
+                                                                sx={{cursor: 'pointer'}}
                                                             >
-                                                                <TableCell colSpan={6}/>
+                                                                <TableCell padding="checkbox">
+                                                                    <Checkbox
+                                                                        color="primary"
+                                                                        checked={isItemSelected}
+                                                                        inputProps={{
+                                                                            'aria-labelledby': labelId,
+                                                                        }}
+                                                                    />
+                                                                </TableCell>
+                                                                <TableCell
+                                                                    component="th"
+                                                                    id={labelId}
+                                                                    scope="row"
+                                                                    padding="none"
+                                                                >
+                                                                    <Tooltip
+                                                                        title={"Click to go to this product's report"}
+                                                                        placement={"left"}
+                                                                        arrow
+                                                                    ><Button
+                                                                        className={styles.productLinkButton}
+                                                                        sx={{my: '0.4rem'}}
+                                                                        component={Link}
+                                                                        href={`/dashboard/reports?product_id=${row.id}`}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                        }}
+                                                                    >{row.productName}</Button></Tooltip>
+                                                                </TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.productCategory}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.productPurchaseCost}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.productSellPrice}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.minPrice || "no minimum price set"}</TableCell>
+                                                                <TableCell align="right">{row.productEan}</TableCell>
+                                                                <TableCell
+                                                                    align="right">{row.productManufacturerCode}</TableCell>
+                                                                <TableCell align="right"
+                                                                           style={{color: row.isTracked ? 'green' : 'red'}}>
+                                                                    {row.isTracked ? 'Tracked' : 'Not tracked'}
+                                                                </TableCell>
                                                             </TableRow>
-                                                        )}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                            <TablePagination
-                                                rowsPerPageOptions={[10, 25, 50]}
-                                                component="div"
-                                                count={catalogTableData.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
-                                        </Paper>
-                                        <FormControlLabel
-                                            control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                                            label="Dense padding"
+                                                        );
+                                                    })}
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+                                                            <TableCell colSpan={6}/>
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        <TablePagination
+                                            rowsPerPageOptions={[10, 25, 50]}
+                                            component="div"
+                                            count={catalogTableData.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
                                         />
-                                    </Box>
-                                </Grid>
-                            </>
-                        )}
-                    </Grid>
+                                    </Paper>
+                                    <FormControlLabel
+                                        control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                                        label="Dense padding"
+                                    />
+                                </Box>
+                            </Grid>
+                        )
+                    )}
+                </Grid>
+            </>
+        );
+    }
+
+    function ActionShelf() {
+        return (
+            <Grid container sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <Grid item xs={6} className={styles.actionShelf}>
+                    <Tooltip title={"Searching not available yet"}>
+                        <TextField id="search-field-input" label={"Search Product"}
+                                   variant="outlined"
+                                   fullWidth={true} disabled/>
+                    </Tooltip>
                 </Grid>
             </Grid>
-        </>
+        )
+    }
+
+    return (
+        <DashboardDrawerPageTemplate
+            currentPage={DashboardDrawerItem.MyCatalog}
+            pageTitle={"My catalog"}
+            pageSubtitle={`Import and manage your products (${catalogTableData?.length} active).`}
+            actionShelf={(
+                <ActionShelf/>
+            )}
+            pageComponent={(
+                <PageComponent/>
+            )}
+        />
     )
+
 }

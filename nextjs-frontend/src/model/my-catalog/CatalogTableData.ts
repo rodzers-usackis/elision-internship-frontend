@@ -6,6 +6,7 @@ export default interface CatalogTableData {
     productCategory: string;
     productPurchaseCost: number;
     productSellPrice: number;
+    minPrice: number;
     productEan: string;
     productManufacturerCode: string;
     isTracked: boolean;
