@@ -5,8 +5,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-import {alpha} from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
@@ -19,43 +17,46 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import EditIcon from '@mui/icons-material/Edit';
-import {visuallyHidden} from '@mui/utils';
-import {useProducts} from "../../../hooks/register/useProducts";
 import {getComparator, Order} from "../../../components/table-components/table-sorting-functions/getComparator";
 import {stableSort} from "../../../components/table-components/table-sorting-functions/stableSort";
 import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/EnhancedTableToolbar";
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 import {TrackedProduct} from "../../../model/TrackedProduct";
-import {UUID, randomUUID} from "crypto";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
-import {Product} from "../../../model/Product";
-import useAuthenticationCheck from "../../../hooks/useAuthenticationCheck";
-import AuthenticationContext from "../../../context/authentication/AuthenticationContext";
-import {useAlertRules} from "../../../hooks/alert-rules/useAlertRules";
+import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
-    const [orderBy, setOrderBy] = useState<keyof TrackedProduct | keyof Product>('productPurchaseCost');
-    const [selected, setSelected] = useState<TrackedProduct[]>([]);
+    const [orderBy, setOrderBy] = useState<keyof CatalogTableData>('productName');
+    const [selected, setSelected] = useState<CatalogTableData[]>([]);
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
     const {
-        trackedProducts: rows,
+        trackedProducts,
         isTrackedProductsError,
         isTrackedProductsLoading
-    } = useTrackedProducts<TrackedProduct>();
+    } = useTrackedProducts();
+
+    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct : TrackedProduct) => ({
+        id: trackedProduct.id,
+        productName: trackedProduct.product.name,
+        productCategory: trackedProduct.product.category,
+        productPurchaseCost: trackedProduct.productPurchaseCost,
+        productSellPrice: trackedProduct.productSellPrice,
+        productEan: trackedProduct.product.ean,
+        productManufacturerCode: trackedProduct.product.manufacturerCode,
+        isTracked: trackedProduct.tracked,
+    }));
 
     useEffect(() => {
         setSelected([])
-    }, [rows])
+    }, [])
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof ProductData,
+        property: keyof CatalogTableData,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -64,22 +65,17 @@ export default function MyCatalog() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = rows || [];
-            setSelected(newSelected);
+            setSelected(catalogTableData);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, product: TrackedProduct) => {
-        const isAlreadyChecked = selected.includes(product)
-
-        let newSelected;
-        if (isAlreadyChecked) {
-            newSelected = selected.filter((selectedProduct) => selectedProduct.id !== product.id)
-        } else {
-            newSelected = [...selected, product]
-        }
+    const handleClick = (event: React.MouseEvent<unknown>, product: CatalogTableData) => {
+        const isSelected = selected.some((selectedProduct) => selectedProduct.id === product.id);
+        const newSelected = isSelected
+            ? selected.filter((selectedProduct) => selectedProduct.id !== product.id)
+            : [...selected, product];
 
         setSelected(newSelected);
     };
@@ -97,24 +93,24 @@ export default function MyCatalog() {
         setDense(event.target.checked);
     };
 
-    const isSelected = (product: TrackedProduct) => selected.includes(product);
+    const isSelected = (product: CatalogTableData) => selected.some((selectedProduct) => selectedProduct.id === product.id);
 
 // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - catalogTableData.length) : 0;
 
     const visibleRows = useMemo(
         () =>
-            stableSort(rows || [], getComparator(order, orderBy)).slice(
+            stableSort(catalogTableData, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage, rows],
+        [order, orderBy, page, rowsPerPage, catalogTableData],
     );
 
     if (isTrackedProductsLoading) return <CircularProgress/>;
 
-    if (isTrackedProductsError || !rows) return (<div>Something went wrong</div>);
+    if (isTrackedProductsError || !catalogTableData) return (<div>Something went wrong</div>);
 
 
     return (
@@ -129,7 +125,7 @@ export default function MyCatalog() {
                         My Catalog
                     </Typography>
                     <Typography className={styles.dashboardSubtitle}>
-                        Import and manage your products ({rows.length} active) (Last import 9 minutes ago)
+                        Import and manage your products ({catalogTableData.length} active) (Last import 9 minutes ago)
                     </Typography>
                     <Grid container sx={{
                         display: 'flex',
@@ -159,7 +155,7 @@ export default function MyCatalog() {
                                         orderBy={orderBy}
                                         onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
+                                        rowCount={catalogTableData.length}
                                     />
                                     <TableBody>
                                         {visibleRows.map((row, index) => {
@@ -192,16 +188,17 @@ export default function MyCatalog() {
                                                         scope="row"
                                                         padding="none"
                                                     >
-                                                        {row.product.name}
+                                                        {row.id}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.product.category}</TableCell>
+                                                    <TableCell align="right">{row.productName}</TableCell>
+                                                    <TableCell align="right">{row.productCategory}</TableCell>
                                                     <TableCell align="right">{row.productPurchaseCost}</TableCell>
                                                     <TableCell align="right">{row.productSellPrice}</TableCell>
-                                                    <TableCell align="right">{row.product.ean}</TableCell>
-                                                    <TableCell align="right">{row.product.manufacturerCode}</TableCell>
+                                                    <TableCell align="right">{row.productEan}</TableCell>
+                                                    <TableCell align="right">{row.productManufacturerCode}</TableCell>
                                                     <TableCell align="right"
-                                                               style={{color: row.tracked ? 'green' : 'red'}}>
-                                                        {row.tracked ? 'Tracked' : 'Not tracked'}
+                                                               style={{color: row.isTracked ? 'green' : 'red'}}>
+                                                        {row.isTracked ? 'Tracked' : 'Not tracked'}
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -221,7 +218,7 @@ export default function MyCatalog() {
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 50]}
                                 component="div"
-                                count={rows.length}
+                                count={catalogTableData.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}

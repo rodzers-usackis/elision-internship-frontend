@@ -30,6 +30,7 @@ import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProd
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
+import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 
 
 interface AddProductModalProps {

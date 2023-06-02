@@ -40,7 +40,7 @@ export const DashboardDrawerItems = [
         href: '/dashboard/alert-rules',
         className: 'nav-links',
         icon: <EditNotificationsIcon/>,
-        value: 4,
+        value: 5,
         subValue: 1,
     },
     {
@@ -48,7 +48,7 @@ export const DashboardDrawerItems = [
         href: '/dashboard/alert-settings',
         className: 'nav-links',
         icon: <Settings/>,
-        value: 4,
+        value: 6,
         subValue: 2,
     },
     {
@@ -56,6 +56,6 @@ export const DashboardDrawerItems = [
         href: '/dashboard/my-account',
         className: 'nav-links',
         icon: <PermIdentityIcon/>,
-        value: 5,
+        value: 7,
     }
 ]

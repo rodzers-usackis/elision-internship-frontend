@@ -8,12 +8,13 @@ import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import {EnhancedTableProps} from "./EnhancedTableProps";
 import {headCells} from "./headCells";
+import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
     const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
         props;
     const createSortHandler =
-        (property: keyof ProductData) => (event: React.MouseEvent<unknown>) => {
+        (property: keyof CatalogTableData) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
