@@ -31,7 +31,7 @@ export default function App({Component, pageProps}: AppProps) {
         <QueryClientProvider client={queryClient}>
             <AuthenticationContextProvider>
                 <ThemeProvider theme={theme}>
-                    <RouteProtector>
+                    {/*<RouteProtector>*/}
                         {!isDashboardPage && <Navbar />}
                         {isRegisterPage ? (
                             <RegistrationFormContextProvider>
@@ -40,7 +40,7 @@ export default function App({Component, pageProps}: AppProps) {
                         ) : (
                             <Component {...pageProps} />
                         )}
-                    </RouteProtector>
+                    {/*</RouteProtector>*/}
                 </ThemeProvider>
             </AuthenticationContextProvider>
         </QueryClientProvider>

@@ -111,7 +111,7 @@ export default function AlertRulesPage() {
                     <DashboardDrawer/>
                 </Grid>
 
-                <Grid item className={styles.mainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         Alert Rules
                     </Typography>
@@ -129,7 +129,7 @@ export default function AlertRulesPage() {
                     /></Tooltip>
                     <Divider/>
 
-                    <Grid item className={styles.chartWrapper}>
+                    <Grid item className={styles.contentWrapper}>
                         {isAlertRulesLoading ? (
                             <CircularProgress/>
                         ) : isAlertRulesError ? (
@@ -141,7 +141,6 @@ export default function AlertRulesPage() {
                                             <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
                                             <TableContainer>
                                                 <Table
-                                                    sx={{minWidth: 750}}
                                                     aria-labelledby="tableTitle"
                                                     size={dense ? 'small' : 'medium'}
                                                 >

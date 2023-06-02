@@ -76,7 +76,7 @@ export default function Reports() {
                     <DashboardDrawer/>
                 </Grid>
 
-                <Grid item className={styles.mainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         Reports
                     </Typography>
@@ -132,7 +132,7 @@ export default function Reports() {
 
                     <Divider/>
 
-                    <Grid item className={styles.chartWrapper}>
+                    <Grid item className={styles.contentWrapper}>
                         {isLoadingGetProducts || isProductPriceHistoryLoading ? (
                             <CircularProgress/>
                         ) : isErrorGetProducts || isProductPriceHistoryError ? (

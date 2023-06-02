@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Checkbox from '@mui/material/Checkbox';
-import styles from '../../../styles/DashboardCatalog.module.css'
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -24,6 +23,8 @@ import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/Enha
 import {TrackedProduct} from "../../../model/TrackedProduct";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
 import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
+import Alert from "@mui/material/Alert";
+import styles from "../../../styles/DashboardReports.module.css";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -39,7 +40,7 @@ export default function MyCatalog() {
         isTrackedProductsLoading
     } = useTrackedProducts();
 
-    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct : TrackedProduct) => ({
+    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => ({
         id: trackedProduct.id,
         productName: trackedProduct.product.name,
         productCategory: trackedProduct.product.category,
@@ -108,11 +109,6 @@ export default function MyCatalog() {
         [order, orderBy, page, rowsPerPage, catalogTableData],
     );
 
-    if (isTrackedProductsLoading) return <CircularProgress/>;
-
-    if (isTrackedProductsError || !catalogTableData) return (<div>Something went wrong</div>);
-
-
     return (
         <>
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
@@ -120,7 +116,7 @@ export default function MyCatalog() {
                     <DashboardDrawer/>
                 </Grid>
 
-                <Grid item className={styles.dashboardMainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         My Catalog
                     </Typography>
@@ -140,96 +136,105 @@ export default function MyCatalog() {
 
                     <Divider/>
 
-                    <Box sx={{width: '100%', pt: 2}}>
-                        <Paper sx={{width: '100%', mb: 2}}>
-                            <EnhancedTableToolbar selected={selected} numSelected={selected.length} setSelected={setSelected}/>
-                            <TableContainer>
-                                <Table
-                                    sx={{minWidth: 750}}
-                                    aria-labelledby="tableTitle"
-                                    size={dense ? 'small' : 'medium'}
-                                >
-                                    <EnhancedTableHead
-                                        numSelected={selected.length}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={catalogTableData.length}
-                                    />
-                                    <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            const isItemSelected = isSelected(row);
-                                            const labelId = `enhanced-table-checkbox-${index}`;
-
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    onClick={(event) => handleClick(event, row)}
-                                                    role="checkbox"
-                                                    aria-checked={isItemSelected}
-                                                    tabIndex={-1}
-                                                    key={row.id}
-                                                    selected={isItemSelected}
-                                                    sx={{cursor: 'pointer'}}
+                    <Grid item className={styles.contentWrapper}>
+                        {isTrackedProductsLoading ? (
+                            <CircularProgress/>
+                        ) : isTrackedProductsError ? (
+                            <Alert severity="error">Price historian for this product could not be loaded</Alert>
+                        ) : (<>
+                                <Grid item className={styles.lineChart}>
+                                    <Box sx={{width: '100%', pt: 2}}>
+                                        <Paper sx={{width: '100%', mb: 2}}>
+                                            <EnhancedTableToolbar selected={selected} numSelected={selected.length}
+                                                                  setSelected={setSelected}/>
+                                            <TableContainer>
+                                                <Table
+                                                    aria-labelledby="tableTitle"
+                                                    size={dense ? 'small' : 'medium'}
                                                 >
-                                                    <TableCell padding="checkbox">
-                                                        <Checkbox
-                                                            color="primary"
-                                                            checked={isItemSelected}
-                                                            inputProps={{
-                                                                'aria-labelledby': labelId,
-                                                            }}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell
-                                                        component="th"
-                                                        id={labelId}
-                                                        scope="row"
-                                                        padding="none"
-                                                    >
-                                                        {row.id}
-                                                    </TableCell>
-                                                    <TableCell align="right">{row.productName}</TableCell>
-                                                    <TableCell align="right">{row.productCategory}</TableCell>
-                                                    <TableCell align="right">{row.productPurchaseCost}</TableCell>
-                                                    <TableCell align="right">{row.productSellPrice}</TableCell>
-                                                    <TableCell align="right">{row.productEan}</TableCell>
-                                                    <TableCell align="right">{row.productManufacturerCode}</TableCell>
-                                                    <TableCell align="right"
-                                                               style={{color: row.isTracked ? 'green' : 'red'}}>
-                                                        {row.isTracked ? 'Tracked' : 'Not tracked'}
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
-                                        {emptyRows > 0 && (
-                                            <TableRow
-                                                style={{
-                                                    height: (dense ? 33 : 53) * emptyRows,
-                                                }}
-                                            >
-                                                <TableCell colSpan={6}/>
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 25, 50]}
-                                component="div"
-                                count={catalogTableData.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </Paper>
-                        <FormControlLabel
-                            control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                            label="Dense padding"
-                        />
-                    </Box>
+                                                    <EnhancedTableHead
+                                                        numSelected={selected.length}
+                                                        order={order}
+                                                        orderBy={orderBy}
+                                                        onSelectAllClick={handleSelectAllClick}
+                                                        onRequestSort={handleRequestSort}
+                                                        rowCount={catalogTableData.length}
+                                                    />
+                                                    <TableBody>
+                                                        {visibleRows.map((row, index) => {
+                                                            const isItemSelected = isSelected(row);
+                                                            const labelId = `enhanced-table-checkbox-${index}`;
+
+                                                            return (
+                                                                <TableRow
+                                                                    hover
+                                                                    onClick={(event) => handleClick(event, row)}
+                                                                    role="checkbox"
+                                                                    aria-checked={isItemSelected}
+                                                                    tabIndex={-1}
+                                                                    key={row.id}
+                                                                    selected={isItemSelected}
+                                                                    sx={{cursor: 'pointer'}}
+                                                                >
+                                                                    <TableCell padding="checkbox">
+                                                                        <Checkbox
+                                                                            color="primary"
+                                                                            checked={isItemSelected}
+                                                                            inputProps={{
+                                                                                'aria-labelledby': labelId,
+                                                                            }}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productName}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productCategory}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productPurchaseCost}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productSellPrice}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productEan}</TableCell>
+                                                                    <TableCell
+                                                                        align="right">{row.productManufacturerCode}</TableCell>
+                                                                    <TableCell align="right"
+                                                                               style={{color: row.isTracked ? 'green' : 'red'}}>
+                                                                        {row.isTracked ? 'Tracked' : 'Not tracked'}
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            );
+                                                        })}
+                                                        {emptyRows > 0 && (
+                                                            <TableRow
+                                                                style={{
+                                                                    height: (dense ? 33 : 53) * emptyRows,
+                                                                }}
+                                                            >
+                                                                <TableCell colSpan={6}/>
+                                                            </TableRow>
+                                                        )}
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                            <TablePagination
+                                                rowsPerPageOptions={[10, 25, 50]}
+                                                component="div"
+                                                count={catalogTableData.length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
+                                        </Paper>
+                                        <FormControlLabel
+                                            control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                                            label="Dense padding"
+                                        />
+                                    </Box>
+                                </Grid>
+                            </>
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
         </>

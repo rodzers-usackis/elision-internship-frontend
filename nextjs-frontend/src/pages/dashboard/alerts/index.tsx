@@ -54,7 +54,7 @@ export default function Alerts() {
                     <DashboardDrawer/>
                 </Grid>
 
-                <Grid item className={styles.mainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         Alerts
                     </Typography>
@@ -62,25 +62,25 @@ export default function Alerts() {
                         Check out your latest price alerts
                     </Typography>
 
-
-                    <Tooltip title={"Feature not available yet"} arrow><TextField
+                    <TextField
                         variant={'outlined'}
                         disabled
                         placeholder={'Search alert'}
                         sx={{my: 2}}
+                    />
 
-                    /></Tooltip>
                     <Divider/>
 
-                    <Grid item className={styles.lineChart}>
+                    <Grid item>
                         {isAlertsLoading && <CircularProgress/>}
                         {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
                         {!isAlertsLoading && !isAlertsError && alerts &&
-                        <AlertTable alerts={alerts}/>}
-
+                            <Grid item className={styles.lineChart}>
+                                <AlertTable alerts={alerts}/>
+                            </Grid>}
                     </Grid>
                 </Grid>
             </Grid>
         </>
-    )
+    );
 }

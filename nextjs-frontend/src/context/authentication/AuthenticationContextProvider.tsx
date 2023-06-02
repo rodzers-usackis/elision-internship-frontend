@@ -41,7 +41,6 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     function isAuthenticated() {
-        console.log(!isExpired(accessToken), 'access token', accessToken)
         return !isExpired(accessToken)
     }
 
@@ -75,7 +74,7 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
                 loggedInUser,
                 login,
                 logout,
-                isLoadingAuthentication,
+                logBackInWithToken,
             }}
         >
             {children}

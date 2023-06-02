@@ -31,12 +31,12 @@ export function AlertItemRow({alert}: AlertItemProps) {
                     alert.priceComparisonType === PriceComparisonTypeEnum.LOWER ?
                         <span>
                             Competitor's price decreased
-                            <TrendingDownIcon/>
+                            {/*<TrendingDownIcon/>*/}
                         </span>
                         :
                         <span>
                             Competitor's price increased
-                            <TrendingUpIcon/>
+                            {/*<TrendingUpIcon/>*/}
                       </span>
                 }
             </TableCell>
