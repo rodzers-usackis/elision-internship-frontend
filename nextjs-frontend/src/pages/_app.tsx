@@ -10,6 +10,7 @@ import Navbar from "../components/navbar/Navbar";
 import {useRouter} from "next/router";
 import RouteProtector from "../context/authentication/RouteProtector";
 import RegistrationFormContextProvider from "../context/register/RegistrationFormContextProvider";
+// @ts-ignore
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react"
 
 

@@ -2,6 +2,7 @@ import {UUID} from "crypto";
 
 export default interface CatalogTableData {
     id: UUID;
+    productId: UUID;
     productName: string;
     productCategory: string;
     productPurchaseCost: number;

@@ -53,6 +53,7 @@ export default function MyCatalog() {
 
     const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => ({
         id: trackedProduct.id,
+        productId: trackedProduct.product.id,
         productName: trackedProduct.product.name,
         productCategory: trackedProduct.product.category,
         productPurchaseCost: trackedProduct.productPurchaseCost,
@@ -276,7 +277,7 @@ export default function MyCatalog() {
                                                                         className={styles.productLinkButton}
                                                                         sx={{my: '0.4rem', display: 'inline-block'}}
                                                                         component={Link}
-                                                                        href={`/dashboard/reports?product_id=${row.id}`}
+                                                                        href={`/dashboard/reports?product_id=${row.productId}`}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                         }}
