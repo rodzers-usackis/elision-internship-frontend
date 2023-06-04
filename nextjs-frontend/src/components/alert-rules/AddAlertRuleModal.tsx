@@ -172,12 +172,12 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             />
 
             <FormControl fullWidth>
-                <InputLabel id="price-comparison-type-label">
+                <InputLabel id="price-comparison-type-2-label">
                     Price Comparison Type
                 </InputLabel>
                 <Select
                     label="Price Comparison Type"
-                    labelId="price-comparison-type-label"
+                    labelId="price-comparison-type-2-label"
                     id="priceComparisonType"
                     {...register("priceComparisonType")}
                 >

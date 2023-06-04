@@ -6,17 +6,21 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import React from "react";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
 import {useState} from "react";
 import {EditAlertRuleModal} from "../EditAlertRuleModal";
 import {AddAlertRuleModal} from "../AddAlertRuleModal";
+import {deleteAlertRules} from "../../../services/api/alert-rules";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
+
+    function handleDelete() {
+        deleteAlertRules(selected.map(product => product.id));
+    }
 
     function onEditClick() {
         setEditModalOpen(true);
@@ -74,7 +78,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
 
                     <Tooltip title="Delete Alert Rule">
-                        <IconButton size="large">
+                        <IconButton size="large" onClick={handleDelete}>
                             <DeleteIcon/>
                         </IconButton>
                     </Tooltip>

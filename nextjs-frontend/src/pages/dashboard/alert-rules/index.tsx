@@ -49,11 +49,12 @@ export default function AlertRulesPage() {
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof AlertRulesTableData,
+        property: keyof AlertRulesTableData
     ) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
+        const isAsc = orderBy === property && order === "asc";
+        setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
+        setPage(0);
     };
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +122,8 @@ export default function AlertRulesPage() {
                         <CircularProgress/>
                     ) : isAlertRulesError ? (
                         <Alert severity="error">Alert rules could not be loaded</Alert>
-                    ) : (<>
+                    ) : (
+                        !isAlertRulesLoading && !isAlertRulesError && alertRules && (
                             <Grid item className={styles.lineChart}>
                                 <Box sx={{width: '100%', pt: 2}}>
                                     <Paper sx={{width: '100%', mb: 2}}>
@@ -216,10 +218,11 @@ export default function AlertRulesPage() {
                                     />
                                 </Box>
                             </Grid>
-                        </>
+                        )
                     )}
                 </Grid>
-            </>);
+            </>
+        );
     }
 
     return (
