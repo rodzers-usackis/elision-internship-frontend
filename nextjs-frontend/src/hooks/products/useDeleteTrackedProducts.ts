@@ -16,8 +16,8 @@ export function useDeleteTrackedProducts() {
     } = useMutation({
         mutationFn: deleteTrackedProducts,
         onSuccess: (data: any, variables) => {
-            queryClient.setQueryData(['trackedProducts'], (old: TrackedProduct[]) => {
-                return old.filter((trackedProduct: TrackedProduct) => {
+            queryClient.setQueryData(['trackedProducts'], (oldData: TrackedProduct[] | undefined) => {
+                return (oldData ?? []).filter((trackedProduct: TrackedProduct) => {
                     return !variables.includes(trackedProduct.id)
                 })
             })

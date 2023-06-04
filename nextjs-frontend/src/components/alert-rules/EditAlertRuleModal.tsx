@@ -2,30 +2,32 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {TrackedProduct} from "../../model/TrackedProduct";
-import React, {useState} from "react";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProduct";
-import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
-import AlertRules from "../../model/alert-rules/AlertRules";
+import React, { useState } from "react";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AlertRulesTableData from "../../model/alert-rules/AlertRulesTableData";
+import { useUpdateAlertRule } from "../../hooks/alert-rules/useUpdateAlertRule";
+import AlertRuleUpdateDto from "../../model/alert-rules/dtos/AlertRuleUpdateDto";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormHelperText, OutlinedInput } from "@mui/material";
+import RetailerCompany from "../../model/alert-rules/RetailerCompany";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import { useRetailerCompanies } from "../../hooks/retailer-companies/useRetailerCompanies";
 
 interface EditAlertRuleModalProps {
-    alertRules: AlertRules;
+    alertRule: AlertRulesTableData;
     open: boolean;
     onClose: () => void;
 }
 
-const productUpdateSchema = z.object({
+const alertRuleUpdateSchema = z.object({
     priceThreshold: z
         .number()
         .positive("Must be positive.")
@@ -36,110 +38,183 @@ const productUpdateSchema = z.object({
                 .min(1)
                 .transform((value) => parseFloat(value))
         ),
-    priceComparisonType: z.string().optional(),
+    priceComparisonType: z.enum(["LOWER", "HIGHER"]),
+    retailerCompanies: z.array(
+        z.object({
+            id: z.string(),
+            name: z.string(),
+        })
+    ),
 });
 
 export function EditAlertRuleModal({
                                        open,
                                        onClose,
-                                       alertRules,
+                                       alertRule,
                                    }: EditAlertRuleModalProps) {
     const [submissionError, setSubmissionError] = useState(false);
     const [success, setSuccess] = useState(false);
-    const {updateTrackedProductMutation} = useUpdateTrackedProduct();
-    const {register, formState, handleSubmit, watch} = useForm({
-        resolver: zodResolver(productUpdateSchema),
+    const { updateAlertRuleMutation } = useUpdateAlertRule();
+    const { retailerCompanies } = useRetailerCompanies();
+    const [selectedRetailerCompanies, setSelectedRetailerCompanies] = useState<
+        RetailerCompany[]
+    >(alertRule.retailerCompanies);
+
+    const {
+        register,
+        formState: { errors, isLoading },
+        handleSubmit,
+        watch,
+    } = useForm({
+        resolver: zodResolver(alertRuleUpdateSchema),
         defaultValues: {
-            priceThreshold: alertRules.priceThreshold,
-            priceComparisonType: alertRules.priceComparisonType,
+            id: alertRule.id,
+            priceThreshold: alertRule.priceThreshold,
+            priceComparisonType: alertRule.priceComparisonType,
+            retailerCompanies: alertRule.retailerCompanies,
         },
     });
 
-    const {errors, isLoading} = formState;
+    function handleAlertRuleUpdate() {
+        setSubmissionError(false);
+        const { priceThreshold, priceComparisonType, retailerCompanies } = watch();
+        const updatedAlertRule: AlertRuleUpdateDto = {
+            id: alertRule.id,
+            priceThreshold: priceThreshold,
+            priceComparisonType: priceComparisonType,
+            retailerCompanies: retailerCompanies, // Use the updated retailerCompanies value
+        };
 
-    // function handleProductUpdateSubmit() {
-    //     setSubmissionError(false);
-    //     const {priceThreshold, priceComparisonType} = watch();
-    //     const updatedAlertRule: AlertRulesTableData = {
-    //         id: alertRules.id,
-    //         productName: alertRules.product.name,
-    //         priceThreshold: priceThreshold,
-    //         priceComparisonType: priceComparisonType,
-    //         retailerCompanies: alertRules.retailerCompanies[0].name,
-    //     };
-    //
-    //     updateTrackedProductMutation(updatedAlertRule)
-    //         .then((r) => {
-    //             setSuccess(true);
-    //         })
-    //         .catch((e) => {
-    //             setSubmissionError(true);
-    //         });
-    // }
-    //
-    // function Form() {
-    //     return (
-    //         <form
-    //             style={{
-    //                 backgroundColor: "white",
-    //                 display: "flex",
-    //                 flexDirection: "column",
-    //                 justifyContent: "center",
-    //                 alignItems: "center",
-    //                 gap: "1rem",
-    //                 margin: "3rem",
-    //                 padding: "2rem",
-    //             }}
-    //             onSubmit={handleSubmit(handleProductUpdateSubmit)}
-    //         >
-    //             <Typography variant={"h5"}>{alertRules.product.name}</Typography>
-    //
-    //             <TextField
-    //                 type="number"
-    //                 error={!!errors.priceThreshold}
-    //                 helperText={errors.priceThreshold?.message?.toString()}
-    //                 {...register("priceThreshold")}
-    //                 placeholder={"Price threshold"}
-    //                 label={"Price threshold"}
-    //             />
-    //             <FormControl>
-    //                 <InputLabel htmlFor="priceComparisonType">
-    //                     Price Comparison Type
-    //                 </InputLabel>
-    //                 <select
-    //                     id="priceComparisonType"
-    //                     {...register("priceComparisonType")}
-    //                 >
-    //                     <option value="LOWER">LOWER</option>
-    //                     <option value="HIGHER">HIGHER</option>
-    //                 </select>
-    //             </FormControl>
-    //
-    //             <FormControlLabel
-    //                 control={
-    //                     <Switch
-    //                         checked={watch("isTracked")}
-    //                         id="isTracked"
-    //                         {...register("isTracked")}
-    //                     />
-    //                 }
-    //                 label="Track this product"
-    //                 labelPlacement="start"
-    //             />
-    //             <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}}>
-    //                 Save
-    //             </Button>
-    //             {isLoading ? <CircularProgress/> : ""}
-    //             {submissionError ? (
-    //                 <Alert variant={"filled"} severity={"error"}>
-    //                     Error updating the alert rule.
-    //                 </Alert>
-    //             ) : (
-    //                 ""
-    //             )}
-    //         </form>
-    //     );
-    // }
+        updateAlertRuleMutation(updatedAlertRule)
+            .then((r) => {
+                setSuccess(true);
+            })
+            .catch((e) => {
+                setSubmissionError(true);
+            });
+    }
+
+    const handleChange = (event: SelectChangeEvent<string[]>) => {
+        const { value } = event.target;
+        const selectedItems = retailerCompanies?.filter((retailerCompany) =>
+            value.includes(retailerCompany.id.toString())
+        );
+
+        setSelectedRetailerCompanies(selectedItems ?? []);
+    };
+
+    const renderValue = (selected: string[]) => {
+        const selectedNames = selected.map((id) => {
+            const retailerCompany = retailerCompanies?.find(
+                (company) => company.id === id
+            );
+            return retailerCompany ? retailerCompany.name : "";
+        });
+
+        return selectedNames.join(", ");
+    };
+
+    console.log(register("retailerCompanies"));
+
+    function Form() {
+        return (
+            <form
+                style={{
+                    backgroundColor: "white",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "1rem",
+                    margin: "3rem",
+                    padding: "2rem",
+                }}
+                onSubmit={handleSubmit(handleAlertRuleUpdate)}
+            >
+                <Typography variant={"h5"}>{alertRule.productName}</Typography>
+
+                <TextField
+                    type="number"
+                    error={!!errors.priceThreshold}
+                    helperText={errors.priceThreshold?.message?.toString()}
+                    {...register("priceThreshold")}
+                    placeholder={"Price threshold"}
+                    label={"Price threshold"}
+                    sx={{ width: "100%" }}
+                />
+
+                <FormControl fullWidth>
+                    <InputLabel id="price-comparison-type-label">
+                        Price Comparison Type
+                    </InputLabel>
+                    <Select
+                        label="Price Comparison Type"
+                        labelId="price-comparison-type-label"
+                        id="priceComparisonType"
+                        {...register("priceComparisonType")}
+                        value={watch("priceComparisonType")}
+                    >
+                        <MenuItem key={"LOWER"} value="LOWER">
+                            LOWER
+                        </MenuItem>
+                        <MenuItem key={"HIGHER"} value="HIGHER">
+                            HIGHER
+                        </MenuItem>
+                    </Select>
+                    <FormHelperText>{!!errors.priceComparisonType}</FormHelperText>
+                </FormControl>
+
+                <FormControl fullWidth>
+                    <InputLabel id="demo-multiple-checkbox-label">
+                        Retailer companies
+                    </InputLabel>
+                    <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        {...register("retailerCompanies", {
+                            value: selectedRetailerCompanies.map((retailerCompany) => ({
+                                id: retailerCompany.id,
+                                name: retailerCompany.name,
+                            })),
+                        })}
+                        multiple
+                        value={selectedRetailerCompanies.map(
+                            (retailerCompany) => retailerCompany.id
+                        )}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Retailer companies" />}
+                        renderValue={renderValue}
+                    >
+                        {retailerCompanies?.map((retailerCompany) => (
+                            <MenuItem
+                                key={retailerCompany.id}
+                                value={retailerCompany.id}
+                            >
+                                <Checkbox
+                                    checked={selectedRetailerCompanies.some(
+                                        (c) => c.id === retailerCompany.id
+                                    )}
+                                />
+                                <ListItemText primary={retailerCompany.name} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <Button type={"submit"} variant={"contained"} sx={{ maxWidth: "50%" }}>
+                    Save
+                </Button>
+                {isLoading ? <CircularProgress /> : ""}
+                {submissionError ? (
+                    <Alert variant={"filled"} severity={"error"}>
+                        Error updating the alert rule.
+                    </Alert>
+                ) : (
+                    ""
+                )}
+            </form>
+        );
+    }
 
     function SuccessMessage() {
         return (
@@ -152,9 +227,9 @@ export function EditAlertRuleModal({
         );
     }
 
-    // return (
-    //     <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
-    //         {success ? <SuccessMessage/> : <Form/>}
-    //     </Modal>
-    // );
+    return (
+        <Modal sx={{ overflow: "scroll" }} open={open} onClose={onClose}>
+            {success ? <SuccessMessage /> : <Form />}
+        </Modal>
+    );
 }

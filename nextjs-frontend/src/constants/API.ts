@@ -13,6 +13,7 @@ export const API_ROUTES = {
     ALERT_COUNT: `${BACKEND_BASEURL}/api/alerts/unread/count`,
     SCRAPING_TASKS: `${BACKEND_BASEURL}/api/scraping-tasks`,
     PRODUCT_PRICE_HISTORY: `${BACKEND_BASEURL}/api/prices/products`,
+    RETAILER_COMPANIES: `${BACKEND_BASEURL}/api/retailer-companies`,
 };
 
 export default API_ROUTES;

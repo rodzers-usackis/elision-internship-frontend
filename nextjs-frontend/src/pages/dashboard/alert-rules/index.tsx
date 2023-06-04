@@ -1,10 +1,7 @@
 import Grid from "@mui/material/Grid";
 import styles from "../../../styles/DashboardGenericContent.module.css";
-import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import {EnhancedTableToolbar} from "../../../components/alert-rules/table-utils/EnhancedTableToolbar";
@@ -20,13 +17,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {useAlertRules} from "../../../hooks/alert-rules/useAlertRules";
-import {getComparator, Order} from "../../../components/table-components/table-sorting-functions/getComparator";
+import {getComparator, Order} from "../../../utils/table-sorting-functions/alert-rules/getComparator";
 import AlertRules from "../../../model/alert-rules/AlertRules";
-import {stableSort} from "../../../components/table-components/table-sorting-functions/stableSort";
+import {stableSort} from "../../../utils/table-sorting-functions/alert-rules/stableSort";
 import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
-import {AlertTable} from "../../../components/alerts/AlertTable";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
 
@@ -44,7 +40,7 @@ export default function AlertRulesPage() {
         productName: rule.product.name,
         priceThreshold: rule.priceThreshold,
         priceComparisonType: rule.priceComparisonType,
-        retailerCompanies: rule.retailerCompanies[0].name,
+        retailerCompanies: rule.retailerCompanies,
     }));
 
     useEffect(() => {
@@ -98,11 +94,11 @@ export default function AlertRulesPage() {
 
     const visibleRows = useMemo(
         () =>
-            stableSort(tableData, getComparator(order, orderBy)).slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage,
-            ),
-        [order, orderBy, page, rowsPerPage, tableData],
+            stableSort<AlertRulesTableData, keyof AlertRulesTableData>(
+                tableData,
+                getComparator(order, orderBy, "retailerCompanies")
+            ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+        [order, orderBy, page, rowsPerPage, tableData]
     );
 
     function ActionShelf() {
@@ -180,9 +176,16 @@ export default function AlertRulesPage() {
                                                                 <TableCell align="right">{row.productName}</TableCell>
                                                                 <TableCell
                                                                     align="right">{row.priceThreshold}</TableCell>
+                                                                <TableCell align="right">
+                                                                    {row.retailerCompanies.map((retailerCompany, index) =>
+                                                                        index === row.retailerCompanies.length - 1
+                                                                            ? retailerCompany.name
+                                                                            : retailerCompany.name + ', '
+                                                                    )}
+                                                                </TableCell>
                                                                 <TableCell
                                                                     align="right">{row.priceComparisonType}</TableCell>
-                                                            </TableRow>
+                                                                </TableRow>
                                                         );
                                                     })}
                                                     {emptyRows > 0 && (

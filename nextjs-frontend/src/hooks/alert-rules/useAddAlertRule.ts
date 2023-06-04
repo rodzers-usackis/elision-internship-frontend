@@ -1,25 +1,24 @@
-import {useMutation, UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {addAlertRule} from "../../services/api/alert-rules";
-import AlertRule from "../../model/alert-rules/AlertRules";
+import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { addAlertRule } from "../../services/api/alert-rules";
+import AlertRules from "../../model/alert-rules/AlertRules";
+import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto";
 
 export function useAddAlertRule() {
-
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
 
     const {
         isLoading: isAddAlertRuleLoading,
         isError: isAddAlertRuleError,
         data: alertRuleAdded,
         mutateAsync: addAlertRuleMutation
-    } = useMutation<AlertRule, Error, AlertRule>({
+    } = useMutation<AlertRules, Error, AlertRuleCreateDto>({
         mutationFn: addAlertRule,
         onSuccess: data => {
-            queryClient.setQueryData(['alertRules'], (oldData: any) => {
-                return [...oldData, data]
-            })
-
+            queryClient.setQueryData(["alertRules"], (oldData: AlertRules[] | undefined) => {
+                return [...(oldData ?? []), data];
+            });
         }
-    } as UseMutationOptions<AlertRule, Error, AlertRule>)
+    } as UseMutationOptions<AlertRules, Error, AlertRuleCreateDto>);
 
-    return {isAddAlertRuleError, isAddAlertRuleLoading, alertRuleAdded, addAlertRuleMutation}
+    return { isAddAlertRuleError, isAddAlertRuleLoading, alertRuleAdded, addAlertRuleMutation };
 }

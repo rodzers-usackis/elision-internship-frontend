@@ -1,7 +1,10 @@
+import {UUID} from "crypto";
+import RetailerCompany from "./RetailerCompany";
+
 export default interface AlertRulesTableData {
-    id: string;
+    id: UUID;
     productName: string;
     priceThreshold: number;
     priceComparisonType: string;
-    retailerCompanies: string;
+    retailerCompanies: RetailerCompany[];
 }

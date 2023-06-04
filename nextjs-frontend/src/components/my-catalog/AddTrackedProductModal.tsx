@@ -147,6 +147,4 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
             {success ? <SuccessMessage/> : <Form/>}
         </Modal>
     )
-
-
 }

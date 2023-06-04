@@ -20,6 +20,12 @@ export const headCells: readonly HeadCell[] = [
         label: 'Price Threshold',
     },
     {
+        id: 'retailerCompanies',
+        numeric: false,
+        disablePadding: false,
+        label: 'Retailer Companies',
+    },
+    {
         id: 'priceComparisonType',
         numeric: true,
         disablePadding: false,

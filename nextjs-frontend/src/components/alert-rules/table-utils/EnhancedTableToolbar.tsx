@@ -10,6 +10,8 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import React from "react";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
 import {useState} from "react";
+import {EditAlertRuleModal} from "../EditAlertRuleModal";
+import {AddAlertRuleModal} from "../AddAlertRuleModal";
 
 export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const {numSelected, selected} = props;
@@ -95,10 +97,10 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </Tooltip>
                 )
             )}
-            {/*{selected.length === 1 && editModalOpen ?*/}
-            {/*    <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}*/}
-            {/*{addModalOpen ?*/}
-            {/*    <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}*/}
+            {selected.length === 1 && editModalOpen ?
+                <EditAlertRuleModal alertRule={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
+            {addModalOpen ?
+                <AddAlertRuleModal open={addModalOpen} onClose={onAddModalClose}/> : ''}
         </Toolbar>
     );
 }

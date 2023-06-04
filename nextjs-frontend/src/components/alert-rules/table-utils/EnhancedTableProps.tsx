@@ -1,5 +1,5 @@
 import React from "react";
-import {Order} from "../../table-components/table-sorting-functions/getComparator";
+import {Order} from "../../../utils/table-sorting-functions/my-catalog/getComparator";
 import AlertRulesTableData from "../../../model/alert-rules/AlertRulesTableData";
 
 export interface EnhancedTableProps {

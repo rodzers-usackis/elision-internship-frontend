@@ -98,10 +98,10 @@ export default function CompanyInformationForm() {
                   <FormControl fullWidth error={!!companyInformationFormFieldErrors.productCategory}>
                       <InputLabel id="company-category-select-label">Products</InputLabel>
                       <Select
+                          label="Products"
                           labelId="company-category-select-label"
                           id="company-category-select"
                           value={productCategory[0]}
-                          label="Products"
                           onChange={handleProductCategoryChange}
                       >
                           {productCategories.map((category) => (
