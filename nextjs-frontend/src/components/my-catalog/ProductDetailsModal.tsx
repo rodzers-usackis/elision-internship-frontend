@@ -62,7 +62,7 @@ export default function ProductDetailsModal({product, open, onClose}: ProductDet
                     <CloseIcon />
                 </IconButton>
 
-                <CardMedia component="img" height="140" image={product.imageUrl} alt={product.name} />
+                {/*<CardMedia component="img" height="140" image={product.imageUrl} alt={product.name} />*/}
 
                 <CardContent sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                     <Typography variant="body2" color="text.secondary">
