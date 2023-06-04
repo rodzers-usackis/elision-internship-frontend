@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
-import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,7 +21,6 @@ import {EnhancedTableToolbar} from "../../../components/my-catalog/table-utils/E
 import {EnhancedTableHead} from "../../../components/my-catalog/table-utils/EnhancedTableHead";
 import {TrackedProduct} from "../../../model/TrackedProduct";
 import {useTrackedProducts} from "../../../hooks/products/useTrackedProducts";
-import {Product} from "../../../model/Product";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
