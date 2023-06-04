@@ -10,6 +10,8 @@ import Navbar from "../components/navbar/Navbar";
 import {useRouter} from "next/router";
 import RouteProtector from "../context/authentication/RouteProtector";
 import RegistrationFormContextProvider from "../context/register/RegistrationFormContextProvider";
+import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
+
 
 export default function App({Component, pageProps}: AppProps) {
     const router = useRouter();
@@ -31,6 +33,7 @@ export default function App({Component, pageProps}: AppProps) {
         <QueryClientProvider client={queryClient}>
             <AuthenticationContextProvider>
                 <ThemeProvider theme={theme}>
+                    <TawkMessengerReact propertyId={"6478a7c274285f0ec46efa44"} widgetId={"1h1rkuk8o"}/>
                     <RouteProtector>
                         {!isDashboardPage && <Navbar />}
                         {isRegisterPage ? (

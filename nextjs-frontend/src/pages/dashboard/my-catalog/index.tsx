@@ -29,6 +29,9 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from '@mui/icons-material/Info';
+import ProductDetailsModal from "../../../components/my-catalog/ProductDetailsModal";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -37,6 +40,8 @@ export default function MyCatalog() {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
+    const [displayedProduct, setDisplayedProduct] = useState<Product | null>();
     const {
         trackedProducts: rows,
         isTrackedProductsError,
@@ -114,6 +119,9 @@ export default function MyCatalog() {
     function PageComponent() {
         return (
             <>
+                <ProductDetailsModal open={isProductDetailsModalOpen}
+                                     onClose={() => setIsProductDetailsModalOpen(false)}
+                                     product={displayedProduct}/>
                 <Box sx={{width: '100%', pt: 2}}>
                     <Paper sx={{width: '100%', mb: 2}}>
                         <EnhancedTableToolbar selected={selected} numSelected={selected.length}
@@ -163,11 +171,13 @@ export default function MyCatalog() {
                                                     scope="row"
                                                     padding="none"
                                                 >
-                                                    <Tooltip title={"Click to go to this product's report"}
-                                                             placement={"left"}
-                                                             arrow
+                                                    <div style={{display: 'flex'}}><Tooltip
+                                                        title={"Click to go to this product's report"}
+                                                        placement={"left"}
+                                                        arrow
                                                     ><Button
-                                                        className={styles.productLinkButton} sx={{my: '0.4rem'}}
+                                                        className={styles.productLinkButton}
+                                                        sx={{my: '0.4rem', display: 'inline-block'}}
                                                         component={Link}
                                                         href={{
                                                             pathname: '/dashboard/reports',
@@ -179,6 +189,18 @@ export default function MyCatalog() {
                                                             e.stopPropagation();
                                                         }}
                                                     >{row.product.name}</Button></Tooltip>
+                                                        <Tooltip title={"Display product's details"} placement={"right"} arrow>
+                                                            <IconButton
+                                                                sx={{display: 'inline-block'}}
+                                                                aria-label="display product's details"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setDisplayedProduct(row.product);
+                                                                    setIsProductDetailsModalOpen(true);
+                                                                }}>
+                                                                <InfoIcon/>
+                                                            </IconButton>
+                                                        </Tooltip></div>
                                                 </TableCell>
                                                 <TableCell align="right">{row.product.category}</TableCell>
                                                 <TableCell align="right">{row.productPurchaseCost}</TableCell>
