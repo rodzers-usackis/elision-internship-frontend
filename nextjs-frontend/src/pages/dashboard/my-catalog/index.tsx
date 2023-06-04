@@ -27,6 +27,11 @@ import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/Da
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
 import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
+import InfoIcon from '@mui/icons-material/Info';
+import ProductDetailsModal from "../../../components/my-catalog/ProductDetailsModal";
+
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -35,6 +40,11 @@ export default function MyCatalog() {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [displayedTrackedProducts, setDisplayedTrackedProducts] = useState<TrackedProduct[] | undefined>([]);
+    const [searchText, setSearchText] = useState<string>("");
+    const searchInputRef = useRef<HTMLInputElement | null>(null);
+    const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
+    const [displayedProduct, setDisplayedProduct] = useState<Product | null>();
 
     const {
         trackedProducts,
@@ -56,7 +66,46 @@ export default function MyCatalog() {
 
     useEffect(() => {
         setSelected([])
-    }, [])
+    }, [displayedTrackedProducts])
+
+
+    //should work with both dependencies together but for some reason it doesn't
+    useEffect(() => {
+        filterTrackedProducts();
+    }, [trackedProducts])
+
+    useEffect(() => {
+        filterTrackedProducts();
+    }, [searchText]);
+
+
+    function filterTrackedProducts() {
+        if (!trackedProducts) {
+            return;
+        }
+        if (searchText === "" || !searchText) {
+            setDisplayedTrackedProducts(trackedProducts);
+            return;
+        }
+
+        const filteredTrackedProducts = trackedProducts.filter((trackedProduct) => {
+
+            const productName = trackedProduct.product.name.toLowerCase();
+            const ean = trackedProduct.product.ean.toLowerCase();
+            const manufacturerCode = trackedProduct.product.manufacturerCode.toLowerCase();
+            const category = trackedProduct.product.category.toLowerCase();
+
+            const searchTextLowerCase = searchText.toLowerCase();
+
+            return productName.includes(searchTextLowerCase) ||
+                ean.includes(searchTextLowerCase) ||
+                manufacturerCode.includes(searchTextLowerCase) ||
+                category.includes(searchTextLowerCase);
+
+        });
+
+        setDisplayedTrackedProducts(filteredTrackedProducts);
+    }
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -70,6 +119,8 @@ export default function MyCatalog() {
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             setSelected(catalogTableData);
+            const newSelected = displayedTrackedProducts || [];
+            setSelected(newSelected);
             return;
         }
         setSelected([]);
@@ -101,16 +152,57 @@ export default function MyCatalog() {
 
 // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - catalogTableData.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - displayedTrackedProducts.length) : 0;
 
     const visibleRows = useMemo(
         () =>
-            stableSort(catalogTableData, getComparator(order, orderBy)).slice(
+            stableSort(displayedTrackedProducts || [], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage, catalogTableData],
+        [order, orderBy, page, rowsPerPage, displayedTrackedProducts],
     );
+
+
+    useEffect(() => {
+        if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [searchText, searchInputRef.current]);
+
+    function ActionShelf() {
+        return (
+            <Box key={"product-search-box"}
+                 sx={{display: 'flex'}}>
+                {/*<Tooltip*/}
+                {/*    title={"Search products by name, ean or manufacturer code"}>*/}
+                    <TextField id="search-field-input"
+                               key={"search-field-input"}
+                               sx={{my: 2, width: '25rem'}}
+                               placeholder={"Search Product"}
+                               label={"Product name, ean or manufacturer code"}
+                               variant="outlined"
+                               inputRef={searchInputRef}
+                               value={searchText}
+                               onChange={(e) => {
+                                   setSearchText(e.target.value);
+                               }}
+                               autoComplete={"off"}
+
+                    />
+                {/*</Tooltip>*/}
+                {searchText && (
+                    <IconButton onClick={(e) => {
+                        setSearchText("");
+                    }}
+                                aria-label={"Clear input"}
+                    >
+                        <ClearIcon/>
+                    </IconButton>
+                )}
+            </Box>
+        )
+    }
 
     function PageComponent() {
         return (
@@ -123,6 +215,9 @@ export default function MyCatalog() {
                     ) : (
                         !isTrackedProductsLoading && !isTrackedProductsError && catalogTableData && (
                             <Grid item className={styles.lineChart}>
+                                <ProductDetailsModal open={isProductDetailsModalOpen}
+                                                     onClose={() => setIsProductDetailsModalOpen(false)}
+                                                     product={displayedProduct}/>
                                 <Box sx={{width: '100%', pt: 2}}>
                                     <Paper sx={{width: '100%', mb: 2}}>
                                         <EnhancedTableToolbar title={"Products"} selected={selected}
@@ -139,7 +234,7 @@ export default function MyCatalog() {
                                                     orderBy={orderBy}
                                                     onSelectAllClick={handleSelectAllClick}
                                                     onRequestSort={handleRequestSort}
-                                                    rowCount={catalogTableData.length}
+                                                    rowCount={displayedTrackedProducts.length}
                                                 />
                                                 <TableBody>
                                                     {visibleRows.map((row, index) => {
@@ -172,19 +267,36 @@ export default function MyCatalog() {
                                                                     scope="row"
                                                                     padding="none"
                                                                 >
-                                                                    <Tooltip
+                                                                    <div style={{display: 'flex'}}><Tooltip
                                                                         title={"Click to go to this product's report"}
                                                                         placement={"left"}
                                                                         arrow
                                                                     ><Button
                                                                         className={styles.productLinkButton}
-                                                                        sx={{my: '0.4rem'}}
+                                                                        sx={{my: '0.4rem', display: 'inline-block'}}
                                                                         component={Link}
-                                                                        href={`/dashboard/reports?product_id=${row.id}`}
+                                                                        href={{
+                                                                            pathname: '/dashboard/reports',
+                                                                            query: {
+                                                                                product_id: row.product.id
+                                                                            }
+                                                                        }}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                         }}
                                                                     >{row.productName}</Button></Tooltip>
+                                                                        <Tooltip title={"Display product's details"} placement={"right"} arrow>
+                                                                            <IconButton
+                                                                                sx={{display: 'inline-block'}}
+                                                                                aria-label="display product's details"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    setDisplayedProduct(row);
+                                                                                    setIsProductDetailsModalOpen(true);
+                                                                                }}>
+                                                                                <InfoIcon/>
+                                                                            </IconButton>
+                                                                        </Tooltip></div>
                                                                 </TableCell>
                                                                 <TableCell
                                                                     align="right">{row.productCategory}</TableCell>
@@ -219,7 +331,7 @@ export default function MyCatalog() {
                                         <TablePagination
                                             rowsPerPageOptions={[10, 25, 50]}
                                             component="div"
-                                            count={catalogTableData.length}
+                                            count={displayedTrackedProducts.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
                                             onPageChange={handleChangePage}
@@ -239,35 +351,18 @@ export default function MyCatalog() {
         );
     }
 
-    function ActionShelf() {
-        return (
-            <Grid container sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <Grid item xs={6} className={styles.actionShelf}>
-                    <Tooltip title={"Searching not available yet"}>
-                        <TextField id="search-field-input" label={"Search Product"}
-                                   variant="outlined"
-                                   fullWidth={true} disabled/>
-                    </Tooltip>
-                </Grid>
-            </Grid>
-        )
-    }
-
     return (
         <DashboardDrawerPageTemplate
             currentPage={DashboardDrawerItem.MyCatalog}
             pageTitle={"My catalog"}
-            pageSubtitle={`Import and manage your products (${catalogTableData?.length} active).`}
+            pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
             actionShelf={(
-                <ActionShelf/>
+                <ActionShelf key={"catalog-action-shelf"}/>
             )}
             pageComponent={(
                 <PageComponent/>
             )}
+            key={"catalog-page"}
         />
     )
 
