@@ -1,17 +1,8 @@
 import * as React from "react";
-import {useEffect} from "react";
+import {useEffect, useRef, useState} from "react";
 
 // Component Imports
-import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
-// import {
-//     Alert,
-//     CircularProgress,
-//     Divider,
-//     Grid,
-//     TextField,
-//     Tooltip,
-//     Typography
-// } from "@mui/material";
+
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
@@ -32,10 +23,17 @@ import {useAlerts} from "../../../hooks/alerts/useAlerts";
 import {AlertTable} from "../../../components/alerts/AlertTable";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from '@mui/icons-material/Clear';
 
 export default function Alerts() {
 
     const {isAlertsError, alerts, isAlertsLoading} = useAlerts()
+    const [displayedAlerts, setDisplayedAlerts] = useState<Alert[] | undefined>([]);
+    const [searchText, setSearchText] = useState<string>("");
+    const searchInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         const unreadAlerts = alerts?.filter(alert => !alert.read) ?? [];
@@ -49,16 +47,73 @@ export default function Alerts() {
         }
     }, [alerts]);
 
+    useEffect(() => {
+        filterAlerts();
+    }, [searchText]);
 
-    function ActionShelf(){
+    useEffect(() => {
+        filterAlerts();
+    }, [alerts]);
+
+    useEffect(() => {
+        // Set the focus on the input field when the component mounts or search text changes
+        if (searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [searchText, displayedAlerts]);
+
+
+    function filterAlerts() {
+        //filter alerts based on search text
+        //if search text is empty, return all alerts
+        //if search text is not empty, return alerts that contain search text in product.name product.ean product.manufacturerCode or .competitor
+        if (!alerts) return;
+
+        if (searchText === "" || !searchText) {
+            setDisplayedAlerts(alerts);
+            return;
+        }
+
+        const filteredAlerts = alerts.filter(alert => {
+            const product = alert.product;
+            const competitor = alert.retailerCompany;
+            const search = searchInputRef.current.value?.toLowerCase();
+            return product.name.toLowerCase().includes(search) ||
+                product.ean.toLowerCase().includes(search) ||
+                product.manufacturerCode.toLowerCase().includes(search) ||
+                competitor.name.toLowerCase().includes(search);
+        });
+
+
+        setDisplayedAlerts(filteredAlerts);
+    }
+
+
+    function ActionShelf() {
         return (
-            <Tooltip title={"Feature not available yet"} arrow><TextField
-                variant={'outlined'}
-                disabled
-                placeholder={'Search alert'}
-                sx={{my: 2}}
+            <Box sx={{display: "flex"}}>
 
-            /></Tooltip>
+                <Tooltip placement={"right"} arrow title={"Search alerts by competitor, product name, EAN or manufacturer code"}><TextField
+                    key={'alert-search'}
+                    variant={'outlined'}
+                    placeholder={'Search alert'}
+                    label={"Competitor, product name, EAN or manufacturer code"}
+                    value={searchText}
+                    inputRef={searchInputRef}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    sx={{my: 2, width:'25rem'}}
+
+                /></Tooltip>
+                {searchText && (
+                    <IconButton onClick={(e)=>{
+                        setSearchText("");
+                    }}
+                                aria-label={"Clear input"}
+                    >
+                        <ClearIcon />
+                    </IconButton>
+                )}
+            </Box>
         )
     }
 
@@ -68,7 +123,7 @@ export default function Alerts() {
                 {isAlertsLoading && <CircularProgress/>}
                 {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
                 {!isAlertsLoading && !isAlertsError && alerts &&
-                <AlertTable alerts={alerts}/>}
+                <AlertTable alerts={displayedAlerts}/>}
 
             </Grid>
         )
@@ -79,8 +134,10 @@ export default function Alerts() {
         <DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Alerts}
                                      pageTitle={"Alerts"}
                                      pageSubtitle={"Check out your latest price alerts"}
-                                     actionShelf={<ActionShelf/>}
+                                     actionShelf={<ActionShelf key={'alert-action-shelf'}/>}
                                      pageComponent={<PageComponent/>}
+                                     key={'alert-page'}
+
         />
     )
 
