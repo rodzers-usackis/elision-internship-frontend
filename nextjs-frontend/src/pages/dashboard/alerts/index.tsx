@@ -77,7 +77,7 @@ export default function Alerts() {
         const filteredAlerts = alerts.filter(alert => {
             const product = alert.product;
             const competitor = alert.retailerCompany;
-            const search = searchInputRef.current.value?.toLowerCase();
+            const search = searchText.toLowerCase();
             return product.name.toLowerCase().includes(search) ||
                 product.ean.toLowerCase().includes(search) ||
                 product.manufacturerCode.toLowerCase().includes(search) ||
@@ -93,7 +93,8 @@ export default function Alerts() {
         return (
             <Box sx={{display: "flex"}}>
 
-                <Tooltip placement={"right"} arrow title={"Search alerts by competitor, product name, EAN or manufacturer code"}><TextField
+                <Tooltip placement={"right"} arrow title={"Search alerts by competitor, product name, EAN or manufacturer code"}>
+                    <TextField
                     key={'alert-search'}
                     variant={'outlined'}
                     placeholder={'Search alert'}
@@ -102,6 +103,7 @@ export default function Alerts() {
                     inputRef={searchInputRef}
                     onChange={(e) => setSearchText(e.target.value)}
                     sx={{my: 2, width:'25rem'}}
+                    autoComplete={"off"}
 
                 /></Tooltip>
                 {searchText && (

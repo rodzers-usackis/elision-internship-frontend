@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
+import React, {ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -29,6 +29,8 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -37,16 +39,57 @@ export default function MyCatalog() {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [displayedTrackedProducts, setDisplayedTrackedProducts] = useState<TrackedProduct[] | undefined>([]);
+    const [searchText, setSearchText] = useState<string>("");
+    const searchInputRef = useRef<HTMLInputElement | null>(null);
     const {
-        trackedProducts: rows,
+        trackedProducts,
         isTrackedProductsError,
         isTrackedProductsLoading
     } = useTrackedProducts<TrackedProduct>();
 
     useEffect(() => {
         setSelected([])
-    }, [rows])
+    }, [displayedTrackedProducts])
 
+
+    //should work with both dependencies together but for some reason it doesn't
+    useEffect(() => {
+        filterTrackedProducts();
+    }, [trackedProducts])
+
+    useEffect(() => {
+        filterTrackedProducts();
+    }, [searchText]);
+
+
+    function filterTrackedProducts() {
+        if (!trackedProducts) {
+            return;
+        }
+        if (searchText === "" || !searchText) {
+            setDisplayedTrackedProducts(trackedProducts);
+            return;
+        }
+
+        const filteredTrackedProducts = trackedProducts.filter((trackedProduct) => {
+
+            const productName = trackedProduct.product.name.toLowerCase();
+            const ean = trackedProduct.product.ean.toLowerCase();
+            const manufacturerCode = trackedProduct.product.manufacturerCode.toLowerCase();
+            const category = trackedProduct.product.category.toLowerCase();
+
+            const searchTextLowerCase = searchText.toLowerCase();
+
+            return productName.includes(searchTextLowerCase) ||
+                ean.includes(searchTextLowerCase) ||
+                manufacturerCode.includes(searchTextLowerCase) ||
+                category.includes(searchTextLowerCase);
+
+        });
+
+        setDisplayedTrackedProducts(filteredTrackedProducts);
+    }
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -59,7 +102,7 @@ export default function MyCatalog() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = rows || [];
+            const newSelected = displayedTrackedProducts || [];
             setSelected(newSelected);
             return;
         }
@@ -96,20 +139,61 @@ export default function MyCatalog() {
 
 // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - displayedTrackedProducts.length) : 0;
 
     const visibleRows = useMemo(
         () =>
-            stableSort(rows || [], getComparator(order, orderBy)).slice(
+            stableSort(displayedTrackedProducts || [], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage, rows],
+        [order, orderBy, page, rowsPerPage, displayedTrackedProducts],
     );
+
+
+    useEffect(() => {
+        if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [searchText, searchInputRef.current]);
 
     if (isTrackedProductsLoading) return <CircularProgress/>;
 
-    if (isTrackedProductsError || !rows) return (<div>Something went wrong</div>);
+    if (isTrackedProductsError || !displayedTrackedProducts) return (<div>Something went wrong</div>);
+
+    function ActionShelf() {
+        return (
+            <Box key={"product-search-box"}
+                 sx={{display: 'flex'}}>
+                {/*<Tooltip*/}
+                {/*    title={"Search products by name, ean or manufacturer code"}>*/}
+                    <TextField id="search-field-input"
+                               key={"search-field-input"}
+                               sx={{my: 2, width: '25rem'}}
+                               placeholder={"Search Product"}
+                               label={"Product name, ean or manufacturer code"}
+                               variant="outlined"
+                               inputRef={searchInputRef}
+                               value={searchText}
+                               onChange={(e) => {
+                                   setSearchText(e.target.value);
+                               }}
+                               autoComplete={"off"}
+
+                    />
+                {/*</Tooltip>*/}
+                {searchText && (
+                    <IconButton onClick={(e) => {
+                        setSearchText("");
+                    }}
+                                aria-label={"Clear input"}
+                    >
+                        <ClearIcon/>
+                    </IconButton>
+                )}
+            </Box>
+        )
+    }
 
     function PageComponent() {
         return (
@@ -130,7 +214,7 @@ export default function MyCatalog() {
                                     orderBy={orderBy}
                                     onSelectAllClick={handleSelectAllClick}
                                     onRequestSort={handleRequestSort}
-                                    rowCount={rows.length}
+                                    rowCount={displayedTrackedProducts.length}
                                 />
                                 <TableBody>
                                     {visibleRows.map((row, index) => {
@@ -209,7 +293,7 @@ export default function MyCatalog() {
                         <TablePagination
                             rowsPerPageOptions={[10, 25, 50]}
                             component="div"
-                            count={rows.length}
+                            count={displayedTrackedProducts.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}
@@ -225,35 +309,18 @@ export default function MyCatalog() {
         )
     }
 
-    function ActionShelf() {
-        return (
-            <Grid container sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <Grid item xs={6} className={styles.actionShelf}>
-                    <Tooltip title={"Searching not available yet"}>
-                        <TextField id="search-field-input" label={"Search Product"}
-                                   variant="outlined"
-                                   fullWidth={true} disabled/>
-                    </Tooltip>
-                </Grid>
-            </Grid>
-        )
-    }
-
     return (
         <DashboardDrawerPageTemplate
             currentPage={DashboardDrawerItem.MyCatalog}
             pageTitle={"My catalog"}
-            pageSubtitle={`Import and manage your products (${rows?.length} active).`}
+            pageSubtitle={`Import and manage your products (${trackedProducts?.length}).`}
             actionShelf={(
-                <ActionShelf/>
+                <ActionShelf key={"catalog-action-shelf"}/>
             )}
             pageComponent={(
                 <PageComponent/>
             )}
+            key={"catalog-page"}
         />
     )
 
