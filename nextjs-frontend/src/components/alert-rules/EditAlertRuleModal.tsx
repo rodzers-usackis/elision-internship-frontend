@@ -6,8 +6,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import React, {useState} from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AlertRulesTableData from "../../model/alert-rules/AlertRulesTableData";
@@ -77,12 +77,12 @@ export function EditAlertRuleModal({
 
     function handleAlertRuleUpdate() {
         setSubmissionError(false);
-        const { priceThreshold, priceComparisonType, retailerCompanies } = watch();
+        const { priceThreshold, priceComparisonType } = watch();
         const updatedAlertRule: AlertRuleUpdateDto = {
             id: alertRule.id,
             priceThreshold: priceThreshold,
             priceComparisonType: priceComparisonType,
-            retailerCompanies: retailerCompanies, // Use the updated retailerCompanies value
+            retailerCompanies: selectedRetailerCompanies, // Use the updated retailerCompanies value
         };
 
         updateAlertRuleMutation(updatedAlertRule)
@@ -114,7 +114,8 @@ export function EditAlertRuleModal({
         return selectedNames.join(", ");
     };
 
-    console.log(register("retailerCompanies"));
+    console.log(watch("retailerCompanies"));
+    console.log(selectedRetailerCompanies);
 
     function Form() {
         return (
@@ -171,12 +172,6 @@ export function EditAlertRuleModal({
                     <Select
                         labelId="demo-multiple-checkbox-label"
                         id="demo-multiple-checkbox"
-                        {...register("retailerCompanies", {
-                            value: selectedRetailerCompanies.map((retailerCompany) => ({
-                                id: retailerCompany.id,
-                                name: retailerCompany.name,
-                            })),
-                        })}
                         multiple
                         value={selectedRetailerCompanies.map(
                             (retailerCompany) => retailerCompany.id

@@ -1,27 +1,11 @@
-// import {
-//     Alert,
-//     Button, CircularProgress,
-//     FormControl,
-//     FormControlLabel,
-//     FormGroup,
-//     InputLabel,
-//     Modal,
-//     Switch,
-//     TextField,
-//     Typography
-// } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {TrackedProduct} from "../../model/TrackedProduct";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";

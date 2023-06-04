@@ -15,13 +15,15 @@ export function useUpdateAlertRule() {
         mutateAsync: updateAlertRuleMutation
     } = useMutation({
         mutationFn: updateAlertRule,
-        onSuccess: (updatedAlertRule: AlertRules) => {
-            queryClient.setQueryData(['alertRules'], (oldData: AlertRules[] | undefined) => {
-                return (oldData ?? []).map((product) => {
-                    if (product.id === updatedAlertRule.id) {
-                        return updatedAlertRule;
+        onSuccess: (data: any, variables) => {
+            queryClient.setQueryData(['alertRules'], (oldData: AlertRuleUpdateDto[] | undefined) => {
+                return (oldData ?? []).map((alertRule) => {
+                    if (alertRule.id === variables.id) {
+                        return {
+                            ...alertRule, ...variables
+                        };
                     } else {
-                        return product;
+                        return alertRule;
                     }
                 });
             });

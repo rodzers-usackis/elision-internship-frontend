@@ -35,7 +35,7 @@ export default function AlertRulesPage() {
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const tableData: AlertRulesTableData[] = (alertRules ?? []).map((rule: AlertRules) => ({
+    let tableData: AlertRulesTableData[] = (alertRules ?? []).map((rule: AlertRules) => ({
         id: rule.id,
         productName: rule.product.name,
         priceThreshold: rule.priceThreshold,
@@ -43,9 +43,11 @@ export default function AlertRulesPage() {
         retailerCompanies: rule.retailerCompanies,
     }));
 
+
     useEffect(() => {
         setSelected([])
     }, [])
+
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -123,7 +125,7 @@ export default function AlertRulesPage() {
                     ) : isAlertRulesError ? (
                         <Alert severity="error">Alert rules could not be loaded</Alert>
                     ) : (
-                        !isAlertRulesLoading && !isAlertRulesError && alertRules && (
+                        !isAlertRulesLoading && !isAlertRulesError && tableData && (
                             <Grid item className={styles.lineChart}>
                                 <Box sx={{width: '100%', pt: 2}}>
                                     <Paper sx={{width: '100%', mb: 2}}>
