@@ -9,5 +9,6 @@ export default interface CatalogTableData {
     minPrice: number;
     productEan: string;
     productManufacturerCode: string;
+    description: string;
     isTracked: boolean;
 }

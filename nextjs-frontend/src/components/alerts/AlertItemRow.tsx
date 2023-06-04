@@ -3,8 +3,6 @@ import TableCell from "@mui/material/TableCell";
 import {PriceComparisonTypeEnum} from "../../model/PriceComparisonTypeEnum";
 import TableRow from "@mui/material/TableRow";
 import FiberNewIcon from '@mui/icons-material/FiberNew';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import moment from 'moment';
 
 interface AlertItemProps {

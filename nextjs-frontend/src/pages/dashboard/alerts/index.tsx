@@ -6,10 +6,9 @@ import {useEffect, useRef, useState} from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
+import AlertIcon from '@mui/material/Alert';
+import {Alert} from '../../../model/Alert'
 
 // Styling Imports
 import styles from "../../../styles/DashboardGenericContent.module.css";
@@ -29,7 +28,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 export default function Alerts() {
 
     const {isAlertsError, alerts, isAlertsLoading} = useAlerts()
-    const [displayedAlerts, setDisplayedAlerts] = useState<Alert[] | undefined>([]);
+    const [displayedAlerts, setDisplayedAlerts] = useState<Alert[]>([]);
     const [searchText, setSearchText] = useState<string>("");
     const searchInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -121,7 +120,7 @@ export default function Alerts() {
         return (
             <Grid item className={styles.lineChart}>
                 {isAlertsLoading && <CircularProgress/>}
-                {isAlertsError && <Alert severity="error">Error loading alerts</Alert>}
+                {isAlertsError && <AlertIcon severity="error">Error loading alerts</AlertIcon>}
                 {!isAlertsLoading && !isAlertsError && alerts &&
                 <AlertTable alerts={displayedAlerts}/>}
 

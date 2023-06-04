@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
+import React, {ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -32,7 +32,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import InfoIcon from '@mui/icons-material/Info';
 import ProductDetailsModal from "../../../components/my-catalog/ProductDetailsModal";
 
-
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof CatalogTableData>('productName');
@@ -40,11 +39,11 @@ export default function MyCatalog() {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [displayedTrackedProducts, setDisplayedTrackedProducts] = useState<TrackedProduct[] | undefined>([]);
+    const [displayedTrackedProducts, setDisplayedTrackedProducts] = useState<CatalogTableData[]>([]);
     const [searchText, setSearchText] = useState<string>("");
     const searchInputRef = useRef<HTMLInputElement | null>(null);
     const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
-    const [displayedProduct, setDisplayedProduct] = useState<Product | null>();
+    const [displayedProduct, setDisplayedProduct] = useState<CatalogTableData>();
 
     const {
         trackedProducts,
@@ -61,6 +60,7 @@ export default function MyCatalog() {
         minPrice: trackedProduct.minPrice,
         productEan: trackedProduct.product.ean,
         productManufacturerCode: trackedProduct.product.manufacturerCode,
+        description: trackedProduct.product.description,
         isTracked: trackedProduct.tracked,
     }));
 
@@ -80,20 +80,20 @@ export default function MyCatalog() {
 
 
     function filterTrackedProducts() {
-        if (!trackedProducts) {
+        if (!catalogTableData) {
             return;
         }
         if (searchText === "" || !searchText) {
-            setDisplayedTrackedProducts(trackedProducts);
+            setDisplayedTrackedProducts(catalogTableData);
             return;
         }
 
-        const filteredTrackedProducts = trackedProducts.filter((trackedProduct) => {
+        const filteredTrackedProducts = catalogTableData.filter((trackedProduct) => {
 
-            const productName = trackedProduct.product.name.toLowerCase();
-            const ean = trackedProduct.product.ean.toLowerCase();
-            const manufacturerCode = trackedProduct.product.manufacturerCode.toLowerCase();
-            const category = trackedProduct.product.category.toLowerCase();
+            const productName = trackedProduct.productName.toLowerCase();
+            const ean = trackedProduct.productEan.toLowerCase();
+            const manufacturerCode = trackedProduct.productManufacturerCode.toLowerCase();
+            const category = trackedProduct.productCategory.toLowerCase();
 
             const searchTextLowerCase = searchText.toLowerCase();
 
@@ -241,6 +241,7 @@ export default function MyCatalog() {
                                                         const isItemSelected = isSelected(row);
                                                         const labelId = `enhanced-table-checkbox-${index}`;
 
+                                                        // @ts-ignore
                                                         return (
                                                             <TableRow
                                                                 hover
@@ -275,12 +276,7 @@ export default function MyCatalog() {
                                                                         className={styles.productLinkButton}
                                                                         sx={{my: '0.4rem', display: 'inline-block'}}
                                                                         component={Link}
-                                                                        href={{
-                                                                            pathname: '/dashboard/reports',
-                                                                            query: {
-                                                                                product_id: row.product.id
-                                                                            }
-                                                                        }}
+                                                                        href={`/dashboard/reports?product_id=${row.id}`}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                         }}

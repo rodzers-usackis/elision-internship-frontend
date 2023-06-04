@@ -1,17 +1,16 @@
 import Modal from "@mui/material/Modal";
-import Paper from "@mui/material/Paper";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CardMedia from "@mui/material/CardMedia";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 
 interface ProductDetailsModalProps {
     open: boolean;
     onClose: () => void;
-    product?: Product;
+    product?: CatalogTableData;
 }
 
 export default function ProductDetailsModal({product, open, onClose}: ProductDetailsModalProps) {
@@ -44,7 +43,7 @@ export default function ProductDetailsModal({product, open, onClose}: ProductDet
             >
                 <CardContent sx={{ position: "relative", zIndex: 1 }}>
                     <Typography gutterBottom variant="h5" component="div">
-                        {product.name}
+                        {product.productName}
                     </Typography>
                 </CardContent>
 
@@ -66,13 +65,13 @@ export default function ProductDetailsModal({product, open, onClose}: ProductDet
 
                 <CardContent sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                     <Typography variant="body2" color="text.secondary">
-                        {product.ean} | {product.manufacturerCode}
+                        {product.productEan} | {product.productManufacturerCode}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {product.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {product.category}
+                        {product.productCategory}
                     </Typography>
                 </CardContent>
             </Card>
