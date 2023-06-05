@@ -61,27 +61,34 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
 
     const {errors, isLoading} = formState;
 
-    function handleAlertRuleCreate() {
+    async function handleAlertRuleCreate(event: any) {
+        event.preventDefault();
         setSubmissionError(false);
-        const {
-            product,
-            priceThreshold,
-            priceComparisonType,
-            retailerCompanies,
-        } = watch();
+
+        const { product, priceThreshold, priceComparisonType } = watch();
+
+        const selectedProduct = products?.find((p) => p.id === product);
 
         const createdAlertRule: AlertRuleCreateDto = {
-            product,
+            product: {
+                id: selectedProduct!.product.id,
+                name: selectedProduct!.product.name,
+                description: selectedProduct!.product.description,
+                ean: selectedProduct!.product.ean,
+                manufacturerCode: selectedProduct!.product.manufacturerCode,
+                category: selectedProduct!.product.category,
+            },
             priceThreshold,
             priceComparisonType,
-            retailerCompanies,
+            retailerCompanies: selectedRetailerCompanies,
         };
 
-        addAlertRuleMutation(createdAlertRule).then(r => {
-            setSuccess(true)
-        }).catch(e => {
-            setSubmissionError(true)
-        });
+        try {
+            await addAlertRuleMutation(createdAlertRule);
+            setSuccess(true);
+        } catch (error) {
+            setSubmissionError(true);
+        }
     }
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
@@ -125,9 +132,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 gap: "1rem",
                 margin: "3rem",
                 padding: "2rem"
-            }}
-            onSubmit={handleSubmit(handleAlertRuleCreate)}
-        >
+            }}>
             <Typography variant={"h5"}>Add a new alert rule</Typography>
             <FormGroup sx={{
                 display: "flex",
@@ -226,7 +231,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             </FormGroup>
 
 
-            <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}}>Save</Button>
+            <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}} onClick={event => handleAlertRuleCreate(event)}>Save</Button>
             {isLoading ? <CircularProgress/> : ''}
             {submissionError ?
                 <Alert variant={"filled"} severity={"error"}> Error adding the alert rule.</Alert> : ''}
