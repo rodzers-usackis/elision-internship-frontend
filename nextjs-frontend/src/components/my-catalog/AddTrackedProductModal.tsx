@@ -1,37 +1,18 @@
-// import {
-//     Alert,
-//     Button, CircularProgress,
-//     FormControl,
-//     FormControlLabel,
-//     FormGroup,
-//     InputLabel,
-//     Modal,
-//     Switch,
-//     TextField,
-//     Typography
-// } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {TrackedProduct} from "../../model/TrackedProduct";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProduct";
-import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
-import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 
 interface AddProductModalProps {
@@ -160,7 +141,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
                 {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>

@@ -14,6 +14,7 @@ import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProd
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 
 interface EditProductModalProps {
@@ -129,7 +130,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
             {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>)

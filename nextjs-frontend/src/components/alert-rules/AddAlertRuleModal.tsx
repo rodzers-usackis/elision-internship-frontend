@@ -22,6 +22,7 @@ import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto"
 import RetailerCompany from "../../model/alert-rules/RetailerCompany";
 import FormGroup from "@mui/material/FormGroup";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 interface AddAlertRuleModalProps {
     open: boolean;
@@ -253,7 +254,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
                 {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>
