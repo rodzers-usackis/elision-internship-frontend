@@ -24,7 +24,7 @@ interface DashboardDrawerProps {
 }
 
 export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
-    const drawerWidth = '328px'
+    const drawerWidth = '260px'
     // const [selectedIndex, setSelectedIndex] = useState(1);
     const {logout, loggedInUser} = useContext(AuthenticationContext);
 
@@ -38,6 +38,7 @@ export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
         <>
             <Drawer variant={'permanent'} anchor={'left'} sx={{
                 minWidth: drawerWidth,
+                width: drawerWidth,
             }}>
                 <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'}
                       paddingX={2} sx={{height: '100%'}}>

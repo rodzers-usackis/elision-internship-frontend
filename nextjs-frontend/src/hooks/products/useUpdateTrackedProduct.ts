@@ -16,16 +16,19 @@ export function useUpdateTrackedProduct() {
     } = useMutation({
         mutationFn: updateTrackedProduct,
         onSuccess: (updatedProduct: TrackedProduct) => {
-            queryClient.setQueryData(['trackedProducts'], (oldData: TrackedProduct[]) => {
-                return oldData.map((product) => {
-                    if (product.id === updatedProduct.id) {
-                        return updatedProduct
-                    } else {
-                        return product
-                    }
-                })
-            })
-
+            queryClient.setQueryData<TrackedProduct[] | undefined>(['trackedProducts'], (oldData) => {
+                if (oldData) {
+                    return oldData.map((product) => {
+                        if (product.id === updatedProduct.id) {
+                            return updatedProduct;
+                        } else {
+                            return product;
+                        }
+                    });
+                } else {
+                    return [];
+                }
+            });
         }
     } as UseMutationOptions<TrackedProduct, Error, TrackedProductUpdate>);
 

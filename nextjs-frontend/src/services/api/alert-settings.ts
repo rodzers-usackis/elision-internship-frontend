@@ -1,6 +1,5 @@
 import axios from "axios";
 import API_ROUTES from "../../constants/API";
-import {Alert} from "../../model/Alert";
 import {AlertSettings} from "../../model/AlertSettings";
 
 

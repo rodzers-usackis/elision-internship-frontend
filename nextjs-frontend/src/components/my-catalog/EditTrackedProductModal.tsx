@@ -1,38 +1,23 @@
-// import {
-//     Alert,
-//     Button, CircularProgress,
-//     FormControl,
-//     FormControlLabel,
-//     FormGroup,
-//     InputLabel,
-//     Modal,
-//     Switch,
-//     TextField,
-//     Typography
-// } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {TrackedProduct} from "../../model/TrackedProduct";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProduct";
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
+import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 import Paper from "@mui/material/Paper";
 
 
 interface EditProductModalProps {
-    product: TrackedProduct;
+    product: CatalogTableData;
     open: boolean;
     onClose: () => void;
 }
@@ -41,7 +26,6 @@ const productUpdateSchema = z.object({
     isTracked: z.boolean(),
     productPurchaseCost: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
     productSellPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))),
-    minPrice: z.number().positive("Must be positive.").or(z.string().regex(/^\d*\.?\d+$/, "Must be a positive number.").min(1).transform(value => parseFloat(value))).or(z.null())
 });
 
 
@@ -53,19 +37,14 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
     const {updateTrackedProductMutation} = useUpdateTrackedProduct();
     const {register, formState, handleSubmit, watch} = useForm({
         resolver: zodResolver(productUpdateSchema), defaultValues: {
-            isTracked: product.tracked,
+            isTracked: product.isTracked,
             productPurchaseCost: product.productPurchaseCost,
             productSellPrice: product.productSellPrice,
             minPrice: product.minPrice
         }
     })
 
-
-
-
-
     const {errors, isLoading} = formState;
-
 
     function handleProductUpdateSubmit() {
         console.log(watch())
@@ -97,7 +76,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
             margin: "3rem",
             padding: "2rem"
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
-            <Typography variant={"h5"}>{product.name}</Typography>
+            <Typography variant={"h5"}>{product.productName}</Typography>
 
             <TextField
                 // type={"number"}

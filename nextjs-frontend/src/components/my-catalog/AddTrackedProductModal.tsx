@@ -30,7 +30,7 @@ import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProd
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
-import Paper from "@mui/material/Paper";
+import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 
 
 interface AddProductModalProps {
@@ -43,7 +43,7 @@ const productUpdateSchema = z.object({
     manufacturerCode: z.string(),
     productPurchaseCost: z.number().positive("Purchase cost has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Purchase cost must be greater than 0.").transform(value => parseFloat(value))),
     productSellPrice: z.number().positive("Sell price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Sell price must be greater than 0.").transform(value => parseFloat(value))),
-    minPrice: z.number().positive("Min price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Min price must be greater than 0.").transform(value => parseFloat(value))).or(z.null())
+    minPrice: z.number().positive("Min price has to be positive.").or(z.string().regex(/^\d*\.?\d+$/).min(1, "Min price must be greater than 0.").transform(value => parseFloat(value))),
 })
 
 export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
@@ -92,30 +92,6 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
             <Typography variant={"h5"}>Add a product to track</Typography>
 
-            <TextField type={"number"}
-                       error={!!errors.productPurchaseCost}
-                       helperText={errors.productPurchaseCost?.message?.toString()}
-                       {...register('productPurchaseCost')}
-                       placeholder={"Purchase cost"}
-                       label={"Purchase cost"}
-            />
-            <TextField type={"number"}
-                       error={!!errors.productSellPrice}
-                       helperText={errors.productSellPrice?.message?.toString()}
-                       {...register('productSellPrice')}
-                       placeholder={"Sell price"}
-                       label={"Sell price"}
-            />
-
-            <TextField type={"number"}
-                       error={!!errors.minPrice}
-                       helperText={errors.minPrice?.message?.toString()}
-                       {...register('minPrice')}
-                       placeholder={"Minimum price"}
-                       label={"Minimum price"}
-            />
-
-
             <FormGroup sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -123,6 +99,29 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                 alignItems: "center",
                 gap: "1rem"
             }}>
+                <TextField type={"number"}
+                           error={!!errors.productPurchaseCost}
+                           helperText={errors.productPurchaseCost?.message?.toString()}
+                           {...register('productPurchaseCost')}
+                           placeholder={"Purchase cost"}
+                           label={"Purchase cost"}
+                />
+                <TextField type={"number"}
+                           error={!!errors.productSellPrice}
+                           helperText={errors.productSellPrice?.message?.toString()}
+                           {...register('productSellPrice')}
+                           placeholder={"Sell price"}
+                           label={"Sell price"}
+                />
+
+                <TextField type={"number"}
+                           error={!!errors.minPrice}
+                           helperText={errors.minPrice?.message?.toString()}
+                           {...register('minPrice')}
+                           placeholder={"Minimum price"}
+                           label={"Minimum price"}
+                />
+
                 <TextField sx={{marginTop: "0.5rem"}}
                            type={"text"}
                            error={!!errors.ean}
@@ -151,20 +150,16 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
     }
 
     function SuccessMessage() {
-        return (
-                <Alert sx={{padding:"1rem"}} variant={"filled"} severity={"success"}>Product added successfully.
-                    <Button sx={{margin:'1rem'}} variant={"contained"} onClick={onClose}>Ok</Button>
-                </Alert>
+        return (<>
+                <Alert variant={"filled"} severity={"success"}>Product added successfully.</Alert>
+                <Button onClick={onClose}>Ok</Button>
+            </>
         )
     }
 
     return (
-        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
-                {success ? <SuccessMessage/> : <Form/>}
-            </Paper>
+        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
+            {success ? <SuccessMessage/> : <Form/>}
         </Modal>
     )
-
-
 }

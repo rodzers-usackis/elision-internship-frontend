@@ -1,5 +1,6 @@
 // Component Imports
 import DashboardDrawer from "../../../components/dashboard-drawer/DashboardDrawer";
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 // Styling Imports
-import styles from "../../../styles/DashboardReports.module.css";
+import styles from "../../../styles/DashboardGenericContent.module.css";
 
 // Hook Imports
 import {useProducts} from "../../../hooks/register/useProducts";
@@ -64,6 +65,7 @@ export default function Reports() {
                 setProductId(selectedProductId); // Set the productId state
             }
         }
+
     }, [products]);
 
     const reportTypes = [
@@ -76,7 +78,7 @@ export default function Reports() {
     function PageComponent() {
 
         return(
-            <Grid item className={styles.chartWrapper}>
+            <Grid item className={styles.contentWrapper}>
                 {isLoadingGetProducts || isProductPriceHistoryLoading ? (
                     <CircularProgress/>
                 ) : isErrorGetProducts || isProductPriceHistoryError ? (

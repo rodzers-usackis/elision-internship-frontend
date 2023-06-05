@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 import Grid from "@mui/material/Grid";
 import DashboardDrawer from "./DashboardDrawer";
-import styles from "../../styles/DashboardCatalog.module.css";
+import styles from "../../styles/DashboardGenericContent.module.css";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {DashboardDrawerItem} from "./DashboardDrawerItems";
@@ -29,7 +29,7 @@ export default function DashboardDrawerPageTemplate({
                     <DashboardDrawer selectedPage={currentPage}/>
                 </Grid>
 
-                <Grid item className={styles.dashboardMainContentWrapper}>
+                <Grid item className={styles.dashboardWrapper}>
                     <Typography className={styles.dashboardTitle}>
                         {pageTitle}
                     </Typography>

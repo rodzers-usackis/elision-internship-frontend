@@ -1,7 +1,8 @@
-import {TrackedProduct} from "../../../model/TrackedProduct";
+import CatalogTableData from "../../../model/my-catalog/CatalogTableData";
 
 export interface EnhancedTableToolbarProps {
+    title: string;
     numSelected: number;
-    selected : TrackedProduct[]
-    setSelected: (selected: TrackedProduct[]) => void;
+    selected : CatalogTableData[]
+    setSelected: (selected: CatalogTableData[]) => void;
 }

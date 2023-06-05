@@ -4,7 +4,6 @@ import {TrackedProduct} from "../../model/TrackedProduct";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
 
 export function useAddTrackedProducts() {
-
     const queryClient = useQueryClient()
 
     const {
@@ -15,8 +14,8 @@ export function useAddTrackedProducts() {
     } = useMutation<TrackedProduct, Error, AddedTrackedProduct>({
         mutationFn: addTrackedProducts,
         onSuccess: data => {
-            queryClient.setQueryData(['trackedProducts'], (oldData: any) => {
-                return [...oldData, data]
+            queryClient.setQueryData(['trackedProducts'], (oldData: TrackedProduct[] | undefined) => {
+                return [...oldData ?? [], data]
             })
 
         }

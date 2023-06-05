@@ -34,6 +34,7 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         isError: isErrorUser
     } = useQuery<LoggedInUser>({
         queryKey: ['user'], queryFn: fetchUserInfo, enabled: isAuthenticated(), onError: (error) => {
+            // @ts-ignore
             if(!!error.config.headers.Authorization) {
                 removeAccessToken();
                 delete axios.defaults.headers.common['Authorization'];
@@ -82,7 +83,7 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
         <AuthenticationContext.Provider
             value={{
                 isAuthenticated,
-                loggedInUser: user,
+                loggedInUser: user || null,
                 login,
                 logout,
                 isLoading: isLoadingAuthentication || isLoadingUser,

@@ -10,10 +10,8 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import React from "react";
 import {useDeleteTrackedProducts} from "../../../hooks/products/useDeleteTrackedProducts";
 import {EnhancedTableToolbarProps} from "./EnhancedTableToolbarProps";
-import {useMutation} from "@tanstack/react-query/src/useMutation";
-import {deleteTrackedProducts} from "../../../services/api/trackedProducts";
 import {EditTrackedProductModal} from "../EditTrackedProductModal";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {AddTrackedProductModal} from "../AddTrackedProductModal";
 import {usePostScrapingTask} from "../../../hooks/usePostScrapingTask";
 import {ScrapingTask} from "../../../model/ScrapingTask";
@@ -25,6 +23,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         isDeleteTrackedProductsError,
         isDeleteTrackedProductsLoading
     } = useDeleteTrackedProducts()
+
     const {isPostScrapingTaskError, isPostScrapingTaskLoading, postScrapingTaskMutation} = usePostScrapingTask();
     const {numSelected, selected} = props;
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -92,7 +91,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     id="tableTitle"
                     component="div"
                 >
-                    Products
+                    {props.title}
                 </Typography>
             )}
             {numSelected === 1 ? (
@@ -142,7 +141,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             {selected.length === 1 && editModalOpen ?
                 <EditTrackedProductModal product={selected[0]} open={editModalOpen} onClose={onEditModalClose}/> : ''}
             {addModalOpen ?
-                <AddTrackedProductModal product={undefined} open={addModalOpen} onClose={onAddModalClose}/> : ''}
+                <AddTrackedProductModal open={addModalOpen} onClose={onAddModalClose}/> : ''}
 
         </Toolbar>
     );

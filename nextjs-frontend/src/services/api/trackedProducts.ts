@@ -6,12 +6,10 @@ import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {UUID} from "crypto";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
 
-
 export async function getTrackedProducts() {
     const response = await axios.get<TrackedProduct[]>(API_ROUTES.TRACKED_PRODUCTS)
     return response.data
 }
-
 
 export async function addTrackedProducts(products: AddedTrackedProduct) {
     const response = await axios.post<TrackedProduct>(API_ROUTES.TRACKED_PRODUCTS, products)

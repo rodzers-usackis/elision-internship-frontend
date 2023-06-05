@@ -11,7 +11,7 @@
     padding: 0 0 1rem 0;
 }
 
-.chartWrapper {
+.contentWrapper {
     height: 70%;
     display: flex;
     justify-content: center;
@@ -27,11 +27,11 @@
 }
 
 .drawerWrapper {
-    width: 328px;
+    min-width: 260px;
     height: 100vh;
 }
 
-.mainContentWrapper {
-    width: calc(100% - 328px);
+.dashboardWrapper {
+    width: calc(100% - 260px);
     padding: 30px;
 }
