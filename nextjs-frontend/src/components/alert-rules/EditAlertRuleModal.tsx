@@ -194,6 +194,10 @@ export function EditAlertRuleModal({
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText sx={{fontSize: '1rem', color: 'red'}}>
+                        {selectedRetailerCompanies.length === 0 &&
+                            "If left unselected, all retailer companies will be selected."}
+                    </FormHelperText>
                 </FormControl>
 
                 <Button type={"submit"} variant={"contained"} sx={{ maxWidth: "50%" }}>

@@ -182,7 +182,8 @@ export default function AlertRulesPage() {
                                                                 <TableCell
                                                                     align="right">{row.priceThreshold}</TableCell>
                                                                 <TableCell align="left">
-                                                                    {row.retailerCompanies.map((retailerCompany, index) =>
+                                                                    {row.retailerCompanies.length == 0 ? 'All Companies' :
+                                                                        row.retailerCompanies.map((retailerCompany, index) =>
                                                                         index === row.retailerCompanies.length - 1
                                                                             ? retailerCompany.name
                                                                             : retailerCompany.name + ', '

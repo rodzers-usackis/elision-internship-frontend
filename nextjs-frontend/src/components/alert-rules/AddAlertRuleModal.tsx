@@ -227,6 +227,10 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText sx={{fontSize: '1rem', color: 'red'}}>
+                        {selectedRetailerCompanies.length === 0 &&
+                            "If left unselected, all retailer companies will be selected."}
+                    </FormHelperText>
                 </FormControl>
             </FormGroup>
 
