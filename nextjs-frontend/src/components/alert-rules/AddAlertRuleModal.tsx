@@ -20,6 +20,7 @@ import {useRetailerCompanies} from "../../hooks/retailer-companies/useRetailerCo
 import {useProducts} from "../../hooks/register/useProducts";
 import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto";
 import RetailerCompany from "../../model/alert-rules/RetailerCompany";
+import FormGroup from "@mui/material/FormGroup";
 
 interface AddAlertRuleModalProps {
     open: boolean;
@@ -47,17 +48,6 @@ const alertRuleCreateSchema = z.object({
     retailerCompanies: z.array(retailerCompanySchema),
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
 export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     const {products} = useProducts();
     const [selectedRetailerCompanies, setSelectedRetailerCompanies] = useState<RetailerCompany[]>([]);
@@ -72,23 +62,20 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     const {errors, isLoading} = formState;
 
     function handleAlertRuleCreate() {
-        console.log("test")
-
         setSubmissionError(false);
         const {
             product,
             priceThreshold,
             priceComparisonType,
+            retailerCompanies,
         } = watch();
 
         const createdAlertRule: AlertRuleCreateDto = {
-            product: product,
-            priceThreshold: priceThreshold,
-            priceComparisonType: priceComparisonType,
-            retailerCompanies: selectedRetailerCompanies,
+            product,
+            priceThreshold,
+            priceComparisonType,
+            retailerCompanies,
         };
-
-        console.log("Submitting: " + JSON.stringify(createdAlertRule));
 
         addAlertRuleMutation(createdAlertRule).then(r => {
             setSuccess(true)
@@ -113,6 +100,8 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             setValue("retailerCompanies", selectedRetailerCompanies);
         }
     };
+
+    console.log(watch("retailerCompanies"))
 
     const renderValue = (selected: string[]) => {
         const selectedNames = selected.map((id) => {
@@ -140,93 +129,102 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             onSubmit={handleSubmit(handleAlertRuleCreate)}
         >
             <Typography variant={"h5"}>Add a new alert rule</Typography>
-            <FormControl fullWidth>
-                <InputLabel id="product-label">
-                    Product
-                </InputLabel>
-                <Select
-                    label="Product"
-                    labelId="product-label"
-                    id="product"
-                    {...register("product")}
-                    value={watch("product") || ""}
-                >
-                    {products?.map((product) => (
-                        <MenuItem key={product.id} value={product.id}>
-                            <ListItemText primary={product.product.name}/>
+            <FormGroup sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem"
+            }}>
+                <FormControl fullWidth>
+                    <InputLabel id="product-label">
+                        Product
+                    </InputLabel>
+                    <Select
+                        label="Product"
+                        labelId="product-label"
+                        id="product"
+                        {...register("product")}
+                        value={watch("product") || ""}
+                    >
+                        {products?.map((product) => (
+                            <MenuItem key={product.id} value={product.id}>
+                                <ListItemText primary={product.product.name}/>
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>{!!errors.priceComparisonType}</FormHelperText>
+                </FormControl>
+
+                <TextField
+                    type={"number"}
+                    error={!!errors.priceThreshold}
+                    helperText={errors.priceThreshold?.message?.toString()}
+                    {...register("priceThreshold")}
+                    placeholder={"Price threshold"}
+                    label="Price threshold"
+                    fullWidth={true}
+                />
+
+                <FormControl fullWidth>
+                    <InputLabel id="price-comparison-type-2-label">
+                        Price Comparison Type
+                    </InputLabel>
+                    <Select
+                        label="Price Comparison Type"
+                        labelId="price-comparison-type-2-label"
+                        id="priceComparisonType"
+                        {...register("priceComparisonType")}
+                        value={watch("priceComparisonType") || ""}
+                    >
+                        <MenuItem key={"LOWER"} value="LOWER">
+                            LOWER
                         </MenuItem>
-                    ))}
-                </Select>
-                <FormHelperText>{!!errors.priceComparisonType}</FormHelperText>
-            </FormControl>
-
-            <TextField
-                type={"number"}
-                error={!!errors.priceThreshold}
-                helperText={errors.priceThreshold?.message?.toString()}
-                {...register("priceThreshold")}
-                placeholder="Price threshold"
-                label="Price threshold"
-                fullWidth={true}
-            />
-
-            <FormControl fullWidth>
-                <InputLabel id="price-comparison-type-2-label">
-                    Price Comparison Type
-                </InputLabel>
-                <Select
-                    label="Price Comparison Type"
-                    labelId="price-comparison-type-2-label"
-                    id="priceComparisonType"
-                    {...register("priceComparisonType")}
-                    value={watch("priceComparisonType") || ""}
-                >
-                    <MenuItem key={"LOWER"} value="LOWER">
-                        LOWER
-                    </MenuItem>
-                    <MenuItem key={"HIGHER"} value="HIGHER">
-                        HIGHER
-                    </MenuItem>
-                </Select>
-                <FormHelperText>{!!errors.priceComparisonType}</FormHelperText>
-            </FormControl>
-
-            <FormControl fullWidth>
-                <InputLabel id="checkbox-label">
-                    Retailer companies
-                </InputLabel>
-                <Select
-                    labelId="checkbox-label"
-                    id="checkbox"
-                    {...register("retailerCompanies", {
-                        value: selectedRetailerCompanies.map((retailerCompany) => ({
-                            id: retailerCompany.id,
-                            name: retailerCompany.name,
-                        })),
-                    })}
-                    multiple
-                    value={selectedRetailerCompanies.map(
-                        (retailerCompany) => retailerCompany.id
-                    )}
-                    onChange={handleChange}
-                    input={<OutlinedInput label="Retailer companies"/>}
-                    renderValue={renderValue}
-                >
-                    {retailerCompanies?.map((retailerCompany) => (
-                        <MenuItem
-                            key={retailerCompany.id}
-                            value={retailerCompany.id}
-                        >
-                            <Checkbox
-                                checked={selectedRetailerCompanies.some(
-                                    (c) => c.id === retailerCompany.id
-                                )}
-                            />
-                            <ListItemText primary={retailerCompany.name}/>
+                        <MenuItem key={"HIGHER"} value="HIGHER">
+                            HIGHER
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                    </Select>
+                    <FormHelperText>{!!errors.priceComparisonType}</FormHelperText>
+                </FormControl>
+
+                <FormControl fullWidth>
+                    <InputLabel id="checkbox-label">
+                        Retailer companies
+                    </InputLabel>
+                    <Select
+                        labelId="checkbox-label"
+                        id="checkbox"
+                        {...register("retailerCompanies", {
+                            value: selectedRetailerCompanies.map((retailerCompany) => ({
+                                id: retailerCompany.id,
+                                name: retailerCompany.name,
+                            })),
+                        })}
+                        multiple
+                        value={selectedRetailerCompanies.map(
+                            (retailerCompany) => retailerCompany.id
+                        )}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Retailer companies"/>}
+                        renderValue={renderValue}
+                    >
+                        {retailerCompanies?.map((retailerCompany) => (
+                            <MenuItem
+                                key={retailerCompany.id}
+                                value={retailerCompany.id}
+                            >
+                                <Checkbox
+                                    checked={selectedRetailerCompanies.some(
+                                        (c) => c.id === retailerCompany.id
+                                    )}
+                                />
+                                <ListItemText primary={retailerCompany.name}/>
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </FormGroup>
+
 
             <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}}>Save</Button>
             {isLoading ? <CircularProgress/> : ''}

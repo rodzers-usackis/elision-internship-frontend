@@ -92,22 +92,36 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
             <Typography variant={"h5"}>Add a product to track</Typography>
 
-            <TextField type={"number"}
-                       error={!!errors.productPurchaseCost}
-                       helperText={errors.productPurchaseCost?.message?.toString()}
-                       {...register('productPurchaseCost')}
-                       placeholder={"Purchase cost"}
-                       label={"Purchase cost"}
-            />
-            <TextField type={"number"}
-                       error={!!errors.productSellPrice}
-                       helperText={errors.productSellPrice?.message?.toString()}
-                       {...register('productSellPrice')}
-                       placeholder={"Sell price"}
-                       label={"Sell price"}
-            />
+            <FormGroup sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem"
+            }}>
+                <TextField type={"number"}
+                           error={!!errors.productPurchaseCost}
+                           helperText={errors.productPurchaseCost?.message?.toString()}
+                           {...register('productPurchaseCost')}
+                           placeholder={"Purchase cost"}
+                           label={"Purchase cost"}
+                />
+                <TextField type={"number"}
+                           error={!!errors.productSellPrice}
+                           helperText={errors.productSellPrice?.message?.toString()}
+                           {...register('productSellPrice')}
+                           placeholder={"Sell price"}
+                           label={"Sell price"}
+                />
 
-            <FormGroup>
+                <TextField type={"number"}
+                           error={!!errors.minPrice}
+                           helperText={errors.minPrice?.message?.toString()}
+                           {...register('minPrice')}
+                           placeholder={"Minimum price"}
+                           label={"Minimum price"}
+                />
+
                 <TextField sx={{marginTop: "0.5rem"}}
                            type={"text"}
                            error={!!errors.ean}
@@ -116,6 +130,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            placeholder={"EAN"}
                            label={"EAN"}
                 />
+                <Typography variant={"caption"}>OR</Typography>
                 <TextField sx={{marginTop: "0.5rem"}}
                            type={"text"}
                            error={!!errors.manufacturerCode}
