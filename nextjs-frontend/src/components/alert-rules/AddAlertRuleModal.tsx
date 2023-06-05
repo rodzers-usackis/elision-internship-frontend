@@ -61,17 +61,17 @@ const MenuProps = {
 export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     const {products} = useProducts();
     const [selectedRetailerCompanies, setSelectedRetailerCompanies] = useState<RetailerCompany[]>([]);
-    const { retailerCompanies } = useRetailerCompanies();
+    const {retailerCompanies} = useRetailerCompanies();
     const [submissionError, setSubmissionError] = useState(false)
     const [success, setSuccess] = useState(false)
     const {addAlertRuleMutation} = useAddAlertRule();
-    const {register, formState, handleSubmit, watch} = useForm({
+    const {register, formState, handleSubmit, watch, setValue} = useForm({
         resolver: zodResolver(alertRuleCreateSchema)
     })
 
     const {errors, isLoading} = formState;
 
-    function handleAlertRuleUpdateSubmit() {
+    function handleAlertRuleCreate() {
         console.log("test")
 
         setSubmissionError(false);
@@ -79,14 +79,13 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             product,
             priceThreshold,
             priceComparisonType,
-            retailerCompanies,
         } = watch();
 
         const createdAlertRule: AlertRuleCreateDto = {
             product: product,
             priceThreshold: priceThreshold,
             priceComparisonType: priceComparisonType,
-            retailerCompanies: retailerCompanies,
+            retailerCompanies: selectedRetailerCompanies,
         };
 
         console.log("Submitting: " + JSON.stringify(createdAlertRule));
@@ -98,10 +97,8 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
         });
     }
 
-    console.log(selectedRetailerCompanies)
-
     const handleChange = (event: SelectChangeEvent<string[]>) => {
-        const { value } = event.target;
+        const {value} = event.target;
 
         if (retailerCompanies) {
             const selectedRetailerCompanyIds = retailerCompanies
@@ -113,6 +110,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
             );
 
             setSelectedRetailerCompanies(selectedRetailerCompanies);
+            setValue("retailerCompanies", selectedRetailerCompanies);
         }
     };
 
@@ -139,9 +137,9 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 margin: "3rem",
                 padding: "2rem"
             }}
-            onSubmit={handleSubmit(handleAlertRuleUpdateSubmit)}
+            onSubmit={handleSubmit(handleAlertRuleCreate)}
         >
-        <Typography variant={"h5"}>Add a new alert rule</Typography>
+            <Typography variant={"h5"}>Add a new alert rule</Typography>
             <FormControl fullWidth>
                 <InputLabel id="product-label">
                     Product
@@ -151,10 +149,11 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                     labelId="product-label"
                     id="product"
                     {...register("product")}
+                    value={watch("product") || ""}
                 >
                     {products?.map((product) => (
                         <MenuItem key={product.id} value={product.id}>
-                            <ListItemText primary={product.product.name} />
+                            <ListItemText primary={product.product.name}/>
                         </MenuItem>
                     ))}
                 </Select>
@@ -180,6 +179,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                     labelId="price-comparison-type-2-label"
                     id="priceComparisonType"
                     {...register("priceComparisonType")}
+                    value={watch("priceComparisonType") || ""}
                 >
                     <MenuItem key={"LOWER"} value="LOWER">
                         LOWER
@@ -209,7 +209,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                         (retailerCompany) => retailerCompany.id
                     )}
                     onChange={handleChange}
-                    input={<OutlinedInput label="Retailer companies" />}
+                    input={<OutlinedInput label="Retailer companies"/>}
                     renderValue={renderValue}
                 >
                     {retailerCompanies?.map((retailerCompany) => (
@@ -222,13 +222,13 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                                     (c) => c.id === retailerCompany.id
                                 )}
                             />
-                            <ListItemText primary={retailerCompany.name} />
+                            <ListItemText primary={retailerCompany.name}/>
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
 
-            <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}} onClick={handleSubmit(handleAlertRuleUpdateSubmit)}>Save</Button>
+            <Button type={"submit"} variant={"contained"} sx={{maxWidth: "50%"}}>Save</Button>
             {isLoading ? <CircularProgress/> : ''}
             {submissionError ?
                 <Alert variant={"filled"} severity={"error"}> Error adding the alert rule.</Alert> : ''}
