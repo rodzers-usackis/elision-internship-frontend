@@ -109,3 +109,29 @@ a {
 /*    color-scheme: dark;*/
 /*  }*/
 /*}*/
+
+.MuiModal-root, .MuiModal-root *, .MuiModal-root * *{
+  z-index: 2000;
+}
+
+.MuiModal-backdrop{
+    z-index: -1;
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

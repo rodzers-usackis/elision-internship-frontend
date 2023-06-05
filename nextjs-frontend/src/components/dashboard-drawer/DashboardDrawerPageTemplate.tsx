@@ -5,6 +5,7 @@ import styles from "../../styles/DashboardGenericContent.module.css";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {DashboardDrawerItem} from "./DashboardDrawerItems";
+import ResponsiveDashboardDrawer from "./ResponsiveDashboardDrawer";
 
 interface DashboardDrawerPageTemplateProps {
     currentPage: DashboardDrawerItem
@@ -26,7 +27,7 @@ export default function DashboardDrawerPageTemplate({
         <>
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
                 <Grid item style={{flex: 0}}>
-                    <DashboardDrawer selectedPage={currentPage}/>
+                    <ResponsiveDashboardDrawer selectedPage={currentPage}/>
                 </Grid>
 
                 <Grid item className={styles.dashboardWrapper}>

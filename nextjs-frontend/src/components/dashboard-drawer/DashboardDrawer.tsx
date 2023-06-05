@@ -15,15 +15,20 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
+import CloseIcon from '@mui/icons-material/Close';
 import styles from '../../styles/DashboardDrawer.module.css'
 import {useContext, useState} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
+import IconButton from "@mui/material/IconButton";
 
-interface DashboardDrawerProps {
-    selectedPage : DashboardDrawerItem
+export interface DashboardDrawerProps {
+    selectedPage: DashboardDrawerItem;
+    showHideButton?: boolean;
+    onHide?: () => void;
+    isMobile?: boolean;
 }
 
-export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
+export default function DashboardDrawer({selectedPage, showHideButton, onHide, isMobile}: DashboardDrawerProps) {
     const drawerWidth = '260px'
     // const [selectedIndex, setSelectedIndex] = useState(1);
     const {logout, loggedInUser} = useContext(AuthenticationContext);
@@ -33,54 +38,44 @@ export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
         // onClick: () => setSelectedIndex(value),
     });
 
-
     return (
         <>
             <Drawer variant={'permanent'} anchor={'left'} sx={{
                 minWidth: drawerWidth,
                 width: drawerWidth,
             }}>
-                <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'}
-                      paddingX={2} sx={{height: '100%'}}>
-                    <Grid item container display={'flex'} flexDirection={'column'} flex={1}>
-                        <Grid item display={'flex'} justifyContent={'center'} paddingY={1}>
+                {showHideButton ? <IconButton onClick={onHide}>
+                    <CloseIcon/>
+                </IconButton> : ''}
+                <Grid container display={'flex'} flexDirection={'column'} paddingX={2}
+                      sx={{height: '100%', flexWrap: "nowrap"}}>
+                    <Grid item>
+                        <Grid container display={'flex'} justifyContent={'center'} paddingY={1}>
                             <Toolbar>
-                                <Image src="/price_spy_logo.svg" alt="Price Spy Logo" width={180} height={80}
-                                       priority/>
+                                {isMobile ? '' :
+                                    <Image src="/price_spy_logo.svg" alt="Price Spy Logo" width={180} height={80}
+                                           priority/>}
                             </Toolbar>
                         </Grid>
                         <Divider/>
-                        <Grid item paddingTop={1}>
-                            <List>
-                                {DashboardDrawerItems.map((item) => (
-                                    <ListItem key={item.value}>
-                                        <Link href={item.href} className={styles.listItemLink}>
-                                            <ListItemButton {...buttonProps(item.value)}>
-                                                <ListItemIcon>
-                                                    {item.icon}
-                                                </ListItemIcon>
-                                                <ListItemText primary={item.title}/>
-                                            </ListItemButton>
-                                        </Link>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </Grid>
                     </Grid>
-
-                    <Grid item>
-                        <Divider/>
-                        <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
-                              flexDirection={'row'} paddingY={2}>
-                            <Grid item>
-                                <PhoneIcon sx={{fontSize: '32px'}}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography fontWeight={'bold'}>
-                                    Need help? Chat with us
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                    <Grid item xs={12} flex={1} overflow="auto">
+                        <List>
+                            {DashboardDrawerItems.map((item) => (
+                                <ListItem key={item.value}>
+                                    <Link href={item.href} className={styles.listItemLink}>
+                                        <ListItemButton {...buttonProps(item.value)}>
+                                            <ListItemIcon>
+                                                {item.icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={item.title}/>
+                                        </ListItemButton>
+                                    </Link>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Grid>
+                    <Grid item position="sticky" bottom={0}>
                         <Divider/>
                         <Grid container display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}
                               flexDirection={'row'} paddingY={2}>
@@ -98,10 +93,9 @@ export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Button onClick={(e)=>{
+                                <Button onClick={(e) => {
                                     e.preventDefault();
                                     logout()
-
                                 }}>
                                     <LogoutIcon sx={{fontSize: '30px'}}/>
                                 </Button>
@@ -111,5 +105,6 @@ export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
                 </Grid>
             </Drawer>
         </>
-    )
+    );
+
 }

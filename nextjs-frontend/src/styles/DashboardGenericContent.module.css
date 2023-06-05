@@ -35,3 +35,13 @@
     width: calc(100% - 260px);
     padding: 30px;
 }
+
+@media screen and (max-width: 899px){
+
+    .dashboardWrapper{
+        margin-top: 75px;
+        width: 100%;
+        padding: 1rem;
+    }
+
+}
