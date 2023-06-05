@@ -31,6 +31,7 @@ import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
 import CatalogTableData from "../../model/my-catalog/CatalogTableData";
+import Paper from "@mui/material/Paper";
 
 
 interface AddProductModalProps {
@@ -90,7 +91,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
             margin: "3rem",
             padding: "2rem"
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
-            <Typography variant={"h5"}>Add a product to track</Typography>
+            <Typography variant={"h5"} paddingBottom={2}>Add a product to track</Typography>
 
             <FormGroup sx={{
                 display: "flex",
@@ -158,8 +159,10 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
     }
 
     return (
-        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
-            {success ? <SuccessMessage/> : <Form/>}
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper sx={{width:'fit-content'}}>
+                {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>
     )
 }

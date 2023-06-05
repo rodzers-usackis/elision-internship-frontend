@@ -39,7 +39,6 @@ export default function DashboardDrawer({selectedPage} : DashboardDrawerProps) {
             <Drawer variant={'permanent'} anchor={'left'} sx={{
                 minWidth: drawerWidth,
                 width: drawerWidth,
-                maxWidth: drawerWidth,
             }}>
                 <Grid container display={'flex'} justifyContent={'space-between'} flexDirection={'column'}
                       paddingX={2} sx={{height: '100%'}}>

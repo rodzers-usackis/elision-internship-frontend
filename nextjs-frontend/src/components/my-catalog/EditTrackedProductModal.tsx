@@ -76,7 +76,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
             margin: "3rem",
             padding: "2rem"
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
-            <Typography variant={"h5"}>{product.productName}</Typography>
+            <Typography variant={"h5"} paddingBottom={2}>{product.productName}</Typography>
 
             <TextField
                 // type={"number"}

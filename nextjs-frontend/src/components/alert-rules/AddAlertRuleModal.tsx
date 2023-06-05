@@ -21,6 +21,7 @@ import {useProducts} from "../../hooks/register/useProducts";
 import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto";
 import RetailerCompany from "../../model/alert-rules/RetailerCompany";
 import FormGroup from "@mui/material/FormGroup";
+import Paper from "@mui/material/Paper";
 
 interface AddAlertRuleModalProps {
     open: boolean;
@@ -133,7 +134,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 margin: "3rem",
                 padding: "2rem"
             }}>
-            <Typography variant={"h5"}>Add a new alert rule</Typography>
+            <Typography variant={"h5"} paddingBottom={2}>Add a new alert rule</Typography>
             <FormGroup sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -251,8 +252,10 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     }
 
     return (
-        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
-            {success ? <SuccessMessage/> : <Form/>}
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper sx={{width:'fit-content'}}>
+                {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>
     )
 
