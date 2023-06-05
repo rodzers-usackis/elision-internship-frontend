@@ -37,6 +37,7 @@ export default function AlertRulesPage() {
 
     let tableData: AlertRulesTableData[] = (alertRules ?? []).map((rule: AlertRules) => ({
         id: rule.id,
+        productEan: rule.product.ean,
         productName: rule.product.name,
         priceThreshold: rule.priceThreshold,
         priceComparisonType: rule.priceComparisonType,
@@ -175,12 +176,12 @@ export default function AlertRulesPage() {
                                                                     scope="row"
                                                                     padding="none"
                                                                 >
-                                                                    {row.id}
+                                                                    {row.productName}
                                                                 </TableCell>
-                                                                <TableCell align="right">{row.productName}</TableCell>
+                                                                <TableCell align="left">{row.productEan}</TableCell>
                                                                 <TableCell
                                                                     align="right">{row.priceThreshold}</TableCell>
-                                                                <TableCell align="right">
+                                                                <TableCell align="left">
                                                                     {row.retailerCompanies.map((retailerCompany, index) =>
                                                                         index === row.retailerCompanies.length - 1
                                                                             ? retailerCompany.name
