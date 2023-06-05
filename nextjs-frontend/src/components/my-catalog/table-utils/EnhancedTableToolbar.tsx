@@ -53,7 +53,7 @@ export function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
     function handlePostScrape() {
         setScrapingFeedbackSnackbarOpen(true);
-        const productIds = selected.map(product => product.id);
+        const productIds = selected.map(product => product.productId);
         const scrapingTask = {
             productIds: productIds
         } as ScrapingTask;
