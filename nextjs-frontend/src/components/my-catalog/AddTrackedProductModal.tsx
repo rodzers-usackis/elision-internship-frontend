@@ -79,7 +79,8 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "1rem"
+                gap: "1rem",
+                width: "100%"
             }}>
                 <TextField type={"number"}
                            error={!!errors.productPurchaseCost}
@@ -87,6 +88,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('productPurchaseCost')}
                            placeholder={"Purchase cost"}
                            label={"Purchase cost"}
+                           fullWidth={true}
                 />
                 <TextField type={"number"}
                            error={!!errors.productSellPrice}
@@ -94,6 +96,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('productSellPrice')}
                            placeholder={"Sell price"}
                            label={"Sell price"}
+                           fullWidth={true}
                 />
 
                 <TextField type={"number"}
@@ -102,6 +105,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('minPrice')}
                            placeholder={"Minimum price"}
                            label={"Minimum price"}
+                           fullWidth={true}
                 />
 
                 <TextField sx={{marginTop: "0.5rem"}}
@@ -111,6 +115,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('ean')}
                            placeholder={"EAN"}
                            label={"EAN"}
+                           fullWidth={true}
                 />
                 <Typography variant={"caption"}>OR</Typography>
                 <TextField sx={{marginTop: "0.5rem"}}
@@ -120,6 +125,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('manufacturerCode')}
                            placeholder={"Manufacturer code"}
                            label={"Manufacturer code"}
+                           fullWidth={true}
                 />
             </FormGroup>
 

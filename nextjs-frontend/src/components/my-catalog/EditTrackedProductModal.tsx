@@ -86,6 +86,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('productPurchaseCost')}
                 placeholder={"Purchase cost"}
                 label={"Purchase cost"}
+                fullWidth={true}
             />
             <TextField
                 // type={"number"}
@@ -94,6 +95,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('productSellPrice')}
                 placeholder={"Sell price"}
                 label={"Sell price"}
+                fullWidth={true}
             />
             <TextField
                 // type={"number"}
@@ -102,6 +104,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('minPrice')}
                 placeholder={"Minimum price"}
                 label={"Minimum price"}
+                fullWidth={true}
             />
 
             <FormControlLabel

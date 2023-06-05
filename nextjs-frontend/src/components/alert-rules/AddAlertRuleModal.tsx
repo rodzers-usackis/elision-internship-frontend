@@ -57,7 +57,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     const [submissionError, setSubmissionError] = useState(false)
     const [success, setSuccess] = useState(false)
     const {addAlertRuleMutation} = useAddAlertRule();
-    const {register, formState, handleSubmit, watch, setValue} = useForm({
+    const {register, formState, watch, setValue} = useForm({
         resolver: zodResolver(alertRuleCreateSchema)
     })
 
@@ -143,7 +143,8 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 alignItems: "center",
                 gap: "1rem"
             }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth={true}
+                >
                     <InputLabel id="product-label">
                         Product
                     </InputLabel>
