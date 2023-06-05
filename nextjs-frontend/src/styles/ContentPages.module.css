@@ -20,18 +20,19 @@
 
 .featureCard {
     border-radius: 12px;
+    width: 70%;
 }
 
 .title {
     margin-top: 3rem;
 }
 
-.featureContent{
+.featureContent {
     padding-left: 5rem;
     padding-right: 5rem;
 }
 
-.featureName{
+.featureName {
     margin: 1rem;
 }
 
@@ -40,8 +41,37 @@
     margin: 1rem;
 }
 
-.featureDescription strong{
+.featureDescription strong {
     color: #555;
     font-size: 1.05rem;
     margin: 0 0.1rem 0;
+}
+
+@media screen and (max-width: 900px) {
+
+
+    .featureCard {
+        width: 85%;
+    }
+
+    .featureContent {
+        padding: 0.5rem;
+    }
+
+    .featuresColumn {
+        gap: 2rem;
+    }
+
+    .featuresColumn .featureCard:nth-child(odd) {
+        margin-left: 0.5rem;
+    }
+
+    .featuresColumn .featureCard:nth-child(even) {
+        margin-right: 0.5rem;
+    }
+
+    .featureDescription p {
+        margin: 1rem 0;
+    }
+
 }

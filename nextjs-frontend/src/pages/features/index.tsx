@@ -19,7 +19,7 @@ export default function Features() {
 
     function FeatureCard({featureName, children, imageUrl}: FeatureCardProps) {
         return (
-            <Card className={styles.featureCard} sx={{width: "70%"}}>
+            <Card className={styles.featureCard}>
                 <CardMedia
                     sx={{height: 340, objectFit: "contain"}}
                     image={imageUrl}
@@ -40,7 +40,7 @@ export default function Features() {
     }
 
     return (
-        <Box sx={{display: "flex", flexDirection: "column", flexWrap: "nowrap"}} className={styles.featuresColumn}>
+        <Box className={styles.featuresColumn}>
             <Typography className={styles.title} variant={"h2"} align={"center"}>Discover our features</Typography>
             <FeatureCard featureName={"Price alerts"} imageUrl={"/price-alert.svg"}>
                 <>
