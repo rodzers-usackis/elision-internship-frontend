@@ -284,7 +284,7 @@ export default function MyCatalog() {
                                                                     >{row.productName}</Button></Tooltip>
                                                                         <Tooltip title={"Display product's details"} placement={"right"} arrow>
                                                                             <IconButton
-                                                                                sx={{display: 'inline-block'}}
+                                                                                sx={{display: 'inline-block', ml: "auto"}}
                                                                                 aria-label="display product's details"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
