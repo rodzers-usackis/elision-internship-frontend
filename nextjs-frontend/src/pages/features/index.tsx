@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import "../../styles/ContentPages.module.css";
 import styles from "../../styles/ContentPages.module.css";
 import {ReactNode} from "react";
+import Head from "next/head";
 
 
 interface FeatureCardProps {
@@ -42,7 +43,11 @@ export default function Features() {
     }
 
     return (
-        <><Box className={styles.featuresColumn}>
+        <>
+            <Head>
+                <title>Features</title>
+            </Head>
+            <Box className={styles.featuresColumn}>
             <Typography className={styles.title} variant={"h2"} align={"center"}>Discover our features</Typography>
             <FeatureCard featureName={"Price alerts"} imageUrl={"/price-alert.svg"}>
                 <p>With
