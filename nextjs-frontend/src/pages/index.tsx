@@ -11,6 +11,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import Link from "next/link";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -41,11 +42,15 @@ export default function Home() {
                         <Box className={styles.mainGrid}>
                             <Box className={styles.imageBox}>
                                 <Image src={"/sales.svg"} alt={"sales"} height={500} width={500}/>
-                                <Typography className={styles.attribution} variant={"caption"} component={"div"} align={"center"}><a href="https://storyset.com/business">Business illustrations by Storyset</a></Typography>
+                                <Typography className={styles.attribution} variant={"caption"} component={"div"}
+                                            align={"center"}><a href="https://storyset.com/business">Business
+                                    illustrations by Storyset</a></Typography>
                             </Box>
                             <Box className={styles.mainContent}>
-                                <Typography component={"div"} variant={"h3"} align={"center"}><p>Price Spy</p></Typography>
-                                <Typography component={"div"} variant={"h4"} align={"center"}><p>Boost Your Profits and Skyrocket Your Sales!</p></Typography>
+                                <Typography component={"div"} variant={"h3"} align={"center"}><p>Price Spy</p>
+                                </Typography>
+                                <Typography component={"div"} variant={"h4"} align={"center"}><p>Boost Your Profits and
+                                    Skyrocket Your Sales!</p></Typography>
 
                                 <p>Are you looking for a game-changing solution to enhance your business's profitability
                                     and drive more sales? Look no further than Price Spy, the ultimate tool to
@@ -58,13 +63,15 @@ export default function Home() {
                                     intelligence and market analysis, Price Spy empowers you to make informed pricing
                                     decisions that directly impact your bottom line. Here's how it works:</p>
 
-                                <ol><li>Uncover Market Insights</li>
+                                <ol>
+                                    <li>Uncover Market Insights</li>
 
                                     <li>Maximize Profit Margins</li>
 
                                     <li>Monitor Price Movements</li>
 
-                                    <li>Drive Customer Conversion</li></ol>
+                                    <li>Drive Customer Conversion</li>
+                                </ol>
 
                                 <p>Ready to take your business to the next level? Embrace Price Spy and experience the
                                     power of data-driven pricing. Join the ranks of successful businesses who have
@@ -75,8 +82,10 @@ export default function Home() {
                                     unlock
                                     your business's full potential!</p>
 
-                                <p>Take action now and unlock the gateway to pricing success with Price Spy. Sign up
-                                    today
+                                <p>Take action now and unlock the gateway to pricing success with Price Spy. <Link
+                                    className={styles.callToAction}
+                                    href={"/register"}>Sign
+                                    up</Link> today
                                     and witness the transformative impact on your business's profitability and sales
                                     growth.
                                     Don't wait – the time to maximize your profits is now!</p>

@@ -142,6 +142,13 @@
     font-family: "Calibri Light", sans-serif;
 }
 
+.callToAction{
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-shadow: #83ccee 0 0 15px;
+}
+
 @media screen and (max-width: 900px) {
 
     .main {
