@@ -41,6 +41,7 @@ export default function Home() {
                         <Box className={styles.mainGrid}>
                             <Box className={styles.imageBox}>
                                 <Image src={"/sales.svg"} alt={"sales"} height={500} width={500}/>
+                                <Typography className={styles.attribution} variant={"caption"} component={"div"} align={"center"}><a href="https://storyset.com/business">Business illustrations by Storyset</a></Typography>
                             </Box>
                             <Box className={styles.mainContent}>
                                 <Typography component={"div"} variant={"h3"} align={"center"}><p>Price Spy</p></Typography>
@@ -57,39 +58,13 @@ export default function Home() {
                                     intelligence and market analysis, Price Spy empowers you to make informed pricing
                                     decisions that directly impact your bottom line. Here's how it works:</p>
 
-                                <ol><li>Uncover Market Insights: Price Spy provides you with comprehensive market
-                                    insights,
-                                    allowing you to monitor your competitors' prices, promotions, and trends. Stay one
-                                    step
-                                    ahead by knowing exactly how your products are priced in the market and make
-                                    data-driven
-                                    decisions to optimize your pricing strategy.</li>
+                                <ol><li>Uncover Market Insights</li>
 
-                                    <li>Maximize Profit Margins: With Price Spy, you can identify opportunities to
-                                        maximize
-                                        your profit margins. By analyzing market dynamics, demand fluctuations, and
-                                        customer
-                                        behavior, Price Spy helps you determine the optimal price points for your
-                                        products,
-                                        ensuring you achieve the perfect balance between profitability and
-                                        competitiveness.</li>
+                                    <li>Maximize Profit Margins</li>
 
-                                    <li>Monitor Price Movements: Price Spy keeps a vigilant eye on price movements,
-                                        alerting
-                                        you to any changes in the market. Stay informed about price drops, promotions,
-                                        or
-                                        new
-                                        entrants to the market, and adjust your pricing strategy accordingly. Never miss
-                                        an
-                                        opportunity to attract customers with competitive prices and drive more
-                                        sales.</li>
+                                    <li>Monitor Price Movements</li>
 
-                                    <li>Drive Customer Conversion: Price Spy enables you to offer competitive prices that
-                                        resonate with your customers. By strategically adjusting your prices based on
-                                        market
-                                        dynamics and customer preferences, you can increase customer conversion rates,
-                                        boost
-                                        customer loyalty, and ultimately drive more sales.</li></ol>
+                                    <li>Drive Customer Conversion</li></ol>
 
                                 <p>Ready to take your business to the next level? Embrace Price Spy and experience the
                                     power of data-driven pricing. Join the ranks of successful businesses who have
