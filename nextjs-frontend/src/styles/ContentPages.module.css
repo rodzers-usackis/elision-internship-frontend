@@ -4,6 +4,7 @@
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 4rem;
+    margin-bottom: 5rem;
 }
 
 .featuresColumn .featureCard:nth-child(odd) {
@@ -46,6 +47,14 @@
     font-size: 1.05rem;
     margin: 0 0.1rem 0;
 }
+
+
+.attribution{
+    width: 100%;
+    font-family: "Calibri Light", sans-serif;
+    font-size: 0.9rem;
+}
+
 
 @media screen and (max-width: 900px) {
 
