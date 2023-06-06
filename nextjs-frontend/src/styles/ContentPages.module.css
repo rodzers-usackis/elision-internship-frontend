@@ -83,10 +83,11 @@
 
 @keyframes glow {
     0% {
-       text-shadow: none;
+        text-shadow: #83ccee 0 0 2px;
     }
     100% {
         text-shadow: #83ccee 0 0 10px;
+        color: #424242;
     }
 }
 
@@ -99,17 +100,32 @@
 }
 
 .pricingCard:last-child .price{
-    animation: glow 4s infinite alternate;
+    animation: glow 3s infinite alternate;
 }
 
 .pricingCard:last-child ul{
     animation: blackText 4s infinite alternate;
 }
 
+/*about us*/
+.aboutUsCard{
+    border-radius: 12px;
+    width: 70%;
+    margin: 3rem auto;
+    padding: 2rem;
+}
+
+.aboutUsCard p{
+    margin: 2rem;
+    text-align: justify;
+}
+
+
 
 
 @media screen and (max-width: 900px) {
 
+    /*features*/
 
     .featureCard {
         width: 85%;
@@ -133,6 +149,20 @@
 
     .featureDescription p {
         margin: 1rem 0;
+    }
+
+
+    /*about us*/
+    .aboutUsCard{
+        border-radius: 12px;
+        width: 95%;
+        margin: 3rem auto;
+        padding: 0.5rem;
+    }
+
+    .aboutUsCard p{
+        margin: 2rem 0.5rem;
+        text-align: justify;
     }
 
 }

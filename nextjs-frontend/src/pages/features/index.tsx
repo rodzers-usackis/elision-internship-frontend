@@ -26,7 +26,7 @@ export default function Features() {
                     image={imageUrl}
                     alt={featureName + " visualisation"}
                     component="img"
-                    title="green iguana"
+                    title={featureName}
                 />
                 <CardContent className={styles.featureContent}>
                     <Typography gutterBottom variant="h5" component="div" className={styles.featureName}>
