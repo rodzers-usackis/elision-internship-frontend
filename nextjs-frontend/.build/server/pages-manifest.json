@@ -1,0 +1,16 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/dashboard/alerts": "pages/dashboard/alerts.html",
+  "/dashboard/competitors": "pages/dashboard/competitors.html",
+  "/dashboard/alert-rules": "pages/dashboard/alert-rules.html",
+  "/dashboard/alert-settings": "pages/dashboard/alert-settings.html",
+  "/dashboard/my-account": "pages/dashboard/my-account.html",
+  "/dashboard/my-catalog": "pages/dashboard/my-catalog.html",
+  "/dashboard/reports": "pages/dashboard/reports.html",
+  "/": "pages/index.html",
+  "/register": "pages/register.html",
+  "/login": "pages/login.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}
