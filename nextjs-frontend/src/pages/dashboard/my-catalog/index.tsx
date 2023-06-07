@@ -207,7 +207,7 @@ export default function MyCatalog() {
                     {isTrackedProductsLoading ? (
                         <CircularProgress/>
                     ) : isTrackedProductsError ? (
-                        <Alert severity="error">Error loading alerts</Alert>
+                        <Alert severity="error">Error loading products</Alert>
                     ) : (
                         !isTrackedProductsLoading && !isTrackedProductsError && catalogTableData && (
                             <Grid item className={styles.lineChart}>

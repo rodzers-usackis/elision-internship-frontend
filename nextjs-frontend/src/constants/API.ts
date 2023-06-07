@@ -1,6 +1,6 @@
 const PORT = 8080;
 
-export const BACKEND_BASEURL = `http://localhost:${PORT}`;
+export const BACKEND_BASEURL = `https://pricing-as-a-service.ew.r.appspot.com`;
 
 export const API_ROUTES = {
     LOGIN : `${BACKEND_BASEURL}/api/auth/login`,
