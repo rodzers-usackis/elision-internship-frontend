@@ -8,6 +8,7 @@ export interface Alert {
     timestamp: Date;
     price: number;
     priceComparisonType: PriceComparisonTypeEnum;
+    alertRulePriceThreshold: number;
     product: Product;
     retailerCompany: RetailerCompany;
     read: boolean;

@@ -1,5 +1,5 @@
 import Modal from "@mui/material/Modal";
-import React from "react";
+import React, {useEffect} from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -15,10 +15,16 @@ interface ProductDetailsModalProps {
 
 export default function ProductDetailsModal({product, open, onClose}: ProductDetailsModalProps) {
 
+    useEffect(() => {
+        if (!product) {
+            onClose();
+        }
+    });
+
     if (!product) {
-        onClose();
-        return (<></>)
+        return <></>
     }
+
 
     return (
         <Modal

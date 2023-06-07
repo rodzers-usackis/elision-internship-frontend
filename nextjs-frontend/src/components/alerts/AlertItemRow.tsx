@@ -23,17 +23,18 @@ export function AlertItemRow({alert}: AlertItemProps) {
             <TableCell>{moment(alert.timestamp).format("YYYY-MM-DD [\u00A0\u00A0] HH:mm")}</TableCell>
             <TableCell>{alert.product.name}</TableCell>
             <TableCell>{alert.retailerCompany.name}</TableCell>
+            <TableCell>{alert.alertRulePriceThreshold} €</TableCell>
             <TableCell>{alert.price} €</TableCell>
             <TableCell>
                 {
                     alert.priceComparisonType === PriceComparisonTypeEnum.LOWER ?
                         <span>
-                            Competitor's price decreased
+                            Competitor&apos;s price decreased
                             {/*<TrendingDownIcon/>*/}
                         </span>
                         :
                         <span>
-                            Competitor's price increased
+                            Competitor&apos;s price increased
                             {/*<TrendingUpIcon/>*/}
                       </span>
                 }

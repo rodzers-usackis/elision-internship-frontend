@@ -2,16 +2,16 @@ import {HeadCell} from "./HeadCell";
 
 export const headCells: readonly HeadCell[] = [
     {
-        id: 'id',
-        numeric: false,
-        disablePadding: false,
-        label: 'Product ID',
-    },
-    {
         id: 'productName',
         numeric: false,
         disablePadding: false,
         label: 'Product',
+    },
+    {
+        id: 'productEan',
+        numeric: false,
+        disablePadding: false,
+        label: 'EAN',
     },
     {
         id: 'priceThreshold',
