@@ -16,12 +16,15 @@ import {useContext, useState} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import {useRouter} from "next/router";
 import AuthenticationRequest from "../../model/AuthenticationRequest";
+import Alert from "@mui/material/Alert";
+import {AlertTitle} from "@mui/material";
 
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ email: "", password: "" });
+    const [loginError, setLoginError] = useState(false);
     const {isAuthenticated, login} = useContext(AuthenticationContext);
     const {push: goTo} = useRouter();
 
@@ -72,14 +75,15 @@ export default function Login() {
     }
 
     function onLoggingInSuccess() {
-        //TODO: show something to the user
+        setLoginError(false)
         console.log('Logged in!')
         // goTo('/');
     }
 
     function onLoggingInError() {
-        //TODO: display error to the user
-        console.log('logging in failed')
+        setLoginError(true); // Set the loginError state to true
+        setPassword(""); // Clear the password field
+        console.log("logging in failed");
     }
 
 
@@ -138,7 +142,12 @@ export default function Login() {
                             </Button>
                         </Grid>
 
-                        <Grid item className={styles.cardMainContentEmailInput} paddingBottom={2} width={'100%'}>
+                        {loginError && (
+                            <Alert severity="error" sx={{width: '100%'}}>
+                                Invalid login credentials. Please try again.
+                            </Alert>
+                        )}
+                        <Grid item className={styles.cardMainContentEmailInput} paddingY={2} width={'100%'}>
                             <TextField
                                 id="filled-email-input"
                                 label="Email"
