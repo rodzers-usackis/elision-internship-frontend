@@ -9,3 +9,8 @@
 .listItemLink {
     width: 100%
 }
+
+.scrollableList {
+    max-height: 731px; /* Adjust the value as needed */
+    overflow-y: auto;
+}

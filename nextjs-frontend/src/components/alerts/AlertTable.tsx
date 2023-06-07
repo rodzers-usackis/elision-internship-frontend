@@ -48,9 +48,10 @@ export function AlertTable({alerts}: AlertListProps) {
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{visibility: 'hidden'}}>new</TableCell>
-                                <TableCell> Created at </TableCell>
+                                <TableCell>Created at </TableCell>
                                 <TableCell>Product</TableCell>
                                 <TableCell>Competitor</TableCell>
+                                <TableCell>Price Threshold</TableCell>
                                 <TableCell>Price</TableCell>
                                 <TableCell>Alert Trigger</TableCell>
                             </TableRow>
