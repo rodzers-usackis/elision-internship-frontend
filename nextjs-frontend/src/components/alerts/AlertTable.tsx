@@ -57,8 +57,11 @@ export function AlertTable({alerts}: AlertListProps) {
                         </TableHead>
 
                         <TableBody>
-                            {alerts.map(alert => <AlertItemRow alert={alert}/>)}
+                            {alerts.map((alert) => (
+                                <AlertItemRow key={alert.id} alert={alert} />
+                            ))}
                         </TableBody>
+
                     </Table>
                 </TableContainer>
                 <TablePagination

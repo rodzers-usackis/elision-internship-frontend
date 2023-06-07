@@ -66,7 +66,7 @@ export default function Reports() {
             }
         }
 
-    }, [products]);
+    }, [products, router.query?.product_id, selectedDateRange]);
 
     const reportTypes = [
         {

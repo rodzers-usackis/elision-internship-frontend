@@ -1,0 +1,15 @@
+env: standard
+runtime: nodejs18
+service: next-js-frontend
+
+handlers:
+  - url: /(.*\.(js|css|woff|woff2|ttf|otf|ico)|/.*_next/.*)
+    static_files: public/\1
+    upload: public/.*\.(js|css|woff|woff2|ttf|otf|ico)$
+    secure: always
+    expiration: "7d"
+
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto

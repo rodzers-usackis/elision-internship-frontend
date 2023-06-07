@@ -8,14 +8,12 @@ import Box from "@mui/material/Box";
 import {NavbarItems} from "../NavbarItems";
 import Button from "@mui/material/Button";
 import styles from "../../../styles/MobileNavbar.module.css";
-// import {Divider, Drawer, IconButton} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from '@mui/icons-material/Menu';
 import {useState} from "react";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
-// import {Person} from "@mui/icons-material";
 import Person from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 
@@ -64,8 +62,8 @@ export default function MobileNavbar({showMobile = false}: Props) {
 
             <Grid container paddingX={2}>
                 {NavbarItems.map((page) => (
-                    <Grid item width={'100%'}>
-                        <Link href={page.href} key={`mobile_${page.title}`}>
+                    <Grid item width={'100%'} key={`mobile_${page.title}_grid`}>
+                        <Link href={page.href} key={`mobile_${page.title}_link`}>
                             <Button disableRipple className={styles.navbarItemButton}>
                                 <Typography className={styles.navbarItem} sx={{fontSize: '20px', color: 'black'}}>
                                     {page.title}

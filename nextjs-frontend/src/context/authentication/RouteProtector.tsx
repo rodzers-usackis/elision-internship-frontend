@@ -33,7 +33,7 @@ export default function RouteProtector({children}: { children: ReactNode }) {
         if (isAuthenticated() && unauthenticatedUserRoutes.includes(router.pathname)) {
             router.replace("/dashboard/my-catalog"); // Redirect to dashboard
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, router]);
 
     return <>{children}</>;
 }

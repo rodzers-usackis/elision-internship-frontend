@@ -214,7 +214,7 @@ export default function Login() {
                         >
                             <Grid item>
                                 <Typography>
-                                    Don't have an account yet?
+                                    Don&apos;t have an account yet?
                                 </Typography>
                             </Grid>
                             <Grid item>
