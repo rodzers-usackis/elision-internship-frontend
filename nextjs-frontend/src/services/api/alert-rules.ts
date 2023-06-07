@@ -6,7 +6,13 @@ import AlertRuleUpdateDto from "../../model/alert-rules/dtos/AlertRuleUpdateDto"
 import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto";
 
 export async function getAlertRules() {
-    const response = await axios.get<AlertRules[]>(API_ROUTES.ALERT_RULES)
+    const response = await axios.get<AlertRules[]>(API_ROUTES.ALERT_RULES).catch((error) => {
+       if(!!error.response && error.response.status === 404){
+              return {...error.response, data: [], status: 200}
+       } else{
+              throw error;
+       }
+    });
     return response.data ?? []
 }
 
