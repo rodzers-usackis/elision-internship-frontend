@@ -21,6 +21,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { useRetailerCompanies } from "../../hooks/retailer-companies/useRetailerCompanies";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 interface EditAlertRuleModalProps {
     alertRule: AlertRulesTableData;
@@ -229,7 +230,7 @@ export function EditAlertRuleModal({
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
                 {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>

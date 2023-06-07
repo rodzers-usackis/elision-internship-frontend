@@ -1,37 +1,18 @@
-// import {
-//     Alert,
-//     Button, CircularProgress,
-//     FormControl,
-//     FormControlLabel,
-//     FormGroup,
-//     InputLabel,
-//     Modal,
-//     Switch,
-//     TextField,
-//     Typography
-// } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import InputLabel from "@mui/material/InputLabel";
 import Modal from "@mui/material/Modal";
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {TrackedProduct} from "../../model/TrackedProduct";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProduct";
-import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import {useAddTrackedProducts} from "../../hooks/products/useAddTrackedProducts";
 import {AddedTrackedProduct} from "../../model/AddedTrackedProduct";
-import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 
 interface AddProductModalProps {
@@ -98,7 +79,8 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "1rem"
+                gap: "1rem",
+                width: "100%"
             }}>
                 <TextField type={"number"}
                            error={!!errors.productPurchaseCost}
@@ -106,6 +88,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('productPurchaseCost')}
                            placeholder={"Purchase cost"}
                            label={"Purchase cost"}
+                           fullWidth={true}
                 />
                 <TextField type={"number"}
                            error={!!errors.productSellPrice}
@@ -113,6 +96,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('productSellPrice')}
                            placeholder={"Sell price"}
                            label={"Sell price"}
+                           fullWidth={true}
                 />
 
                 <TextField type={"number"}
@@ -121,6 +105,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('minPrice')}
                            placeholder={"Minimum price"}
                            label={"Minimum price"}
+                           fullWidth={true}
                 />
 
                 <TextField sx={{marginTop: "0.5rem"}}
@@ -130,6 +115,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('ean')}
                            placeholder={"EAN"}
                            label={"EAN"}
+                           fullWidth={true}
                 />
                 <Typography variant={"caption"}>OR</Typography>
                 <TextField sx={{marginTop: "0.5rem"}}
@@ -139,6 +125,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
                            {...register('manufacturerCode')}
                            placeholder={"Manufacturer code"}
                            label={"Manufacturer code"}
+                           fullWidth={true}
                 />
             </FormGroup>
 
@@ -160,7 +147,7 @@ export function AddTrackedProductModal({open, onClose}: AddProductModalProps) {
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
                 {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>
