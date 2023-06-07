@@ -15,12 +15,12 @@ interface ProductDetailsModalProps {
 
 export default function ProductDetailsModal({product, open, onClose}: ProductDetailsModalProps) {
 
-    useEffect(() => {
-        if (!product) {
-            onClose();
-        }
-    });
-
+    // useEffect(() => {
+    //     if (!product) {
+    //         onClose();
+    //     }
+    // });
+    //
     if (!product) {
         return <></>
     }

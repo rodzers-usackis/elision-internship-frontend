@@ -101,7 +101,7 @@ export default function MyCatalog() {
         }
 
         filterTrackedProducts();
-    }, [trackedProducts, searchText, catalogTableData]);
+    }, [trackedProducts, searchText]);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
