@@ -164,7 +164,7 @@ export default function MyCatalog() {
         if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
             searchInputRef.current.focus();
         }
-    }, [searchText]);
+    }, [searchText, catalogTableData]);
 
     function ActionShelf() {
         return (
