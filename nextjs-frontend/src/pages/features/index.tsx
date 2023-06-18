@@ -57,7 +57,7 @@ export default function Features() {
                 </p>
 
                 <p>This feature ensures that you <strong>never miss out</strong> on important price fluctuations.
-                    Whether you're
+                    Whether you&apos;re
                     a savvy shopper looking for the best deal or a business owner monitoring market trends, our
                     price alerts keep you in the loop.
                 </p>
@@ -82,7 +82,7 @@ export default function Features() {
 
                 <p>By defining your own alert rules, you can specify criteria such as price thresholds, percentage
                     changes, or specific product attributes. This level of customization empowers you to focus on
-                    what matters most to you, whether it's a specific price drop, a certain percentage discount, or
+                    what matters most to you, whether it&apos;s a specific price drop, a certain percentage discount, or
                     the availability of limited-time offers.
                 </p>
 

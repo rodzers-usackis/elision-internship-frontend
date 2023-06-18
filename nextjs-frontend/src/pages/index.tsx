@@ -6,9 +6,6 @@ import {useEffect, useState} from "react";
 import {LogoutSuccessSnackbar} from "../components/logout/LogoutSuccessSnackbar";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import Grid from "@mui/material/Grid";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
@@ -52,16 +49,16 @@ export default function Home() {
                                 <Typography component={"div"} variant={"h4"} align={"center"}><p>Boost Your Profits and
                                     Skyrocket Your Sales!</p></Typography>
 
-                                <p>Are you looking for a game-changing solution to enhance your business's profitability
+                                <p>Are you looking for a game-changing solution to enhance your business&apos;s profitability
                                     and drive more sales? Look no further than Price Spy, the ultimate tool to
                                     revolutionize
                                     your pricing strategy. With Price Spy, you can gain a competitive edge in the market
                                     and
                                     take your business to new heights.</p>
 
-                                <p>Why choose Price Spy? It's simple. By harnessing the power of real-time price
+                                <p>Why choose Price Spy? It&apos;s simple. By harnessing the power of real-time price
                                     intelligence and market analysis, Price Spy empowers you to make informed pricing
-                                    decisions that directly impact your bottom line. Here's how it works:</p>
+                                    decisions that directly impact your bottom line. Here&apos;s how it works:</p>
 
                                 <ol>
                                     <li>Uncover Market Insights</li>
@@ -78,17 +75,17 @@ export default function Home() {
                                     harnessed
                                     the potential of Price Spy to improve their profits, increase sales, and outshine
                                     their
-                                    competition. Don't miss out on this opportunity – start using Price Spy today and
+                                    competition. Don&apos;t miss out on this opportunity – start using Price Spy today and
                                     unlock
-                                    your business's full potential!</p>
+                                    your business&apos;s full potential!</p>
 
                                 <p>Take action now and unlock the gateway to pricing success with Price Spy. <Link
                                     className={styles.callToAction}
                                     href={"/register"}>Sign
                                     up</Link> today
-                                    and witness the transformative impact on your business's profitability and sales
+                                    and witness the transformative impact on your business&apos;s profitability and sales
                                     growth.
-                                    Don't wait – the time to maximize your profits is now!</p>
+                                    Don&apos;t wait – the time to maximize your profits is now!</p>
                             </Box>
                         </Box>
                     </Card>
