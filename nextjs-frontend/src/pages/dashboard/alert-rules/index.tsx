@@ -180,7 +180,7 @@ export default function AlertRulesPage() {
                                                                 </TableCell>
                                                                 <TableCell align="left">{row.productEan}</TableCell>
                                                                 <TableCell
-                                                                    align="right">{row.priceThreshold}</TableCell>
+                                                                    align="right">{row.priceThreshold} €</TableCell>
                                                                 <TableCell align="left">
                                                                     {row.retailerCompanies.length == 0 ? 'All Companies' :
                                                                         row.retailerCompanies.map((retailerCompany, index) =>
