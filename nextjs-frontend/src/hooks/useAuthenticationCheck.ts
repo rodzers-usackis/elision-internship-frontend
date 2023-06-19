@@ -14,7 +14,7 @@ export default function useAuthenticationCheck() {
         } else {
             setFinished(true)
         }
-    }, [])
+    }, [isAuthenticated, router])
 
     return finished
 }

@@ -57,84 +57,82 @@ export function AlertSettingsForm({alertSettings}: AlertSettingsFormProps) {
     return (
         <form className={styles["alert-settings-form"]} onSubmit={handleSubmit(handleAlertSettingUpdate)}>
 
-            <AlertSettingsFormRow title="Alerts active"
-                                  children={
+            <AlertSettingsFormRow title="Alerts active">
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={watch('alertsActive')}
+                            id="alertsActive"
+                            {...register('alertsActive')}
+                        />
+                    }
+                    label="Alerts active"
+                    labelPlacement="start"
+                    hidden
+                />
+            </AlertSettingsFormRow>
 
-                                      <FormControlLabel
-                                          control={
-                                              <Switch
-                                                  checked={watch('alertsActive')}
-                                                  id="alertsActive"
-                                                  {...register('alertsActive')}
-                                              />
-                                          }
-                                          label="Alerts active"
-                                          labelPlacement="start"
-                                          hidden
-                                      />
-                                  }/>
-
-            <AlertSettingsFormRow title="Notify via email"
-                                  children={
-                                      <FormControlLabel
-                                          control={
-                                              <Switch
-                                                  checked={watch('notifyViaEmail')}
-                                                  id="notifyViaEmail"
-                                                  {...register('notifyViaEmail')}
-                                              />
-                                          }
-                                          label="Notify via email"
-                                          labelPlacement="start"
-                                          hidden
-                                      />
-                                  }/>
+            <AlertSettingsFormRow title="Notify via email">
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={watch('notifyViaEmail')}
+                            id="notifyViaEmail"
+                            {...register('notifyViaEmail')}
+                        />
+                    }
+                    label="Notify via email"
+                    labelPlacement="start"
+                    hidden
+                />
+            </AlertSettingsFormRow>
 
 
-            <AlertSettingsFormRow title={"Store alerts for"}
-                                  children={
-                                      <Tooltip title={"Feature available for premium users only."}>
-                                          <FormControlLabel
-                                              control={
-                                                  <Select
-                                                      labelId="alert-storage-label"
-                                                      id="alerts-storage-select"
-                                                      label="Alerts storage time"
-                                                      //{...register('alertsStorageTime')}
-                                                      defaultValue={30}
-                                                      disabled
-                                                      sx={{marginLeft: "1rem"}}
-                                                  >
-                                                      <MenuItem value={30}>30 days</MenuItem>
-                                                      <MenuItem value={60}>60 days</MenuItem>
-                                                      <MenuItem value={90}>90 days</MenuItem>
-                                                  </Select>
-                                              }
-                                              label="Store alerts for"
-                                              labelPlacement="start"
-                                              hidden
-                                          />
-                                      </Tooltip>
-                                  }
-            />
+            <AlertSettingsFormRow title={"Store alerts for"}>
+                <Tooltip title={"Feature available for premium users only."}>
+                    <FormControlLabel
+                        control={
+                            <Select
+                                labelId="alert-storage-label"
+                                id="alerts-storage-select"
+                                label="Alerts storage time"
+                                //{...register('alertsStorageTime')}
+                                defaultValue={30}
+                                disabled
+                                sx={{ marginLeft: "1rem" }}
+                            >
+                                <MenuItem value={30}>30 days</MenuItem>
+                                <MenuItem value={60}>60 days</MenuItem>
+                                <MenuItem value={90}>90 days</MenuItem>
+                            </Select>
+                        }
+                        label="Store alerts for"
+                        labelPlacement="start"
+                        hidden
+                    />
+                </Tooltip>
+            </AlertSettingsFormRow>
 
 
-            <AlertSettingsFormRow title={"Email address"}
-                                  children={
-                                      <Tooltip title={"Feature not available yet. " +
-                                      "Emails will be sent to the email address you registered with."}><TextField
-                                          // type={"number"}
-                                          // error={!!errors.productPurchaseCost}
-                                          // helperText={errors.productPurchaseCost?.message?.toString()}
-                                          // {...register('productPurchaseCost')}
-                                          placeholder={"Email address"}
-                                          label={"Email address"}
-                                          defaultValue={loggedInUser?.email || "Email address"}
-                                          disabled
-                                      /></Tooltip>
-
-                                  }
-            />
+            <AlertSettingsFormRow title={"Email address"}>
+                <Tooltip
+                    title={
+                        "Feature not available yet. " +
+                        "Emails will be sent to the email address you registered with."
+                    }
+                >
+                    <TextField
+                        // type={"number"}
+                        // error={!!errors.productPurchaseCost}
+                        // helperText={errors.productPurchaseCost?.message?.toString()}
+                        // {...register('productPurchaseCost')}
+                        placeholder={"Email address"}
+                        label={"Email address"}
+                        defaultValue={loggedInUser?.email || "Email address"}
+                        disabled
+                    />
+                </Tooltip>
+            </AlertSettingsFormRow>
 
             {isAlertSettingsUpdateLoading ? <CircularProgress/> :
                 <Button variant="contained" onClick={handleSubmit(handleAlertSettingUpdate)}>Save</Button>}

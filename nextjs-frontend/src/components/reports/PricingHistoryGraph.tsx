@@ -6,7 +6,7 @@ import {
     LineElement,
     Title,
     Tooltip,
-    Legend,
+    Legend, ChartDataset, ChartData,
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import dayjs from "dayjs";
@@ -96,7 +96,7 @@ export function PricingHistoryGraph({data}: { data?: ProductPriceHistorian }) {
         }],
     };
 
-    const chartData2 ={
+    const chartData2: ChartData<"line", number[], string> = {
         labels: timestamps?.map((timestamp) => dayjs(timestamp).format('YYYY-MM-DD')),
         datasets: data?.data.map((item, index) => {
             return {
@@ -105,9 +105,9 @@ export function PricingHistoryGraph({data}: { data?: ProductPriceHistorian }) {
                 borderColor: colors[index].borderColor,
                 tension: 0.1,
                 backgroundColor: colors[index].backgroundColor,
-            }
-        })
-    }
+            } as ChartDataset<"line", number[]>;
+        }) || [],
+    };
 
 
 

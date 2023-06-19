@@ -1,7 +1,7 @@
 export const NavbarItems = [
     {
-        title: 'Services',
-        href: '/services',
+        title: 'Features',
+        href: '/features',
         className: 'nav-links',
         value: 1,
         children: [

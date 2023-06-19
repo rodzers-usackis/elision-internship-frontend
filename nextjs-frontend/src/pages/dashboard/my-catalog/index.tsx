@@ -72,41 +72,36 @@ export default function MyCatalog() {
 
     //should work with both dependencies together but for some reason it doesn't
     useEffect(() => {
-        filterTrackedProducts();
-    }, [trackedProducts])
+        function filterTrackedProducts() {
+            if (!catalogTableData) {
+                return;
+            }
+            if (searchText === "" || !searchText) {
+                setDisplayedTrackedProducts(catalogTableData);
+                return;
+            }
 
-    useEffect(() => {
-        filterTrackedProducts();
-    }, [searchText]);
+            const filteredTrackedProducts = catalogTableData.filter((trackedProduct) => {
 
+                const productName = trackedProduct.productName.toLowerCase();
+                const ean = trackedProduct.productEan.toLowerCase();
+                const manufacturerCode = trackedProduct.productManufacturerCode.toLowerCase();
+                const category = trackedProduct.productCategory.toLowerCase();
 
-    function filterTrackedProducts() {
-        if (!catalogTableData) {
-            return;
+                const searchTextLowerCase = searchText.toLowerCase();
+
+                return productName.includes(searchTextLowerCase) ||
+                    ean.includes(searchTextLowerCase) ||
+                    manufacturerCode.includes(searchTextLowerCase) ||
+                    category.includes(searchTextLowerCase);
+
+            });
+
+            setDisplayedTrackedProducts(filteredTrackedProducts);
         }
-        if (searchText === "" || !searchText) {
-            setDisplayedTrackedProducts(catalogTableData);
-            return;
-        }
 
-        const filteredTrackedProducts = catalogTableData.filter((trackedProduct) => {
-
-            const productName = trackedProduct.productName.toLowerCase();
-            const ean = trackedProduct.productEan.toLowerCase();
-            const manufacturerCode = trackedProduct.productManufacturerCode.toLowerCase();
-            const category = trackedProduct.productCategory.toLowerCase();
-
-            const searchTextLowerCase = searchText.toLowerCase();
-
-            return productName.includes(searchTextLowerCase) ||
-                ean.includes(searchTextLowerCase) ||
-                manufacturerCode.includes(searchTextLowerCase) ||
-                category.includes(searchTextLowerCase);
-
-        });
-
-        setDisplayedTrackedProducts(filteredTrackedProducts);
-    }
+        filterTrackedProducts();
+    }, [trackedProducts, searchText]);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -169,7 +164,7 @@ export default function MyCatalog() {
         if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
             searchInputRef.current.focus();
         }
-    }, [searchText, searchInputRef.current]);
+    }, [searchText, catalogTableData]);
 
     function ActionShelf() {
         return (
@@ -212,7 +207,7 @@ export default function MyCatalog() {
                     {isTrackedProductsLoading ? (
                         <CircularProgress/>
                     ) : isTrackedProductsError ? (
-                        <Alert severity="error">Error loading alerts</Alert>
+                        <Alert severity="error">Error loading products</Alert>
                     ) : (
                         !isTrackedProductsLoading && !isTrackedProductsError && catalogTableData && (
                             <Grid item className={styles.lineChart}>
@@ -284,7 +279,7 @@ export default function MyCatalog() {
                                                                     >{row.productName}</Button></Tooltip>
                                                                         <Tooltip title={"Display product's details"} placement={"right"} arrow>
                                                                             <IconButton
-                                                                                sx={{display: 'inline-block'}}
+                                                                                sx={{display: 'inline-block', ml: "auto"}}
                                                                                 aria-label="display product's details"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();

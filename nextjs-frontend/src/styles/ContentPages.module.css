@@ -1,0 +1,168 @@
+/*features*/
+.featuresColumn {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 4rem;
+    margin-bottom: 5rem;
+}
+
+.featuresColumn .featureCard:nth-child(odd) {
+    margin-right: auto;
+    margin-left: 2rem;
+    text-align: left;
+}
+
+.featuresColumn .featureCard:nth-child(even) {
+    margin-left: auto;
+    margin-right: 2rem;
+    text-align: right;
+}
+
+.featureCard {
+    border-radius: 12px;
+    width: 70%;
+}
+
+.title {
+    margin-top: 3rem;
+}
+
+.featureContent {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+.featureName {
+    margin: 1rem;
+}
+
+.featureDescription p {
+    margin: 1rem;
+}
+
+.featureDescription strong {
+    color: #555;
+    font-size: 1.05rem;
+    margin: 0 0.1rem 0;
+}
+
+
+.attribution{
+    padding: 1rem;
+    font-family: "Calibri Light", sans-serif;
+    font-size: 0.9rem;
+}
+
+/*pricing*/
+.pricingContainer {
+    min-height: 100vh;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-bottom: 5rem;
+    justify-content: space-evenly;
+}
+
+.price{
+    margin-top: 2rem;
+}
+
+.pricingCard{
+    max-height: 300px;
+    overflow: auto;
+    border-radius: 12px;
+}
+
+.pricingCard ul{
+    margin: 5rem auto 0;
+    list-style-position: inside;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: #83ccee 0 0 2px;
+    }
+    100% {
+        text-shadow: #83ccee 0 0 10px;
+        color: #424242;
+    }
+}
+
+@keyframes blackText {
+
+    100% {
+        color: #000000;
+    }
+
+}
+
+.pricingCard:last-child .price{
+    animation: glow 3s infinite alternate;
+}
+
+.pricingCard:last-child ul{
+    animation: blackText 4s infinite alternate;
+}
+
+/*about us*/
+.aboutUsCard{
+    border-radius: 12px;
+    width: 70%;
+    margin: 3rem auto;
+    padding: 2rem;
+}
+
+.aboutUsCard p{
+    margin: 2rem;
+    text-align: justify;
+}
+
+
+
+
+@media screen and (max-width: 900px) {
+
+    /*features*/
+
+    .featureCard {
+        width: 85%;
+    }
+
+    .featureContent {
+        padding: 0.5rem;
+    }
+
+    .featuresColumn {
+        gap: 2rem;
+    }
+
+    .featuresColumn .featureCard:nth-child(odd) {
+        margin-left: 0.5rem;
+    }
+
+    .featuresColumn .featureCard:nth-child(even) {
+        margin-right: 0.5rem;
+    }
+
+    .featureDescription p {
+        margin: 1rem 0;
+    }
+
+
+    /*about us*/
+    .aboutUsCard{
+        border-radius: 12px;
+        width: 95%;
+        margin: 3rem auto;
+        padding: 0.5rem;
+    }
+
+    .aboutUsCard p{
+        margin: 2rem 0.5rem;
+        text-align: justify;
+    }
+
+}

@@ -14,6 +14,7 @@ import {useUpdateTrackedProduct} from "../../hooks/products/useUpdateTrackedProd
 import {TrackedProductUpdate} from "../../model/TrackedProductUpdate";
 import CatalogTableData from "../../model/my-catalog/CatalogTableData";
 import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 
 interface EditProductModalProps {
@@ -76,7 +77,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
             margin: "3rem",
             padding: "2rem"
         }} onSubmit={handleSubmit(handleProductUpdateSubmit)}>
-            <Typography variant={"h5"}>{product.productName}</Typography>
+            <Typography variant={"h5"} paddingBottom={2}>{product.productName}</Typography>
 
             <TextField
                 // type={"number"}
@@ -85,6 +86,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('productPurchaseCost')}
                 placeholder={"Purchase cost"}
                 label={"Purchase cost"}
+                fullWidth={true}
             />
             <TextField
                 // type={"number"}
@@ -93,6 +95,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('productSellPrice')}
                 placeholder={"Sell price"}
                 label={"Sell price"}
+                fullWidth={true}
             />
             <TextField
                 // type={"number"}
@@ -101,6 +104,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
                 {...register('minPrice')}
                 placeholder={"Minimum price"}
                 label={"Minimum price"}
+                fullWidth={true}
             />
 
             <FormControlLabel
@@ -129,7 +133,7 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
 
     return (
         <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
-            <Paper sx={{width:'fit-content'}}>
+            <Paper className={styles.modalPaper}>
             {success ? <SuccessMessage/> : <Form/>}
             </Paper>
         </Modal>)

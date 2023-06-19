@@ -21,6 +21,8 @@ import {useProducts} from "../../hooks/register/useProducts";
 import AlertRuleCreateDto from "../../model/alert-rules/dtos/AlertRuleCreateDto";
 import RetailerCompany from "../../model/alert-rules/RetailerCompany";
 import FormGroup from "@mui/material/FormGroup";
+import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 interface AddAlertRuleModalProps {
     open: boolean;
@@ -55,7 +57,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     const [submissionError, setSubmissionError] = useState(false)
     const [success, setSuccess] = useState(false)
     const {addAlertRuleMutation} = useAddAlertRule();
-    const {register, formState, handleSubmit, watch, setValue} = useForm({
+    const {register, formState, watch, setValue} = useForm({
         resolver: zodResolver(alertRuleCreateSchema)
     })
 
@@ -133,7 +135,7 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 margin: "3rem",
                 padding: "2rem"
             }}>
-            <Typography variant={"h5"}>Add a new alert rule</Typography>
+            <Typography variant={"h5"} paddingBottom={2}>Add a new alert rule</Typography>
             <FormGroup sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -141,7 +143,8 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                 alignItems: "center",
                 gap: "1rem"
             }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth={true}
+                >
                     <InputLabel id="product-label">
                         Product
                     </InputLabel>
@@ -227,6 +230,10 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText sx={{fontSize: '1rem', color: 'red'}}>
+                        {selectedRetailerCompanies.length === 0 &&
+                            "If left unselected, all retailer companies will be selected."}
+                    </FormHelperText>
                 </FormControl>
             </FormGroup>
 
@@ -247,8 +254,10 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
     }
 
     return (
-        <Modal sx={{overflow: "scroll"}} open={open} onClose={onClose}>
-            {success ? <SuccessMessage/> : <Form/>}
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper className={styles.modalPaper}>
+                {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>
     )
 

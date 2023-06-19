@@ -20,6 +20,8 @@ import RetailerCompany from "../../model/alert-rules/RetailerCompany";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { useRetailerCompanies } from "../../hooks/retailer-companies/useRetailerCompanies";
+import Paper from "@mui/material/Paper";
+import styles from "../../styles/GenericModal.module.css"
 
 interface EditAlertRuleModalProps {
     alertRule: AlertRulesTableData;
@@ -132,7 +134,7 @@ export function EditAlertRuleModal({
                 }}
                 onSubmit={handleSubmit(handleAlertRuleUpdate)}
             >
-                <Typography variant={"h5"}>{alertRule.productName}</Typography>
+                <Typography variant={"h5"} paddingBottom={2}>{alertRule.productName}</Typography>
 
                 <TextField
                     type="number"
@@ -194,6 +196,10 @@ export function EditAlertRuleModal({
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText sx={{fontSize: '1rem', color: 'red'}}>
+                        {selectedRetailerCompanies.length === 0 &&
+                            "If left unselected, all retailer companies will be selected."}
+                    </FormHelperText>
                 </FormControl>
 
                 <Button type={"submit"} variant={"contained"} sx={{ maxWidth: "50%" }}>
@@ -223,8 +229,10 @@ export function EditAlertRuleModal({
     }
 
     return (
-        <Modal sx={{ overflow: "scroll" }} open={open} onClose={onClose}>
-            {success ? <SuccessMessage /> : <Form />}
+        <Modal sx={{overflow: "scroll", padding:"1rem", display:'flex', justifyContent:'center', alignItems:'center'}} open={open} onClose={onClose}>
+            <Paper className={styles.modalPaper}>
+                {success ? <SuccessMessage/> : <Form/>}
+            </Paper>
         </Modal>
     );
 }
