@@ -17,13 +17,14 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 export function AlertItemRow({alert}: AlertItemProps) {
 
+    console.log(alert);
     return (
         <TableRow>
             <TableCell>{alert.read ? '' : <FiberNewIcon/>}</TableCell>
             <TableCell>{moment(alert.timestamp).format("YYYY-MM-DD [\u00A0\u00A0] HH:mm")}</TableCell>
             <TableCell>{alert.product.name}</TableCell>
             <TableCell>{alert.retailerCompany.name}</TableCell>
-            <TableCell>{alert.alertRulePriceThreshold || ""}</TableCell>
+            <TableCell>{alert.alertRulePriceThreshold} €</TableCell>
             <TableCell>{alert.price} €</TableCell>
             <TableCell>
                 {
