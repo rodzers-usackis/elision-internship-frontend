@@ -22,6 +22,7 @@ import {RegistrationForm} from "../../model/RegistrationForm";
 import {CompanyInformationFormFields} from "../../model/registration-models/CompanyInformationFormFields";
 import {CompanyAddressFormFields} from "../../model/registration-models/CompanyAddressFormFields";
 import {UserCredentialFormFields} from "../../model/registration-models/UserCredentialFormFields";
+import Head from "next/head";
 
 const steps = ['Company Information', 'Company Address', 'Account Information'];
 
@@ -196,52 +197,56 @@ export default function Register() {
 
 
     return (
-        <Box
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
-            className={styles.registerWrapper}
-            paddingX={2}
-        >
-            <Card sx={{width: 600}}>
-                <Grid container sx={{display: 'flex', flexDirection: 'column'}} paddingX={4}>
-                    <Grid item paddingTop={3} paddingBottom={1}
-                          sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5}}
-                    >
-                        <KeyboardArrowLeftIcon onClick={handleBack} sx={{
-                            ...(currentStep !== 1 && {
-                                cursor: 'pointer',
-                            })
-                        }
-                        }/>
-                        <Typography sx={{fontSize: '14px'}}>
-                            Step {currentStep} of {MAX_STEP}
-                        </Typography>
-                    </Grid>
+        <>
+            <Head>
+                <title>Register</title>
+            </Head>
+            <Box
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                className={styles.registerWrapper}
+                paddingX={2}
+            >
+                <Card sx={{width: 600}}>
+                    <Grid container sx={{display: 'flex', flexDirection: 'column'}} paddingX={4}>
+                        <Grid item paddingTop={3} paddingBottom={1}
+                              sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5}}
+                        >
+                            <KeyboardArrowLeftIcon onClick={handleBack} sx={{
+                                ...(currentStep !== 1 && {
+                                    cursor: 'pointer',
+                                })
+                            }
+                            }/>
+                            <Typography sx={{fontSize: '14px'}}>
+                                Step {currentStep} of {MAX_STEP}
+                            </Typography>
+                        </Grid>
 
-                    <Grid item>
-                        <Typography variant='h5' component='div'>
-                            {steps[currentStep - 1]}
-                        </Typography>
-                    </Grid>
+                        <Grid item>
+                            <Typography variant='h5' component='div'>
+                                {steps[currentStep - 1]}
+                            </Typography>
+                        </Grid>
 
-                    {getStepContent(currentStep)}
+                        {getStepContent(currentStep)}
 
-                    <Grid item paddingTop={2} paddingBottom={3}>
-                        {currentStep === 3 ? (
-                            <Button className={styles.cardButton} onClick={handleSubmit} size={'large'}
-                                    fullWidth={true}>
-                                Create Account
-                            </Button>
-                        ) : (
-                            <Button className={styles.cardButton} onClick={handleNext} size={'large'}
-                                    fullWidth={true}>
-                                Next Step
-                            </Button>
-                        )}
+                        <Grid item paddingTop={2} paddingBottom={3}>
+                            {currentStep === 3 ? (
+                                <Button className={styles.cardButton} onClick={handleSubmit} size={'large'}
+                                        fullWidth={true}>
+                                    Create Account
+                                </Button>
+                            ) : (
+                                <Button className={styles.cardButton} onClick={handleNext} size={'large'}
+                                        fullWidth={true}>
+                                    Next Step
+                                </Button>
+                            )}
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Card>
-        </Box>
+                </Card>
+            </Box></>
     );
 }

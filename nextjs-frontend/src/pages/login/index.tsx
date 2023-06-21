@@ -18,6 +18,7 @@ import {useRouter} from "next/router";
 import AuthenticationRequest from "../../model/AuthenticationRequest";
 import Alert from "@mui/material/Alert";
 import {AlertTitle} from "@mui/material";
+import Head from "next/head";
 
 
 export default function Login() {
@@ -88,7 +89,11 @@ export default function Login() {
 
 
     return (
-        <Box
+        <>
+            <Head>
+                <title>Sign in</title>
+            </Head>
+            <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -236,6 +241,6 @@ export default function Login() {
                     </Grid>
                 </Grid>
             </Card>
-        </Box>
+        </Box></>
     );
 }

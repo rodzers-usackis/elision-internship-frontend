@@ -31,6 +31,8 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import InfoIcon from '@mui/icons-material/Info';
 import ProductDetailsModal from "../../../components/my-catalog/ProductDetailsModal";
+import Head from "next/head";
+import {ProductCategory} from "../../../model/ProductCategory";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -51,19 +53,23 @@ export default function MyCatalog() {
         isTrackedProductsLoading
     } = useTrackedProducts();
 
-    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => ({
-        id: trackedProduct.id,
-        productId: trackedProduct.product.id,
-        productName: trackedProduct.product.name,
-        productCategory: trackedProduct.product.category,
-        productPurchaseCost: trackedProduct.productPurchaseCost,
-        productSellPrice: trackedProduct.productSellPrice,
-        minPrice: trackedProduct.minPrice,
-        productEan: trackedProduct.product.ean,
-        productManufacturerCode: trackedProduct.product.manufacturerCode,
-        description: trackedProduct.product.description,
-        isTracked: trackedProduct.tracked,
-    }));
+    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => {
+
+        return {
+            id: trackedProduct.id,
+            productId: trackedProduct.product.id,
+            productName: trackedProduct.product.name,
+            productCategory: ProductCategory[trackedProduct.product.category],
+            productPurchaseCost: trackedProduct.productPurchaseCost,
+            productSellPrice: trackedProduct.productSellPrice,
+            minPrice: trackedProduct.minPrice,
+            productEan: trackedProduct.product.ean,
+            productManufacturerCode: trackedProduct.product.manufacturerCode,
+            description: trackedProduct.product.description,
+            isTracked: trackedProduct.tracked,
+        };
+    });
+
 
     useEffect(() => {
         setSelected([])
@@ -172,20 +178,20 @@ export default function MyCatalog() {
                  sx={{display: 'flex'}}>
                 {/*<Tooltip*/}
                 {/*    title={"Search products by name, ean or manufacturer code"}>*/}
-                    <TextField id="search-field-input"
-                               key={"search-field-input"}
-                               sx={{my: 2, width: '25rem'}}
-                               placeholder={"Search Product"}
-                               label={"Product name, ean or manufacturer code"}
-                               variant="outlined"
-                               inputRef={searchInputRef}
-                               value={searchText}
-                               onChange={(e) => {
-                                   setSearchText(e.target.value);
-                               }}
-                               autoComplete={"off"}
+                <TextField id="search-field-input"
+                           key={"search-field-input"}
+                           sx={{my: 2, width: '25rem'}}
+                           placeholder={"Search Product"}
+                           label={"Product name, ean or manufacturer code"}
+                           variant="outlined"
+                           inputRef={searchInputRef}
+                           value={searchText}
+                           onChange={(e) => {
+                               setSearchText(e.target.value);
+                           }}
+                           autoComplete={"off"}
 
-                    />
+                />
                 {/*</Tooltip>*/}
                 {searchText && (
                     <IconButton onClick={(e) => {
@@ -277,9 +283,13 @@ export default function MyCatalog() {
                                                                             e.stopPropagation();
                                                                         }}
                                                                     >{row.productName}</Button></Tooltip>
-                                                                        <Tooltip title={"Display product's details"} placement={"right"} arrow>
+                                                                        <Tooltip title={"Display product's details"}
+                                                                                 placement={"right"} arrow>
                                                                             <IconButton
-                                                                                sx={{display: 'inline-block', ml: "auto"}}
+                                                                                sx={{
+                                                                                    display: 'inline-block',
+                                                                                    ml: "auto"
+                                                                                }}
                                                                                 aria-label="display product's details"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
@@ -344,18 +354,23 @@ export default function MyCatalog() {
     }
 
     return (
-        <DashboardDrawerPageTemplate
-            currentPage={DashboardDrawerItem.MyCatalog}
-            pageTitle={"My catalog"}
-            pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
-            actionShelf={(
-                <ActionShelf key={"catalog-action-shelf"}/>
-            )}
-            pageComponent={(
-                <PageComponent/>
-            )}
-            key={"catalog-page"}
-        />
+
+        <>
+            <Head>
+                <title>My catalog</title>
+            </Head>
+            <DashboardDrawerPageTemplate
+                currentPage={DashboardDrawerItem.MyCatalog}
+                pageTitle={"My catalog"}
+                pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
+                actionShelf={(
+                    <ActionShelf key={"catalog-action-shelf"}/>
+                )}
+                pageComponent={(
+                    <PageComponent/>
+                )}
+                key={"catalog-page"}
+            /></>
     )
 
 }
