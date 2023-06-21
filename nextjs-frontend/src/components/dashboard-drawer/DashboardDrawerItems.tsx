@@ -15,32 +15,25 @@ export const DashboardDrawerItems = [
         value: 1,
     },
     {
-        title: ' Competitors',
-        href: '/dashboard/competitors',
-        className: 'nav-links',
-        icon: <RadarIcon/>,
-        value: 2,
-    },
-    {
         title: 'Reports',
         href: '/dashboard/reports',
         className: 'nav-links',
         icon: <AssessmentIcon/>,
-        value: 3,
+        value: 2,
     },
     {
         title: ' Alerts',
         href: '/dashboard/alerts',
         className: 'nav-links',
         icon: <NotificationsBellIcon/>,
-        value: 4,
+        value: 3,
     },
     {
         title: ' Alert Rules',
         href: '/dashboard/alert-rules',
         className: 'nav-links',
         icon: <EditNotificationsIcon/>,
-        value: 5,
+        value: 4,
         subValue: 1,
     },
     {
@@ -48,24 +41,15 @@ export const DashboardDrawerItems = [
         href: '/dashboard/alert-settings',
         className: 'nav-links',
         icon: <Settings/>,
-        value: 6,
+        value: 5,
         subValue: 2,
     },
-    {
-        title: 'My Account',
-        href: '/dashboard/my-account',
-        className: 'nav-links',
-        icon: <PermIdentityIcon/>,
-        value: 7,
-    }
 ]
 
 export enum DashboardDrawerItem{
     MyCatalog = 1,
-    Competitors = 2,
-    Reports = 3,
-    Alerts = 4,
-    AlertRules = 5,
-    AlertSettings = 6,
-    MyAccount = 7,
+    Reports = 2,
+    Alerts = 3,
+    AlertRules = 4,
+    AlertSettings = 5,
 }

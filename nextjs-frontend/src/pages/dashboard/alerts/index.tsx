@@ -70,11 +70,6 @@ export default function Alerts() {
     function ActionShelf() {
         return (
             <Box sx={{ display: "flex" }}>
-                <Tooltip
-                    placement={"right"}
-                    arrow
-                    title={"Search alerts by competitor, product name, EAN, or manufacturer code"}
-                >
                     <TextField
                         key={'alert-search'}
                         variant={'outlined'}
@@ -86,7 +81,6 @@ export default function Alerts() {
                         sx={{ my: 2, width: '25rem' }}
                         autoComplete={"off"}
                     />
-                </Tooltip>
                 {searchText && (
                     <IconButton
                         onClick={(e) => {

@@ -5,10 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from "@mui/material/IconButton";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-
-
-
+import Image from 'next/image';
 
 export default function ResponsiveDashboardDrawer({selectedPage}: DashboardDrawerProps) {
 
@@ -21,8 +18,7 @@ export default function ResponsiveDashboardDrawer({selectedPage}: DashboardDrawe
                 <IconButton onClick={() => setIsVisible(!isVisible)} edge="start" color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>
-                <img src="/price_spy_logo.svg" alt="Price Spy Logo" width={180} height={80}
-                     style={{marginLeft: "auto"}}/>
+                <Image src="/price_spy_logo.svg" alt="Price Spy Logo" width={180} height={80} />
             </Toolbar>
         </AppBar>
             {isVisible ? <DashboardDrawer selectedPage={selectedPage} isMobile  onHide={()=>setIsVisible(false)}/> : ''}
