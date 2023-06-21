@@ -25,12 +25,13 @@ import {DateRangePicker} from '@mui/x-date-pickers-pro/DateRangePicker';
 import {SingleInputDateRangeField} from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 import {TrackedProduct} from "../../../model/TrackedProduct";
 import {UUID} from "crypto";
-import {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {DateRange} from "@mui/x-date-pickers-pro";
 import dayjs, {Dayjs} from "dayjs";
 import {useRouter} from "next/router";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import Head from "next/head";
 
 export default function Reports() {
     const {isLoadingGetProducts, isErrorGetProducts, products} = useProducts();
@@ -145,12 +146,16 @@ export default function Reports() {
     }
 
     return (
-        <DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Reports}
-                                     pageTitle={"Reports"}
-                                     pageSubtitle={"Find out about the pricing trends of your competitors"}
-                                     actionShelf={<ActionShelf/>}
-                                     pageComponent={<PageComponent/>}
-        />
+        <>
+            <Head>
+                <title>Reports</title>
+            </Head>
+            <DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Reports}
+                                        pageTitle={"Reports"}
+                                        pageSubtitle={"Find out about the pricing trends of your competitors"}
+                                        actionShelf={<ActionShelf/>}
+                                        pageComponent={<PageComponent/>}
+        /></>
     )
 
 }

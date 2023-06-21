@@ -31,6 +31,8 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import InfoIcon from '@mui/icons-material/Info';
 import ProductDetailsModal from "../../../components/my-catalog/ProductDetailsModal";
+import Head from "next/head";
+import {ProductCategory} from "../../../model/ProductCategory";
 
 export default function MyCatalog() {
     const [order, setOrder] = useState<Order>('asc');
@@ -51,19 +53,23 @@ export default function MyCatalog() {
         isTrackedProductsLoading
     } = useTrackedProducts();
 
-    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => ({
-        id: trackedProduct.id,
-        productId: trackedProduct.product.id,
-        productName: trackedProduct.product.name,
-        productCategory: trackedProduct.product.category,
-        productPurchaseCost: trackedProduct.productPurchaseCost,
-        productSellPrice: trackedProduct.productSellPrice,
-        minPrice: trackedProduct.minPrice,
-        productEan: trackedProduct.product.ean,
-        productManufacturerCode: trackedProduct.product.manufacturerCode,
-        description: trackedProduct.product.description,
-        isTracked: trackedProduct.tracked,
-    }));
+    const catalogTableData: CatalogTableData[] = (trackedProducts ?? []).map((trackedProduct: TrackedProduct) => {
+
+        return {
+            id: trackedProduct.id,
+            productId: trackedProduct.product.id,
+            productName: trackedProduct.product.name,
+            productCategory: ProductCategory[trackedProduct.product.category],
+            productPurchaseCost: trackedProduct.productPurchaseCost,
+            productSellPrice: trackedProduct.productSellPrice,
+            minPrice: trackedProduct.minPrice,
+            productEan: trackedProduct.product.ean,
+            productManufacturerCode: trackedProduct.product.manufacturerCode,
+            description: trackedProduct.product.description,
+            isTracked: trackedProduct.tracked,
+        };
+    });
+
 
     useEffect(() => {
         setSelected([])

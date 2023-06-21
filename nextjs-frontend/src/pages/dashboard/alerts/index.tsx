@@ -14,6 +14,7 @@ import { DashboardDrawerItem } from "../../../components/dashboard-drawer/Dashbo
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
+import Head from "next/head";
 
 export default function Alerts() {
     const { isAlertsError, alerts, isAlertsLoading } = useAlerts();
@@ -115,13 +116,17 @@ export default function Alerts() {
     }
 
     return (
-        <DashboardDrawerPageTemplate
+        <>
+            <Head>
+                <title>Alerts</title>
+            </Head>
+            <DashboardDrawerPageTemplate
             currentPage={DashboardDrawerItem.Alerts}
             pageTitle={"Alerts"}
             pageSubtitle={"Check out your latest price alerts"}
-            actionShelf={<ActionShelf key={'alert-action-shelf'} />}
-            pageComponent={<PageComponent />}
+            actionShelf={<ActionShelf key={'alert-action-shelf'}/>}
+            pageComponent={<PageComponent/>}
             key={'alert-page'}
-        />
+        /></>
     )
 }
