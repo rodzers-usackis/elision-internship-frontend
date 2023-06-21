@@ -35,7 +35,7 @@ export default function Pricing() {
                     <Typography className={styles.featureSubtitle} color="text.secondary">
                         {subtitle}
                     </Typography>
-                    <Typography color="text.secondary">
+                    <Typography component="div" color="text.secondary">
                         {features.map((feature, index) => (
                             <Typography key={index} sx={{ alignItems: 'center', display: 'flex' }}>
                                 <CheckCircleOutlineIcon className={styles.featureIcon} />
@@ -57,7 +57,7 @@ export default function Pricing() {
                         <EmojiEventsIcon className={styles.trophyIcon} />
                     </Box>
                     <Box sx={{ width: '80%', paddingLeft: '0.5rem' }}>
-                        <Typography variant="body1" className={styles.onboardingText}>
+                        <Typography component="div" variant="body1" className={styles.onboardingText}>
                             <Typography variant="h6" className={styles.onboardingTextLevel1}>
                                 Onboarding Services That Set You Up for Success
                             </Typography>
