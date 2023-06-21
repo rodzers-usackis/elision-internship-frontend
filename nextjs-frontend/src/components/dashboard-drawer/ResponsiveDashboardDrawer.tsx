@@ -42,7 +42,7 @@ export default function ResponsiveDashboardDrawer({selectedPage, isMobile = fals
                 >
                     <Toolbar>
                         <Grid container justifyContent='space-between' alignItems={'center'}>
-                            <Grid item display={'flex'} justifyContent={'start'}>
+                            <Grid item display={'flex'}>
                                 <IconButton
                                     size="large"
                                     aria-label="account of current user"

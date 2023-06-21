@@ -172,20 +172,20 @@ export default function MyCatalog() {
                  sx={{display: 'flex'}}>
                 {/*<Tooltip*/}
                 {/*    title={"Search products by name, ean or manufacturer code"}>*/}
-                    <TextField id="search-field-input"
-                               key={"search-field-input"}
-                               sx={{my: 2, width: '25rem'}}
-                               placeholder={"Search Product"}
-                               label={"Product name, ean or manufacturer code"}
-                               variant="outlined"
-                               inputRef={searchInputRef}
-                               value={searchText}
-                               onChange={(e) => {
-                                   setSearchText(e.target.value);
-                               }}
-                               autoComplete={"off"}
+                <TextField id="search-field-input"
+                           key={"search-field-input"}
+                           sx={{my: 2, width: '25rem'}}
+                           placeholder={"Search Product"}
+                           label={"Product name, ean or manufacturer code"}
+                           variant="outlined"
+                           inputRef={searchInputRef}
+                           value={searchText}
+                           onChange={(e) => {
+                               setSearchText(e.target.value);
+                           }}
+                           autoComplete={"off"}
 
-                    />
+                />
                 {/*</Tooltip>*/}
                 {searchText && (
                     <IconButton onClick={(e) => {
@@ -264,22 +264,27 @@ export default function MyCatalog() {
                                                                     scope="row"
                                                                     padding="none"
                                                                 >
-                                                                    <div style={{display: 'flex'}}><Tooltip
-                                                                        title={"Click to go to this product's report"}
-                                                                        placement={"left"}
-                                                                        arrow
-                                                                    ><Button
-                                                                        className={styles.productLinkButton}
-                                                                        sx={{my: '0.4rem', display: 'inline-block'}}
-                                                                        component={Link}
-                                                                        href={`/dashboard/reports?product_id=${row.productId}`}
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                        }}
-                                                                    >{row.productName}</Button></Tooltip>
-                                                                        <Tooltip title={"Display product's details"} placement={"right"} arrow>
+                                                                    <div style={{display: 'flex'}}>
+                                                                        <Tooltip
+                                                                            title={"Click to go to this product's report"}
+                                                                            followCursor={true}
+                                                                            arrow
+                                                                        ><Button
+                                                                            className={styles.productLinkButton}
+                                                                            sx={{my: '0.4rem', display: 'inline-block'}}
+                                                                            component={Link}
+                                                                            href={`/dashboard/reports?product_id=${row.productId}`}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                            }}
+                                                                        >{row.productName}</Button></Tooltip>
+                                                                        <Tooltip title={"Display product's details"}
+                                                                                 placement={"right"} arrow>
                                                                             <IconButton
-                                                                                sx={{display: 'inline-block', ml: "auto"}}
+                                                                                sx={{
+                                                                                    display: 'inline-block',
+                                                                                    ml: "auto"
+                                                                                }}
                                                                                 aria-label="display product's details"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
