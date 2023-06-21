@@ -48,7 +48,6 @@ export function EditTrackedProductModal({open, onClose, product}: EditProductMod
     const {errors, isLoading} = formState;
 
     function handleProductUpdateSubmit() {
-        console.log(watch())
         setSubmissionError(false);
         const {isTracked, productPurchaseCost, productSellPrice, minPrice} = watch();
         const updatedProduct: TrackedProductUpdate = {

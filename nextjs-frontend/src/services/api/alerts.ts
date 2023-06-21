@@ -5,7 +5,6 @@ import {Alert} from "../../model/Alert";
 
 export async function getAlerts() {
     const response = await axios.get<Alert[]>(API_ROUTES.ALERTS)
-    console.log("Get alerts response: ", response.data)
 
     return response.data
 }

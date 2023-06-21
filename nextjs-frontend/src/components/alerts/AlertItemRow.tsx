@@ -17,7 +17,6 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 export function AlertItemRow({alert}: AlertItemProps) {
 
-    console.log(alert);
     return (
         <TableRow>
             <TableCell>{alert.read ? '' : <FiberNewIcon/>}</TableCell>

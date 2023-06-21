@@ -24,7 +24,6 @@ export const validatePassword = (password: string) => {
 };
 
 export const validateAcceptTermsAndConditions = (acceptTermsAndConditions: boolean) => {
-    console.log('returning ' + acceptTermsAndConditions)
     return acceptTermsAndConditions;
 }
 

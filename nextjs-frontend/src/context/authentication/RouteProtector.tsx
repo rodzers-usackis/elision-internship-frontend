@@ -20,9 +20,6 @@ export default function RouteProtector({children}: { children: ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
-        console.log(router.pathname)
-        console.log(isAuthenticated)
-        console.log(authenticatedUserRoutes.includes(router.pathname))
 
         // Redirect if user is not authenticated and accessing authenticated routes
         if (!isAuthenticated() && authenticatedUserRoutes.includes(router.pathname)) {

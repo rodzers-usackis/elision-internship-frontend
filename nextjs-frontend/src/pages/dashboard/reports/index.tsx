@@ -96,12 +96,13 @@ export default function Reports() {
 
     function ActionShelf() {
         return (
-            <Grid container sx={{
+            <Grid className={styles.reportsActionShelf}
+                container sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
             }}>
-                <Grid item xs={3} className={styles.actionShelf}>
+                <Grid item xs={"auto"} className={styles.actionShelf}>
                     <TextField
                         select
                         id="outlined-select-report-type"
@@ -117,7 +118,7 @@ export default function Reports() {
                     </TextField>
                 </Grid>
 
-                <Grid item xs={3} className={styles.actionShelf}>
+                <Grid item xs={"auto"} className={styles.actionShelf}>
                     <TextField
                         select
                         id="outlined-select-product"
@@ -135,7 +136,7 @@ export default function Reports() {
                     </TextField>
                 </Grid>
 
-                <Grid item xs={3} className={styles.actionShelf}>
+                <Grid item xs={"auto"} className={styles.actionShelf}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DateRangePicker slots={{field: SingleInputDateRangeField}} sx={{width: '100%'}}
                                          defaultValue={selectedDateRange} onChange={handleDateChange}/>
@@ -150,12 +151,13 @@ export default function Reports() {
             <Head>
                 <title>Reports</title>
             </Head>
-            <DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Reports}
-                                        pageTitle={"Reports"}
-                                        pageSubtitle={"Find out about the pricing trends of your competitors"}
-                                        actionShelf={<ActionShelf/>}
-                                        pageComponent={<PageComponent/>}
-        /></>
+            <div className={styles.extraPaddingBottom}><DashboardDrawerPageTemplate currentPage={DashboardDrawerItem.Reports}
+                                            pageTitle={"Reports"}
+                                            pageSubtitle={"Find out about the pricing trends of your competitors"}
+                                            actionShelf={<ActionShelf/>}
+                                            pageComponent={<PageComponent/>}
+            /></div>
+        </>
     )
 
 }

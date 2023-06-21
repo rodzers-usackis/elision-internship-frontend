@@ -29,7 +29,6 @@ export default function UserCredentialForm() {
     const {acceptTermsAndConditions, setAcceptTermsAndConditions} = useContext(FormContext);
     const {userCredentialFormFieldErrors} = useContext(FormContext);
 
-    console.log('in page ' + acceptTermsAndConditions);
 
     return (
         <>
