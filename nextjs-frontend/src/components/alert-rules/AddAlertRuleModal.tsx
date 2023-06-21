@@ -110,7 +110,6 @@ export function AddAlertRuleModal({open, onClose}: AddAlertRuleModalProps) {
         }
     };
 
-    console.log(watch("retailerCompanies"))
 
     const renderValue = (selected: string[]) => {
         const selectedNames = selected.map((id) => {

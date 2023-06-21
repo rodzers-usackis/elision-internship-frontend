@@ -116,8 +116,6 @@ export function EditAlertRuleModal({
         return selectedNames.join(", ");
     };
 
-    console.log(watch("retailerCompanies"));
-    console.log(selectedRetailerCompanies);
 
     function Form() {
         return (

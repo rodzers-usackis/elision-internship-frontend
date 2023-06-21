@@ -73,6 +73,7 @@ export default function Alerts() {
                     <TextField
                         key={'alert-search'}
                         variant={'outlined'}
+                        focused
                         placeholder={'Search alert'}
                         label={"Competitor, product name, EAN or manufacturer code"}
                         value={searchText}

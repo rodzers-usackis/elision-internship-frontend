@@ -77,14 +77,12 @@ export default function Login() {
 
     function onLoggingInSuccess() {
         setLoginError(false)
-        console.log('Logged in!')
         // goTo('/');
     }
 
     function onLoggingInError() {
         setLoginError(true); // Set the loginError state to true
         setPassword(""); // Clear the password field
-        console.log("logging in failed");
     }
 
 

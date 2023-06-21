@@ -184,6 +184,7 @@ export default function MyCatalog() {
                            placeholder={"Search Product"}
                            label={"Product name, ean or manufacturer code"}
                            variant="outlined"
+                           focused
                            inputRef={searchInputRef}
                            value={searchText}
                            onChange={(e) => {
@@ -304,11 +305,11 @@ export default function MyCatalog() {
                                                                 <TableCell
                                                                     align="right">{row.productCategory}</TableCell>
                                                                 <TableCell
-                                                                    align="right">{row.productPurchaseCost}</TableCell>
+                                                                    align="right">{row.productPurchaseCost} €</TableCell>
                                                                 <TableCell
-                                                                    align="right">{row.productSellPrice}</TableCell>
+                                                                    align="right">{row.productSellPrice} €</TableCell>
                                                                 <TableCell
-                                                                    align="right">{row.minPrice || "no minimum price set"}</TableCell>
+                                                                    align="right">{!!row.minPrice ? row.minPrice + " €" : "no minimum price set"}</TableCell>
                                                                 <TableCell align="right">{row.productEan}</TableCell>
                                                                 <TableCell
                                                                     align="right">{row.productManufacturerCode}</TableCell>
@@ -355,7 +356,11 @@ export default function MyCatalog() {
     }
 
     return (
-        <DashboardDrawerPageTemplate
+        <>
+            <Head>
+                <title>My catalog</title>
+            </Head>
+            <DashboardDrawerPageTemplate
             currentPage={DashboardDrawerItem.MyCatalog}
             pageTitle={"My catalog"}
             pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
@@ -366,7 +371,7 @@ export default function MyCatalog() {
                 <PageComponent/>
             )}
             key={"catalog-page"}
-        />
+        /></>
     )
 
 }

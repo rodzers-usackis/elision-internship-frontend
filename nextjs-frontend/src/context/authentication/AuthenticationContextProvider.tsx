@@ -54,7 +54,6 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
 
 
     function isAuthenticated() {
-        console.log(!isExpired(accessToken), 'access token', accessToken)
         return !isExpired(accessToken)
     }
 
@@ -62,7 +61,6 @@ export default function AuthenticationContextProvider({children}: IWithChildren)
     function login(credentials: AuthenticationRequest, onSuccess: () => void, onError: () => void) {
 
         return mutateLoggingInAsync(credentials).then((response: AuthenticationResponse) => {
-            console.log(response, 'logging in response')
             setAccessToken(response.accessToken)
             onSuccess()
             return response;

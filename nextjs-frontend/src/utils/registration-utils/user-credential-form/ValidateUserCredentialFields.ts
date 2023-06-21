@@ -47,7 +47,6 @@ export function validateUserCredentialFields(userCredentialFormFields : UserCred
         newErrors.acceptTermsAndConditions = '';
     }
 
-    console.log(newErrors)
 
     return (newErrors);
 }

@@ -161,7 +161,6 @@ export default function Register() {
             event.preventDefault();
 
             register(registrationFormFields).then((response) => {
-                console.log(response);
 
                 switch (response.status) {
                     case 200:
