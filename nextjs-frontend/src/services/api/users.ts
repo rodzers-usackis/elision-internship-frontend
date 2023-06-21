@@ -1,4 +1,4 @@
-import "./API";
+import "../API";
 import axios from "axios";
 import API_ROUTES from "../../constants/API";
 import LoggedInUser from "../../model/LoggedInUser";

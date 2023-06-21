@@ -12,6 +12,8 @@ import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import React, {ChangeEvent, useState} from "react";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
 
 interface AlertListProps {
     alerts: Alert[];
@@ -40,6 +42,16 @@ export function AlertTable({alerts}: AlertListProps) {
         <>
             <Box sx={{width: '100%', pt: 2}}>
                 <Paper sx={{width: '100%', mb: 2}}>
+                <Toolbar>
+                    <Typography
+                        sx={{flex: '1 1 100%'}}
+                        variant="h6"
+                        id="tableTitle"
+                        component="div"
+                    >
+                        {'Alerts'}
+                    </Typography>
+                </Toolbar>
                 <TableContainer>
                     <Table
                         aria-labelledby="tableTitle"

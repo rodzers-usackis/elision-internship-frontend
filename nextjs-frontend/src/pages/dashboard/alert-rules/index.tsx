@@ -25,6 +25,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import Head from "next/head";
 
 export default function AlertRulesPage() {
     const {isAlertRulesLoading, isAlertRulesError, alertRules} = useAlertRules();
@@ -180,7 +181,7 @@ export default function AlertRulesPage() {
                                                                 </TableCell>
                                                                 <TableCell align="left">{row.productEan}</TableCell>
                                                                 <TableCell
-                                                                    align="right">{row.priceThreshold}</TableCell>
+                                                                    align="right">{row.priceThreshold} €</TableCell>
                                                                 <TableCell align="left">
                                                                     {row.retailerCompanies.length == 0 ? 'All Companies' :
                                                                         row.retailerCompanies.map((retailerCompany, index) =>
@@ -230,7 +231,11 @@ export default function AlertRulesPage() {
     }
 
     return (
-        <DashboardDrawerPageTemplate
+        <>
+            <Head>
+                <title>Alert rules</title>
+            </Head>
+            <DashboardDrawerPageTemplate
             currentPage={DashboardDrawerItem.AlertRules}
             pageTitle={"Alert Rules"}
             pageSubtitle={`Adjust your alert rules`}
@@ -240,6 +245,6 @@ export default function AlertRulesPage() {
             pageComponent={(
                 <PageComponent/>
             )}
-        />
+        /></>
     );
 }

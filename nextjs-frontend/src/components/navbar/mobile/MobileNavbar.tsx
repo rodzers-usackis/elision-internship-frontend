@@ -64,7 +64,7 @@ export default function MobileNavbar({showMobile = false}: Props) {
                 {NavbarItems.map((page) => (
                     <Grid item width={'100%'} key={`mobile_${page.title}_grid`}>
                         <Link href={page.href} key={`mobile_${page.title}_link`}>
-                            <Button disableRipple className={styles.navbarItemButton}>
+                            <Button disableRipple className={styles.navbarItemButton} onClick={closeDrawer}>
                                 <Typography className={styles.navbarItem} sx={{fontSize: '20px', color: 'black'}}>
                                     {page.title}
                                 </Typography>

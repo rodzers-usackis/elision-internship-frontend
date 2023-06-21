@@ -32,15 +32,9 @@ export const NavbarItems = [
         value: 5
     },
     {
-        title: 'Resources',
-        href: '/resources',
-        className: 'nav-links',
-        value: 6
-    },
-    {
         title: 'About us',
         href: '/about-us',
         className: 'nav-links',
-        value: 7
+        value: 6
     }
 ]

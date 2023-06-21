@@ -7,6 +7,7 @@ import {useAlertSettings} from "../../../hooks/alert-settings/useAlertSettings";
 import {AlertSettingsForm} from "../../../components/alert-settings/AlertSettingsForm";
 import DashboardDrawerPageTemplate from "../../../components/dashboard-drawer/DashboardDrawerPageTemplate";
 import {DashboardDrawerItem} from "../../../components/dashboard-drawer/DashboardDrawerItems";
+import Head from "next/head";
 
 export default function AlertsSettings() {
 
@@ -14,7 +15,7 @@ export default function AlertsSettings() {
 
     function PageComponent() {
         return (
-            <Grid item className={styles.contentWrapper}>
+            <Grid item alignItems="flex-start" className={styles.contentWrapper}>
                 {isAlertSettingsLoading ? (
                     <CircularProgress/>
                 ) : isAlertSettingsError ? (
@@ -31,13 +32,17 @@ export default function AlertsSettings() {
     }
 
 
-    return (
-        <DashboardDrawerPageTemplate
-            currentPage={DashboardDrawerItem.AlertSettings}
-            pageTitle={"Alert settings"}
-            pageSubtitle={"Manage your alert preferences"}
-            actionShelf={<></>}
-            pageComponent={<PageComponent/>}
-        />
+    return (<>
+            <Head>
+                <title>Alert settings</title>
+            </Head>
+            <DashboardDrawerPageTemplate
+                currentPage={DashboardDrawerItem.AlertSettings}
+                pageTitle={"Alert settings"}
+                pageSubtitle={"Manage your alert preferences"}
+                actionShelf={<></>}
+                pageComponent={<PageComponent/>}
+            />
+        </>
     )
 }

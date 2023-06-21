@@ -23,7 +23,8 @@
     height: 100%;
     padding-top: 1rem;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .drawerWrapper {
@@ -39,7 +40,6 @@
 @media screen and (max-width: 899px){
 
     .dashboardWrapper{
-        margin-top: 75px;
         width: 100%;
         padding: 1rem;
     }

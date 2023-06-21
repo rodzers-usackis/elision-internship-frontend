@@ -10,14 +10,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
-import PhoneIcon from '@mui/icons-material/Phone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from "next/image";
 import Link from 'next/link'
 import CloseIcon from '@mui/icons-material/Close';
 import styles from '../../styles/DashboardDrawer.module.css'
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import AuthenticationContext from "../../context/authentication/AuthenticationContext";
 import IconButton from "@mui/material/IconButton";
 
