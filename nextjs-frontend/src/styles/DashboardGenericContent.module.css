@@ -34,6 +34,7 @@
 
 .dashboardWrapper {
     width: calc(100% - 260px);
+    min-height: calc(100vh - 64px);
     padding: 30px;
 }
 
