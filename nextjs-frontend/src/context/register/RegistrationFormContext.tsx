@@ -48,6 +48,9 @@ export interface RegistrationFormContext {
     password: string;
     setPassword: (value: string) => void;
 
+    acceptTermsAndConditions: boolean;
+    setAcceptTermsAndConditions: (value: boolean) => void;
+
 
     // Company Information Form Field Errors
     companyInformationFormFieldErrors: {
@@ -87,6 +90,7 @@ export interface RegistrationFormContext {
         lastName: string;
         emailAddress: string;
         password: string;
+        acceptTermsAndConditions: string;
     }
 
     setUserCredentialFormFieldErrors: (value: {
@@ -94,6 +98,7 @@ export interface RegistrationFormContext {
         lastName: string;
         emailAddress: string;
         password: string;
+        acceptTermsAndConditions: string;
     }) => void;
 }
 
@@ -157,6 +162,10 @@ export default createContext<RegistrationFormContext>({
         setPassword: (value: string) => {
         },
 
+        acceptTermsAndConditions: false,
+        setAcceptTermsAndConditions: (value: boolean) => {
+        },
+
         companyInformationFormFieldErrors: {
             companyName: '',
             vatNumber: '',
@@ -194,6 +203,7 @@ export default createContext<RegistrationFormContext>({
             lastName: '',
             emailAddress: '',
             password: '',
+            acceptTermsAndConditions: '',
         },
 
         setUserCredentialFormFieldErrors: (value: {
@@ -201,6 +211,7 @@ export default createContext<RegistrationFormContext>({
             lastName: string;
             emailAddress: string;
             password: string;
+            acceptTermsAndConditions: string;
         }) => {
         },
     }

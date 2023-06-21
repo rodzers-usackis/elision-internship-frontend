@@ -84,6 +84,7 @@ export default function Register() {
         lastName,
         emailAddress,
         password,
+        acceptTermsAndConditions,
         setUserCredentialFormFieldErrors
     } = useContext(FormContext);
 
@@ -91,7 +92,8 @@ export default function Register() {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         emailAddress: emailAddress.trim(),
-        password: password.trim()
+        password: password.trim(),
+        acceptTermsAndConditions: acceptTermsAndConditions
     }
 
     const registrationFormFields: RegistrationForm = {
@@ -110,7 +112,7 @@ export default function Register() {
     }
 
     // Handle button click for next step / submit
-// Handle button click for next step / submit
+    // Handle button click for next step / submit
     const handleNext = () => {
         if (currentStep > MAX_STEP) {
             return;

@@ -25,6 +25,7 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
     const [lastName, setLastName] = useState('')
     const [emailAddress, setEmailAddress] = useState('')
     const [password, setPassword] = useState('')
+    const [acceptTermsAndConditions, setAcceptTermsAndConditions] = useState(false)
 
     // Errors
     const [companyInformationFormFieldErrors, setCompanyInformationFormFieldErrors] = useState({
@@ -47,13 +48,14 @@ export default function RegistrationFormContextProvider({ children }: WithChildr
         lastName: '',
         emailAddress: '',
         password: '',
+        acceptTermsAndConditions: '',
     });
 
     return (
         <FormContext.Provider value={{companyName, setCompanyName, vatNumber, setVatNumber, companyWebsite, setCompanyWebsite, productCategory, setProductCategory,
                                         streetAddress, setStreetAddress, streetNumber, setStreetNumber, city, setCity, state, setState,
                                             zipCode, setZipCode, country, setCountry, firstName, setFirstName, lastName, setLastName, emailAddress, setEmailAddress,
-                                                password, setPassword, companyInformationFormFieldErrors, setCompanyInformationFormFieldErrors,
+                                                password, setPassword, acceptTermsAndConditions, setAcceptTermsAndConditions, companyInformationFormFieldErrors, setCompanyInformationFormFieldErrors,
                                                     companyAddressFormFieldErrors, setCompanyAddressFormFieldErrors,
                                                         userCredentialFormFieldErrors, setUserCredentialFormFieldErrors}}>
             {children}
