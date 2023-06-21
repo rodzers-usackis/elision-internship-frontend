@@ -160,7 +160,28 @@
 }
 
 .onboardingContainer {
+    display: flex;
+    justify-content: center;
     padding: 2.5rem;
+}
+
+.onboardingCardContent {
+    display: flex;
+    flex-direction: row;
+    padding: 1.5rem;
+}
+
+.onboardingCard {
+    width: 100%;
+}
+
+.onboardingTextLevel3 {
+    padding-top: 1rem;
+}
+
+.trophyIcon {
+    width: 5rem;
+    height: 5rem;
 }
 
 .bottomCallToAction {

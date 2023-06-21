@@ -53,11 +53,22 @@ export default function Pricing() {
         return (
             <Card className={styles.onboardingCard}>
                 <CardContent className={styles.onboardingCardContent}>
-                    <EmojiEventsIcon className={styles.trophyIcon} />
-                    <Typography variant="body1" className={styles.onboardingText} dangerouslySetInnerHTML={{ __html: text }} />
-                    <Typography variant="body1" className={styles.onboardingPrice}>
-                        Onboarding packages start at ${price}
-                    </Typography>
+                    <Box sx={{ width: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <EmojiEventsIcon className={styles.trophyIcon} />
+                    </Box>
+                    <Box sx={{ width: '80%', paddingLeft: '0.5rem' }}>
+                        <Typography variant="body1" className={styles.onboardingText}>
+                            <Typography variant="h6" className={styles.onboardingTextLevel1}>
+                                Onboarding Services That Set You Up for Success
+                            </Typography>
+                            <Typography variant="body1" className={styles.onboardingTextLevel2}>
+                                Let our team of in-house experts assist you with data migration, account setup, and training.
+                            </Typography>
+                        </Typography>
+                        <Typography variant="body1" className={styles.onboardingTextLevel3}>
+                            Onboarding packages start at €{price}
+                        </Typography>
+                    </Box>
                 </CardContent>
             </Card>
         );
@@ -93,13 +104,13 @@ export default function Pricing() {
 
                 <Box display="flex" justifyContent="center" className={styles.onboardingContainer}>
                     <OnboardingCard
-                        text="Onboarding services that set you up for success. Let our team of in-house experts assist you with data migration, account setup, and training."
+                        text={''}
                         price={500}
                     />
                 </Box>
             </Box>
 
-            <Box>
+            <Box sx={{paddingBottom: '3rem'}}>
                 <Typography className={styles.bottomCallToAction} variant="h4" align="center">
                 Take the first step towards better pricing decisions.
                 </Typography>
