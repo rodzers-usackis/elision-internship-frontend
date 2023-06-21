@@ -28,9 +28,8 @@
     margin-top: 3rem;
 }
 
-.featureContent {
-    padding-left: 5rem;
-    padding-right: 5rem;
+.featureSubtitle {
+    padding-bottom: 1em;
 }
 
 .featureName {
@@ -56,24 +55,25 @@
 
 /*pricing*/
 .pricingContainer {
-    min-height: 100vh;
-    margin-top: 3rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 4rem;
-    margin-bottom: 5rem;
-    justify-content: space-evenly;
+    justify-content: center;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
 }
 
 .price{
-    margin-top: 2rem;
+    margin-top: 0.35em;
+    font-weight: bold;
+    font-size: 28px;
 }
 
 .pricingCard{
-    max-height: 300px;
-    overflow: auto;
+    height: 350px;
     border-radius: 12px;
+    padding: 10px;
 }
 
 .pricingCard ul{
@@ -97,14 +97,6 @@
         color: #000000;
     }
 
-}
-
-.pricingCard:last-child .price{
-    animation: glow 3s infinite alternate;
-}
-
-.pricingCard:last-child ul{
-    animation: blackText 4s infinite alternate;
 }
 
 /*about us*/
@@ -165,4 +157,33 @@
         text-align: justify;
     }
 
+}
+
+.onboardingContainer {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.onboardingCardContent {
+    display: flex;
+    flex-direction: row;
+    padding: 1.5rem;
+}
+
+.onboardingCard {
+    width: 100%;
+}
+
+.onboardingTextLevel3 {
+    padding-top: 1rem;
+}
+
+.trophyIcon {
+    width: 5rem;
+    height: 5rem;
+}
+
+.bottomCallToAction {
+    padding-bottom: 1rem;
 }
