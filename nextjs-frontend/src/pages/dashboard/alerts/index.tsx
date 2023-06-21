@@ -2,10 +2,9 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
 import CircularProgress from '@mui/material/CircularProgress';
-import AlertIcon from '@mui/material/Alert';
-import { Alert } from '../../../model/Alert'
+import Alert from "@mui/material/Alert";
+import { AlertModel } from '../../../model/Alert'
 import styles from "../../../styles/DashboardGenericContent.module.css";
 import { setAlertsRead } from "../../../services/api/alerts";
 import { useAlerts } from "../../../hooks/alerts/useAlerts";
@@ -19,7 +18,7 @@ import Head from "next/head";
 
 export default function Alerts() {
     const { isAlertsError, alerts, isAlertsLoading } = useAlerts();
-    const [displayedAlerts, setDisplayedAlerts] = useState<Alert[]>([]);
+    const [displayedAlerts, setDisplayedAlerts] = useState<AlertModel[]>([]);
     const [searchText, setSearchText] = useState<string>("");
     const searchInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -71,11 +70,6 @@ export default function Alerts() {
     function ActionShelf() {
         return (
             <Box sx={{ display: "flex" }}>
-                <Tooltip
-                    placement={"right"}
-                    arrow
-                    title={"Search alerts by competitor, product name, EAN, or manufacturer code"}
-                >
                     <TextField
                         key={'alert-search'}
                         variant={'outlined'}
@@ -87,7 +81,6 @@ export default function Alerts() {
                         sx={{ my: 2, width: '25rem' }}
                         autoComplete={"off"}
                     />
-                </Tooltip>
                 {searchText && (
                     <IconButton
                         onClick={(e) => {
@@ -104,11 +97,21 @@ export default function Alerts() {
 
     function PageComponent() {
         return (
-            <Grid item className={styles.lineChart}>
-                {isAlertsLoading && <CircularProgress />}
-                {isAlertsError && <AlertIcon severity="error">Error loading alerts</AlertIcon>}
-                {!isAlertsLoading && !isAlertsError && alerts && <AlertTable alerts={displayedAlerts} />}
-            </Grid>
+            <>
+                <Grid item className={styles.contentWrapper}>
+                    {isAlertsLoading ? (
+                        <CircularProgress/>
+                    ) : isAlertsError ? (
+                        <Alert severity="error">Alert rules could not be loaded</Alert>
+                    ) : (
+                        !isAlertsLoading && !isAlertsError && alerts && (
+                            <Grid item className={styles.lineChart}>
+                                <AlertTable alerts={displayedAlerts} />
+                            </Grid>
+                        )
+                        )}
+                </Grid>
+            </>
         )
     }
 

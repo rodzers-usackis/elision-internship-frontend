@@ -26,7 +26,7 @@ export default function DashboardDrawerPageTemplate({
     return (
         <>
             <Grid container display={'flex'} flexDirection={'row'} height={'100vh'} px={0}>
-                <Grid item style={{flex: 0}}>
+                <Grid item sx={{maxHeight: '64px'}}>
                     <ResponsiveDashboardDrawer selectedPage={currentPage}/>
                 </Grid>
 
@@ -40,7 +40,6 @@ export default function DashboardDrawerPageTemplate({
 
 
                     {actionShelf}
-
 
                     <Divider/>
 

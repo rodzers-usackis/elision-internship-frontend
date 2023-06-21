@@ -270,19 +270,20 @@ export default function MyCatalog() {
                                                                     scope="row"
                                                                     padding="none"
                                                                 >
-                                                                    <div style={{display: 'flex'}}><Tooltip
-                                                                        title={"Click to go to this product's report"}
-                                                                        placement={"left"}
-                                                                        arrow
-                                                                    ><Button
-                                                                        className={styles.productLinkButton}
-                                                                        sx={{my: '0.4rem', display: 'inline-block'}}
-                                                                        component={Link}
-                                                                        href={`/dashboard/reports?product_id=${row.productId}`}
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                        }}
-                                                                    >{row.productName}</Button></Tooltip>
+                                                                    <div style={{display: 'flex'}}>
+                                                                        <Tooltip
+                                                                            title={"Click to go to this product's report"}
+                                                                            followCursor={true}
+                                                                            arrow
+                                                                        ><Button
+                                                                            className={styles.productLinkButton}
+                                                                            sx={{my: '0.4rem', display: 'inline-block'}}
+                                                                            component={Link}
+                                                                            href={`/dashboard/reports?product_id=${row.productId}`}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                            }}
+                                                                        >{row.productName}</Button></Tooltip>
                                                                         <Tooltip title={"Display product's details"}
                                                                                  placement={"right"} arrow>
                                                                             <IconButton
@@ -354,23 +355,18 @@ export default function MyCatalog() {
     }
 
     return (
-
-        <>
-            <Head>
-                <title>My catalog</title>
-            </Head>
-            <DashboardDrawerPageTemplate
-                currentPage={DashboardDrawerItem.MyCatalog}
-                pageTitle={"My catalog"}
-                pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
-                actionShelf={(
-                    <ActionShelf key={"catalog-action-shelf"}/>
-                )}
-                pageComponent={(
-                    <PageComponent/>
-                )}
-                key={"catalog-page"}
-            /></>
+        <DashboardDrawerPageTemplate
+            currentPage={DashboardDrawerItem.MyCatalog}
+            pageTitle={"My catalog"}
+            pageSubtitle={`Import and manage your products (${trackedProducts?.length} active).`}
+            actionShelf={(
+                <ActionShelf key={"catalog-action-shelf"}/>
+            )}
+            pageComponent={(
+                <PageComponent/>
+            )}
+            key={"catalog-page"}
+        />
     )
 
 }

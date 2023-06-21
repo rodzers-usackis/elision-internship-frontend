@@ -15,7 +15,7 @@ export default function AlertsSettings() {
 
     function PageComponent() {
         return (
-            <Grid item className={styles.contentWrapper}>
+            <Grid item alignItems="flex-start" className={styles.contentWrapper}>
                 {isAlertSettingsLoading ? (
                     <CircularProgress/>
                 ) : isAlertSettingsError ? (
