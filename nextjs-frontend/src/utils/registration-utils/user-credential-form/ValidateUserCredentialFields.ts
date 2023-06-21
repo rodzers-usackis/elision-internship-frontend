@@ -3,18 +3,18 @@ import {
     validateLastName,
     validateEmailAddress,
     validatePassword,
+    validateAcceptTermsAndConditions,
 } from "../../registration-utils/user-credential-form/UserCredentialValidation";
 
 import {UserCredentialFormFields} from "../../../model/registration-models/UserCredentialFormFields";
-
-import FormContext from "../../../context/register/RegistrationFormContext";
 
 export function validateUserCredentialFields(userCredentialFormFields : UserCredentialFormFields) {
     let newErrors = {
         firstName: '',
         lastName: '',
         emailAddress: '',
-        password: ''
+        password: '',
+        acceptTermsAndConditions: '',
     }
 
     if (!validateFirstName(userCredentialFormFields.firstName)) {
@@ -40,6 +40,14 @@ export function validateUserCredentialFields(userCredentialFormFields : UserCred
     } else {
         newErrors.password = '';
     }
+
+    if (!userCredentialFormFields.acceptTermsAndConditions) {
+        newErrors.acceptTermsAndConditions = 'Please accept the terms and conditions';
+    } else {
+        newErrors.acceptTermsAndConditions = '';
+    }
+
+    console.log(newErrors)
 
     return (newErrors);
 }

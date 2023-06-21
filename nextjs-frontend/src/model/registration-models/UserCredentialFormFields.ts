@@ -3,4 +3,5 @@ export interface UserCredentialFormFields {
     lastName: string;
     emailAddress: string;
     password: string;
+    acceptTermsAndConditions: boolean;
 }

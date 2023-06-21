@@ -23,3 +23,8 @@ export const validatePassword = (password: string) => {
     return passwordRegex.test(password);
 };
 
+export const validateAcceptTermsAndConditions = (acceptTermsAndConditions: boolean) => {
+    console.log('returning ' + acceptTermsAndConditions)
+    return acceptTermsAndConditions;
+}
+
