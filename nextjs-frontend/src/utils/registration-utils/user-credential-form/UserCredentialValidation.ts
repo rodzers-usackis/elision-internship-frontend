@@ -19,7 +19,7 @@ export const validateEmailAddress = (email: string) => {
 
 // Password should be at least 8 characters long, alphanumeric
 export const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
     return passwordRegex.test(password);
 };
 
