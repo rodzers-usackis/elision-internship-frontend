@@ -9,17 +9,21 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
+import Button from "@mui/material/Button";
+import * as React from "react";
 
 const inter = Inter({subsets: ['latin']})
 
 export default function Home() {
     const router = useRouter();
     const [logoutSnackbarOpen, setLogoutSnackbarOpen] = useState(false);
+
     useEffect(() => {
         if (router.query.logout) {
             setLogoutSnackbarOpen(true);
         }
     }, [router]);
+
     return (
         <>
             <Head>
@@ -34,64 +38,68 @@ export default function Home() {
                 }}/>
 
                 <Box>
-
                     <Card className={styles.mainCard}>
                         <Box className={styles.mainGrid}>
                             <Box className={styles.imageBox}>
-                                <Image src={"/sales.svg"} alt={"sales"} height={500} width={500}/>
-                                <Typography className={styles.attribution} variant={"caption"} component={"div"}
-                                            align={"center"}><a href="https://storyset.com/business">Business
-                                    illustrations by Storyset</a></Typography>
+                                <Image src="/sales.svg" alt="sales" height={500} width={500}/>
+                                <Typography className={styles.attribution} variant="caption" component="div"
+                                            align="center">
+                                    <a href="https://storyset.com/business">Business illustrations by Storyset</a>
+                                </Typography>
                             </Box>
                             <Box className={styles.mainContent}>
-                                <Typography component={"div"} variant={"h3"} align={"center"}><p>Price Spy</p>
+                                <Typography component="div" variant="h3" align="center">
+                                    Price Spy
                                 </Typography>
-                                <Typography component={"div"} variant={"h4"} align={"center"}><p>Boost Your Profits and
-                                    Skyrocket Your Sales!</p></Typography>
+                                <Typography component="div" variant="h4" align="center">
+                                    Boost Your Profits and Skyrocket Your Sales!
+                                </Typography>
 
-                                <p>Are you looking for a game-changing solution to enhance your business&apos;s profitability
-                                    and drive more sales? Look no further than Price Spy, the ultimate tool to
-                                    revolutionize
-                                    your pricing strategy. With Price Spy, you can gain a competitive edge in the market
-                                    and
-                                    take your business to new heights.</p>
+                                <p>
+                                    Are you looking for a game-changing solution to enhance your business's
+                                    profitability and drive more sales?
+                                    Look no further than Price Spy, the ultimate tool to revolutionize your pricing
+                                    strategy. With Price Spy,
+                                    you can gain a competitive edge in the market and take your business to new heights.
+                                </p>
 
-                                <p>Why choose Price Spy? It&apos;s simple. By harnessing the power of real-time price
-                                    intelligence and market analysis, Price Spy empowers you to make informed pricing
-                                    decisions that directly impact your bottom line. Here&apos;s how it works:</p>
+                                <p>
+                                    Why choose Price Spy? It's simple. By harnessing the power of real-time price
+                                    intelligence and market analysis,
+                                    Price Spy empowers you to make informed pricing decisions that directly impact your
+                                    bottom line.
+                                    Here's how it works:
+                                </p>
 
                                 <ol>
                                     <li>Uncover Market Insights</li>
-
                                     <li>Maximize Profit Margins</li>
-
                                     <li>Monitor Price Movements</li>
-
                                     <li>Drive Customer Conversion</li>
                                 </ol>
 
-                                <p>Ready to take your business to the next level? Embrace Price Spy and experience the
-                                    power of data-driven pricing. Join the ranks of successful businesses who have
-                                    harnessed
-                                    the potential of Price Spy to improve their profits, increase sales, and outshine
-                                    their
-                                    competition. Don&apos;t miss out on this opportunity – start using Price Spy today and
-                                    unlock
-                                    your business&apos;s full potential!</p>
+                                <p>
+                                    Ready to take your business to the next level? Embrace Price Spy and experience the
+                                    power of data-driven pricing.
+                                    Join the ranks of successful businesses who have harnessed the potential of Price
+                                    Spy to improve their profits,
+                                    increase sales, and outshine their competition.
+                                    Don't miss out on this opportunity – start using Price Spy today and unlock your
+                                    business's full potential!
+                                </p>
 
-                                <p>Take action now and unlock the gateway to pricing success with Price Spy. <Link
-                                    className={styles.callToAction}
-                                    href={"/register"}>Sign
-                                    up</Link> today
-                                    and witness the transformative impact on your business&apos;s profitability and sales
-                                    growth.
-                                    Don&apos;t wait – the time to maximize your profits is now!</p>
+
+                                <p>
+                                    <Link href={'/register'}>
+                                        <Button disableRipple className={styles.signUpButton}>
+                                            <b>Sign up for a free trial</b>
+                                        </Button>
+                                    </Link>
+                                </p>
                             </Box>
                         </Box>
                     </Card>
-
                 </Box>
-
             </main>
         </>
     )
